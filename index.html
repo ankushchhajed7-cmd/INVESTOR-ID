@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f17">
+<title>Investor Watch</title>
+<style>
+  :root{
+    --bg:#0b0f17; --card:#131a26; --card2:#0f1521; --line:#223047;
+    --txt:#e7edf6; --mut:#8aa0bd; --buy:#1ea97c; --sell:#e5484d;
+    --accent:#4c8dff; --warn:#f5a524; --chip:#1b2636;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:15px;padding:0 0 40px}
+  header{position:sticky;top:0;z-index:5;background:#0b0f17f2;backdrop-filter:blur(8px);
+    padding:12px 16px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:10px}
+  header h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px}
+  header .dot{width:9px;height:9px;border-radius:50%;background:var(--sell);flex:0 0 auto}
+  header .dot.ok{background:var(--buy)}
+  .wrap{padding:16px;max-width:760px;margin:0 auto}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  select,input,button{font:inherit;color:var(--txt);background:var(--chip);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  input::placeholder{color:#5f7593}
+  button{background:var(--accent);border:none;font-weight:600}
+  button.sec{background:var(--chip);border:1px solid var(--line)}
+  button:active{opacity:.8}
+  .seg{display:flex;background:var(--chip);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:14px 0}
+  .seg button{flex:1;background:transparent;border:none;border-radius:0;color:var(--mut);padding:10px}
+  .seg button.on{background:var(--accent);color:#fff}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+  .muted{color:var(--mut)}
+  .kv{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:4px}
+  .kv div span{display:block;color:var(--mut);font-size:12px}
+  .kv div b{font-size:16px;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:right;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--mut);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .b{color:var(--buy);font-weight:700}.s{color:var(--sell);font-weight:700}
+  .pos{color:var(--buy)}.neg{color:var(--sell)}
+  .pill{display:inline-block;background:var(--chip);border:1px solid var(--line);
+    border-radius:999px;padding:3px 10px;font-size:12px;margin:3px 4px 0 0}
+  .trait{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .trait:last-child{border-bottom:none}
+  .trait .lbl{color:var(--mut)}
+  .trait .val{font-weight:700;text-align:right}
+  .big{font-size:20px}
+  h3{margin:18px 0 6px;font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+  .tiny{font-size:12px;color:var(--mut)}
+  details summary{cursor:pointer;color:var(--accent);font-size:13px;margin-top:4px}
+  .flexsp{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .add{display:flex;gap:8px;margin-top:8px}
+  .add input{flex:1}
+  .x{color:var(--sell);cursor:pointer;font-weight:700;padding:0 4px}
+</style>
+</head>
+<body>
+<header>
+  <span class="dot" id="dot"></span>
+  <h1>Investor Watch</h1>
+  <span class="tiny" id="clock" style="margin-left:auto"></span>
+</header>
+
+<div class="wrap">
+  <!-- account switcher -->
+  <div class="card">
+    <div class="flexsp">
+      <strong>Account</strong>
+      <button class="sec" id="cfgBtn" style="padding:6px 10px;font-size:13px">⚙︎ Config</button>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <select id="acct" style="flex:1"></select>
+      <button class="sec" id="refreshBtn">↻</button>
+    </div>
+    <div class="add">
+      <input id="newAcct" inputmode="numeric" placeholder="Add account number (e.g. 1234567)">
+      <button id="addBtn">Add</button>
+    </div>
+    <div id="acctChips" style="margin-top:6px"></div>
+
+    <div id="cfgPanel" style="display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:12px">
+      <div class="tiny">Repo settings (match your GitHub repo)</div>
+      <div class="add"><input id="cfgOwner" placeholder="GitHub owner"></div>
+      <div class="add"><input id="cfgRepo" placeholder="repo name"></div>
+      <div class="add"><input id="cfgBranch" placeholder="branch (main)"></div>
+      <button id="saveCfg" style="margin-top:8px;width:100%">Save</button>
+    </div>
+  </div>
+
+  <div id="status" class="tiny" style="margin:4px 2px 0"></div>
+
+  <!-- tabs -->
+  <div class="seg">
+    <button data-t="live" class="on">Live</button>
+    <button data-t="summary">Behaviour</button>
+    <button data-t="history">History</button>
+  </div>
+
+  <div id="view"></div>
+</div>
+
+<script>
+const LS = {
+  get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+
+// ---- config ----
+let cfg = LS.get('iw_cfg', {owner:'ankushchhajed7-cmd', repo:'INVESTOR-ID', branch:'main'});
+let accounts = LS.get('iw_accts', []);
+let cur = LS.get('iw_cur', '');
+let tab = 'live';
+let cache = {live:null, hist:null};
+
+const $ = s=>document.querySelector(s);
+function rawUrl(acc,file){
+  return `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/data/${acc}/${file}?t=${Date.now()}`;
+}
+async function getJson(acc,file){
+  const r = await fetch(rawUrl(acc,file), {cache:'no-store'});
+  if(!r.ok) throw new Error(r.status+' '+file);
+  return r.json();
+}
+
+// ---- UI builders ----
+function renderAccts(){
+  const sel=$('#acct'); sel.innerHTML='';
+  if(!accounts.length){ sel.innerHTML='<option value="">— add an account —</option>'; }
+  accounts.forEach(a=>{
+    const o=document.createElement('option'); o.value=a; o.textContent=a;
+    if(a===cur) o.selected=true; sel.appendChild(o);
+  });
+  const chips=$('#acctChips'); chips.innerHTML='';
+  accounts.forEach(a=>{
+    const c=document.createElement('span'); c.className='pill';
+    c.innerHTML=`${a} <span class="x" data-a="${a}">✕</span>`; chips.appendChild(c);
+  });
+  chips.querySelectorAll('.x').forEach(x=>x.onclick=()=>{
+    accounts=accounts.filter(a=>a!==x.dataset.a); LS.set('iw_accts',accounts);
+    if(cur===x.dataset.a){cur=accounts[0]||''; LS.set('iw_cur',cur);}
+    renderAccts(); load();
+  });
+}
+
+function money(n){ n=+n||0; const c=(cache.live&&cache.live.currency)||'';
+  return (n<0?'-':'')+ (c?c+' ':'') + Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function cls(n){ return (+n>0)?'pos':((+n<0)?'neg':''); }
+
+function viewLive(){
+  const d=cache.live;
+  if(!d) return `<div class="card muted">No live data yet. Make sure the Reader EA is running on the VPS for this account.</div>`;
+  const p=d.positions||[];
+  let rows = p.map(x=>`<tr>
+     <td>${x.symbol}</td>
+     <td class="${x.type==='BUY'?'b':'s'}">${x.type}</td>
+     <td>${(+x.volume).toFixed(2)}</td>
+     <td>${x.open}</td>
+     <td>${x.sl||'—'}</td>
+     <td>${x.tp||'—'}</td>
+     <td class="${cls(x.profit)}">${(+x.profit).toFixed(2)}</td>
+   </tr>`).join('');
+  if(!rows) rows=`<tr><td colspan="7" class="muted" style="text-align:center">No open positions right now</td></tr>`;
+  return `
+  <div class="card">
+    <div class="kv">
+      <div><span>Balance</span><b>${money(d.balance)}</b></div>
+      <div><span>Equity</span><b>${money(d.equity)}</b></div>
+      <div><span>Floating P/L</span><b class="${cls(d.floating)}">${money(d.floating)}</b></div>
+      <div><span>Open trades</span><b>${p.length}</b></div>
+    </div>
+    <div class="tiny" style="margin-top:8px">${d.company||''} · ${d.server||''} · login ${d.login||''}<br>Account updated: ${d.updatedAt||'—'}</div>
+  </div>
+  <h3>Open positions</h3>
+  <div class="card" style="padding:4px 10px">
+   <div class="tbl-scroll"><table>
+     <thead><tr><th>Symbol</th><th>Side</th><th>Lots</th><th>Open</th><th>SL</th><th>TP</th><th>P/L</th></tr></thead>
+     <tbody>${rows}</tbody>
+   </table></div>
+  </div>`;
+}
+
+function viewHistory(){
+  const d=cache.hist;
+  if(!d||!d.deals) return `<div class="card muted">No history uploaded yet.</div>`;
+  const deals=[...d.deals].reverse();
+  const rows=deals.slice(0,400).map(x=>`<tr>
+     <td>${x.time}</td>
+     <td>${x.symbol}</td>
+     <td class="${x.type==='BUY'?'b':'s'}">${x.type}</td>
+     <td>${x.entry}</td>
+     <td>${(+x.volume).toFixed(2)}</td>
+     <td>${x.price}</td>
+     <td class="${cls(x.profit)}">${(+x.profit).toFixed(2)}</td>
+   </tr>`).join('');
+  return `<h3>Closed deals (${d.deals.length}, last ${d.days||'?'} days)</h3>
+  <div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
+   <thead><tr><th>Time</th><th>Symbol</th><th>Side</th><th>Entry</th><th>Lots</th><th>Price</th><th>P/L</th></tr></thead>
+   <tbody>${rows}</tbody></table></div></div>`;
+}
+
+// ---- behaviour analysis ----
+function analyse(){
+  const live=cache.live, hist=cache.hist;
+  const pos=(live&&live.positions)||[];
+  const deals=(hist&&hist.deals)||[];
+  const ins=deals.filter(d=>d.entry==='IN');
+  const outs=deals.filter(d=>d.entry==='OUT'||d.entry==='OUT_BY');
+
+  // symbols + direction
+  const syms=[...new Set(deals.map(d=>d.symbol).concat(pos.map(p=>p.symbol)))].filter(Boolean);
+  const buys=ins.filter(d=>d.type==='BUY').length, sells=ins.filter(d=>d.type==='SELL').length;
+
+  // lots
+  const lots=ins.map(d=>+d.volume).filter(v=>v>0);
+  const avgLot=lots.length?lots.reduce((a,b)=>a+b,0)/lots.length:0;
+  const maxLot=lots.length?Math.max(...lots):0;
+  const minLot=lots.length?Math.min(...lots):0;
+
+  // martingale: look at increasing lot runs
+  let mult=[];
+  const byTime=[...ins].sort((a,b)=>a.time<b.time?-1:1);
+  for(let i=1;i<byTime.length;i++){
+    const a=+byTime[i-1].volume,b=+byTime[i].volume;
+    if(a>0&&b>a*1.05&&b<a*5) mult.push(b/a);
+  }
+  mult.sort((a,b)=>a-b);
+  const medMult=mult.length?mult[Math.floor(mult.length/2)]:0;
+  const isMarti=medMult>1.1;
+
+  // grid gap from current open basket (same symbol+side)
+  function gapFor(sym,side){
+    const arr=pos.filter(p=>p.symbol===sym&&p.type===side).map(p=>+p.open).sort((a,b)=>a-b);
+    if(arr.length<2) return null;
+    let g=[]; for(let i=1;i<arr.length;i++) g.push(arr[i]-arr[i-1]);
+    return g.reduce((a,b)=>a+b,0)/g.length;
+  }
+  let gapTxt='—';
+  for(const sym of syms){
+    const gb=gapFor(sym,'BUY'), gs=gapFor(sym,'SELL');
+    const g=gb||gs;
+    if(g){ gapTxt=`~${g.toFixed( g<1?2:1 )} price (${sym})`; break; }
+  }
+
+  // basket close $: group OUT deals by exact close time, sum profit
+  const grp={};
+  outs.forEach(d=>{ grp[d.time]=(grp[d.time]||0)+(+d.profit); });
+  const baskets=Object.entries(grp).map(([t,v])=>({t,v,n:outs.filter(o=>o.time===t).length}));
+  const multi=baskets.filter(b=>b.n>1);
+  const posBaskets=baskets.map(b=>b.v).filter(v=>v>0).sort((a,b)=>a-b);
+  const medBasket=posBaskets.length?posBaskets[Math.floor(posBaskets.length/2)]:0;
+  const maxConcurrent=multi.length?Math.max(...multi.map(b=>b.n)):(pos.length||0);
+
+  // TP/SL distances from current positions
+  let tpd=[],sld=[];
+  pos.forEach(p=>{
+    const o=+p.open;
+    if(+p.tp>0) tpd.push(Math.abs(+p.tp-o));
+    if(+p.sl>0) sld.push(Math.abs(o-+p.sl));
+  });
+  const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+
+  // per-trade profit typical
+  const tp=outs.map(d=>+d.profit).filter(v=>v>0).sort((a,b)=>a-b);
+  const medTrade=tp.length?tp[Math.floor(tp.length/2)]:0;
+
+  return {syms,buys,sells,avgLot,maxLot,minLot,isMarti,medMult,gapTxt,
+    medBasket,maxConcurrent,hasTP:tpd.length>0,hasSL:sld.length>0,
+    avgTP:avg(tpd),avgSL:avg(sld),medTrade,totalIn:ins.length,totalOut:outs.length};
+}
+
+function viewSummary(){
+  if(!cache.hist && !cache.live) return `<div class="card muted">No data to analyse yet.</div>`;
+  const a=analyse();
+  const dir = a.buys&&a.sells ? 'Both (buy + sell)' : a.buys ? 'Buy only' : a.sells ? 'Sell only' : '—';
+  const style = a.maxConcurrent>1 ? (a.isMarti?'Grid + Martingale basket':'Grid / basket') : (a.isMarti?'Martingale':'Single trade');
+  return `
+  <div class="card">
+    <div class="tiny">Auto-detected behaviour — guessed from the trades, treat as a strong hint, confirm over a few days.</div>
+    <div class="trait"><span class="lbl">Likely style</span><span class="val big">${style}</span></div>
+    <div class="trait"><span class="lbl">Direction</span><span class="val">${dir}</span></div>
+    <div class="trait"><span class="lbl">Symbols</span><span class="val">${a.syms.join(', ')||'—'}</span></div>
+    <div class="trait"><span class="lbl">Lot: min / avg / max</span><span class="val">${a.minLot.toFixed(2)} / ${a.avgLot.toFixed(2)} / ${a.maxLot.toFixed(2)}</span></div>
+    <div class="trait"><span class="lbl">Martingale multiplier</span><span class="val">${a.isMarti?('~'+a.medMult.toFixed(2)+'×'):'No / not seen'}</span></div>
+    <div class="trait"><span class="lbl">Grid gap (open basket)</span><span class="val">${a.gapTxt}</span></div>
+    <div class="trait"><span class="lbl">Max trades at once</span><span class="val">${a.maxConcurrent||'—'}</span></div>
+    <div class="trait"><span class="lbl">Basket closes around</span><span class="val">${a.medBasket?money(a.medBasket):'—'}</span></div>
+    <div class="trait"><span class="lbl">Uses fixed TP / SL?</span><span class="val">${a.hasTP?'TP yes':'TP no'} · ${a.hasSL?'SL yes':'SL no'}</span></div>
+    <div class="trait"><span class="lbl">Typical profit / closed trade</span><span class="val">${a.medTrade?money(a.medTrade):'—'}</span></div>
+    <div class="trait"><span class="lbl">Entries / exits seen</span><span class="val">${a.totalIn} / ${a.totalOut}</span></div>
+  </div>
+  <div class="tiny" style="margin:0 2px">Send this screen to the chat and I'll turn it into your own EA.</div>`;
+}
+
+function render(){
+  $('#view').innerHTML = tab==='live'?viewLive():tab==='history'?viewHistory():viewSummary();
+}
+
+// ---- load ----
+async function load(){
+  if(!cur){ $('#status').textContent='Add an account number to begin.'; $('#dot').classList.remove('ok'); render(); return; }
+  $('#status').textContent='Loading '+cur+' …';
+  let ok=false;
+  try{ cache.live=await getJson(cur,'live.json'); ok=true; }catch(e){ cache.live=null; }
+  try{ cache.hist=await getJson(cur,'history.json'); }catch(e){ cache.hist=null; }
+  $('#dot').classList.toggle('ok',ok);
+  $('#status').textContent = ok
+    ? 'Live data OK · account updated '+(cache.live.updatedAt||'')+' · refreshed '+new Date().toLocaleTimeString()
+    : 'No data for '+cur+' yet (EA running? repo public? name correct?)';
+  render();
+}
+
+// ---- events ----
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); tab=b.dataset.t; render();
+});
+$('#acct').onchange=e=>{ cur=e.target.value; LS.set('iw_cur',cur); load(); };
+$('#refreshBtn').onclick=load;
+$('#addBtn').onclick=()=>{
+  const v=$('#newAcct').value.trim(); if(!v) return;
+  if(!accounts.includes(v)) accounts.push(v);
+  LS.set('iw_accts',accounts); cur=v; LS.set('iw_cur',cur); $('#newAcct').value='';
+  renderAccts(); load();
+};
+$('#cfgBtn').onclick=()=>{ const p=$('#cfgPanel'); p.style.display=p.style.display==='none'?'block':'none';
+  $('#cfgOwner').value=cfg.owner; $('#cfgRepo').value=cfg.repo; $('#cfgBranch').value=cfg.branch; };
+$('#saveCfg').onclick=()=>{
+  cfg={owner:$('#cfgOwner').value.trim(),repo:$('#cfgRepo').value.trim(),branch:($('#cfgBranch').value.trim()||'main')};
+  LS.set('iw_cfg',cfg); $('#cfgPanel').style.display='none'; load();
+};
+setInterval(()=>{$('#clock').textContent=new Date().toLocaleTimeString();},1000);
+setInterval(load, 30000); // auto-refresh every 30s
+
+renderAccts(); render(); load();
+</script>
+</body>
+</html>
