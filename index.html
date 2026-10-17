@@ -69,7 +69,7 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.03</span></h1>
+  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.04</span></h1>
   <span class="tiny" id="clock" style="margin-left:auto"></span>
 </header>
 
@@ -401,6 +401,43 @@ function viewSummary(){
   <div class="tiny" style="margin:0 2px">Send this screen to the chat and I'll turn it into your own EA.</div>`;
 }
 
+// ---- shadow test comparison (v1.04) ----
+function shadowCard(t){
+  const sh=t.shadow||[];
+  if(!sh.length) return `<div class="card"><div class="tiny"><b>Shadow test:</b> abhi koi nateeja nahi. BTC Trailing Manager v1.01 ko SHADOW mode me lagao — har Buster trade band hone (aur uske 4 virtual copies band hone) ke baad yahan Buster asli vs A/B/C/D ki tulna aayegi.</div></div>`;
+  const keys=['REAL','A','B','C','D'];
+  const byTk={};
+  sh.forEach(x=>{ (byTk[x.ticket]=byTk[x.ticket]||{})[x.set]=x; });
+  const tks=Object.keys(byTk);
+  const complete=tks.filter(tk=>keys.every(k=>byTk[tk][k]));
+  const waiting=tks.filter(tk=>byTk[tk].REAL && !keys.every(k=>byTk[tk][k])).length;
+  const label=k=>{ if(k==='REAL') return 'Buster asli'; const any=sh.find(x=>x.set===k); return any?`${k} · ${any.start}/${any.dist}`:k; };
+  const rows=keys.map(k=>{
+    const p=complete.map(tk=>+byTk[tk][k].profit);
+    const tot=p.reduce((a,b)=>a+b,0);
+    return {k,label:label(k),n:p.length,tot,avg:p.length?tot/p.length:0,
+            win:p.length?Math.round(100*p.filter(v=>v>0).length/p.length):null};
+  });
+  const bestTot=complete.length?Math.max(...rows.map(r=>r.tot)):null;
+  const best=rows.find(r=>complete.length&&r.tot===bestTot);
+  const real=rows[0];
+  const body=rows.map(r=>`<tr${complete.length&&r.tot===bestTot?' style="background:#1ea97c26"':''}>
+     <td>${r.label}</td><td>${r.n}</td><td class="${cls(r.tot)}">${r.tot.toFixed(2)}</td>
+     <td class="${cls(r.avg)}">${r.avg.toFixed(2)}</td><td>${r.win!==null?r.win+'%':'—'}</td></tr>`).join('');
+  let verdict='';
+  if(complete.length&&best){
+    verdict = best.k==='REAL'
+      ? `Abhi tak Buster ka apna trailing hi sabse aage hai.`
+      : `Abhi tak <b>${best.label}</b> sabse aage — Buster asli se ${(best.tot-real.tot)>=0?'+':''}${(best.tot-real.tot).toFixed(2)} $ zyada (${complete.length} trade par).`;
+    if(complete.length<10) verdict+=` Abhi trade kam hain, 10+ hone par faisla pakka maano.`;
+  }
+  return `<h3>Shadow test — kaunsi setting best</h3>
+  <div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
+   <thead><tr><th>Setting (start/doori pts)</th><th>Trades</th><th>Kul $</th><th>Avg $</th><th>Win</th></tr></thead>
+   <tbody>${body}</tbody></table></div>
+   <div class="tiny" style="padding:8px 2px">${verdict} ${waiting?`${waiting} trade ke kuch virtual copies abhi khule hain, band hote hi judenge.`:''} Sirf wahi trades gine jinke asli + charon virtual band ho chuke (barabar tulna). Hara row = sabse zyada kul $.</div></div>`;
+}
+
 // ---- trailing analysis (v1.03) ----
 function viewTrailing(){
   const t=cache.trail;
@@ -461,6 +498,7 @@ function viewTrailing(){
      <td>${o.open}</td><td>${+o.sl?o.sl:'—'}</td><td>${fmtP(o.peak)}</td><td class="pos">${(+o.peakProfit).toFixed(2)}</td><td>${o.trails}</td></tr>`).join('');
 
   return `
+  ${shadowCard(t)}
   <div class="card">
     <div class="tiny">Trailing rule — SL ki har movement se nikala gaya (price units). Data jitna zyada, utna pakka.</div>
     <div class="trait"><span class="lbl">Trailing shuru hota hai</span><span class="val">${firstEv.length?'~'+fmtP(trig)+' price profit par':'—'}</span></div>
