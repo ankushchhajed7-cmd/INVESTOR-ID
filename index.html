@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0b0f17">
 <title>Investor Watch</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Investor Watch">
 <style>
   :root{
     --bg:#0b0f17; --card:#131a26; --card2:#0f1521; --line:#223047;
@@ -338,6 +344,9 @@ setInterval(()=>{$('#clock').textContent=new Date().toLocaleTimeString();},1000)
 setInterval(load, 30000); // auto-refresh every 30s
 
 renderAccts(); render(); load();
+
+// PWA service worker (same-origin app shell only; data fetches bypass it)
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
 </body>
 </html>

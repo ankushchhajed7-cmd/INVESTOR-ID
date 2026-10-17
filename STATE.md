@@ -25,6 +25,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.01 (2026-10-17) — PWA installable: manifest.json, icons (192/512 + maskable), apple-touch-icon, favicon, service worker (network-first app shell, data fetches bypass SW). App now installs on mobile with the Investor Watch lens+candles icon.
 - v1.00 (2026-10-17) — first build: Reader EA + PWA dashboard + behaviour summary.
 
 ## Pending / ideas
