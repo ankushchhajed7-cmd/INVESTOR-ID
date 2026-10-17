@@ -69,7 +69,7 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch</h1>
+  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.02</span></h1>
   <span class="tiny" id="clock" style="margin-left:auto"></span>
 </header>
 
@@ -158,20 +158,46 @@ function money(n){ n=+n||0; const c=(cache.live&&cache.live.currency)||'';
   return (n<0?'-':'')+ (c?c+' ':'') + Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function cls(n){ return (+n>0)?'pos':((+n<0)?'neg':''); }
 
+function sideCls(t){ return String(t||'').indexOf('BUY')===0?'b':'s'; }
+function nice(t){ return String(t||'').replace(/_/g,' '); }
+function dist(a,b){ return Math.abs((+a)-(+b)); }
+function fmtP(v){ v=+v; return v? v.toFixed(v>=100?1:(v>=1?2:4)) : '—'; }
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+const med=a=>{ if(!a.length) return 0; const s=[...a].sort((x,y)=>x-y); return s[Math.floor(s.length/2)]; };
+
+function pendingTable(list){
+  let rows=list.map(x=>`<tr>
+     <td>${x.symbol}</td>
+     <td class="${sideCls(x.type)}">${nice(x.type)}</td>
+     <td>${(+x.volume).toFixed(2)}</td>
+     <td>${x.price}</td>
+     <td>${+x.sl?x.sl:'—'}</td>
+     <td>${+x.tp?x.tp:'—'}</td>
+     <td>${x.market?fmtP(dist(x.price,x.market)):'—'}</td>
+     <td>${(x.time||'').slice(5,16)}</td>
+   </tr>`).join('');
+  if(!rows) rows=`<tr><td colspan="8" class="muted" style="text-align:center">No pending orders right now</td></tr>`;
+  return `<div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
+     <thead><tr><th>Symbol</th><th>Type</th><th>Lots</th><th>Price</th><th>SL</th><th>TP</th><th>Away</th><th>Placed</th></tr></thead>
+     <tbody>${rows}</tbody></table></div></div>`;
+}
+
 function viewLive(){
   const d=cache.live;
   if(!d) return `<div class="card muted">No live data yet. Make sure the Reader EA is running on the VPS for this account.</div>`;
   const p=d.positions||[];
+  const o=d.orders||[];
   let rows = p.map(x=>`<tr>
      <td>${x.symbol}</td>
      <td class="${x.type==='BUY'?'b':'s'}">${x.type}</td>
      <td>${(+x.volume).toFixed(2)}</td>
      <td>${x.open}</td>
-     <td>${x.sl||'—'}</td>
-     <td>${x.tp||'—'}</td>
+     <td>${+x.sl?x.sl:'—'}</td>
+     <td>${+x.tp?x.tp:'—'}</td>
      <td class="${cls(x.profit)}">${(+x.profit).toFixed(2)}</td>
    </tr>`).join('');
   if(!rows) rows=`<tr><td colspan="7" class="muted" style="text-align:center">No open positions right now</td></tr>`;
+  const oldEA = (d.orders===undefined) ? `<div class="tiny" style="margin:6px 2px">Pending orders dikhane ke liye VPS par EA v1.02 lagao.</div>` : '';
   return `
   <div class="card">
     <div class="kv">
@@ -179,6 +205,7 @@ function viewLive(){
       <div><span>Equity</span><b>${money(d.equity)}</b></div>
       <div><span>Floating P/L</span><b class="${cls(d.floating)}">${money(d.floating)}</b></div>
       <div><span>Open trades</span><b>${p.length}</b></div>
+      <div><span>Pending orders</span><b>${o.length}</b></div>
     </div>
     <div class="tiny" style="margin-top:8px">${d.company||''} · ${d.server||''} · login ${d.login||''}<br>Account updated: ${d.updatedAt||'—'}</div>
   </div>
@@ -188,7 +215,9 @@ function viewLive(){
      <thead><tr><th>Symbol</th><th>Side</th><th>Lots</th><th>Open</th><th>SL</th><th>TP</th><th>P/L</th></tr></thead>
      <tbody>${rows}</tbody>
    </table></div>
-  </div>`;
+  </div>
+  <h3>Pending orders</h3>
+  ${pendingTable(o)}${oldEA}`;
 }
 
 function viewHistory(){
@@ -203,102 +232,170 @@ function viewHistory(){
      <td>${(+x.volume).toFixed(2)}</td>
      <td>${x.price}</td>
      <td class="${cls(x.profit)}">${(+x.profit).toFixed(2)}</td>
-   </tr>`).join('');
+   </tr>`).join('') || `<tr><td colspan="7" class="muted" style="text-align:center">No closed deals in this period</td></tr>`;
+  let ordHtml='';
+  if(Array.isArray(d.orders)){
+    const ho=[...d.orders].reverse();
+    const orows=ho.slice(0,400).map(x=>`<tr>
+       <td>${x.setup}</td>
+       <td>${x.symbol}</td>
+       <td class="${sideCls(x.type)}">${nice(x.type)}</td>
+       <td>${x.state}</td>
+       <td>${(+x.volume).toFixed(2)}</td>
+       <td>${x.price}</td>
+       <td>${+x.sl?x.sl:'—'}</td>
+       <td>${+x.tp?x.tp:'—'}</td>
+       <td>${(x.done||'').slice(5,16)}</td>
+     </tr>`).join('') || `<tr><td colspan="9" class="muted" style="text-align:center">No orders in this period</td></tr>`;
+    ordHtml=`<h3>Order history (${d.orders.length})</h3>
+    <div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
+     <thead><tr><th>Placed</th><th>Symbol</th><th>Type</th><th>State</th><th>Lots</th><th>Price</th><th>SL</th><th>TP</th><th>Done</th></tr></thead>
+     <tbody>${orows}</tbody></table></div></div>`;
+  }
   return `<h3>Closed deals (${d.deals.length}, last ${d.days||'?'} days)</h3>
   <div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
    <thead><tr><th>Time</th><th>Symbol</th><th>Side</th><th>Entry</th><th>Lots</th><th>Price</th><th>P/L</th></tr></thead>
-   <tbody>${rows}</tbody></table></div></div>`;
+   <tbody>${rows}</tbody></table></div></div>${ordHtml}`;
 }
 
 // ---- behaviour analysis ----
 function analyse(){
   const live=cache.live, hist=cache.hist;
   const pos=(live&&live.positions)||[];
+  const ords=(live&&live.orders)||[];
   const deals=(hist&&hist.deals)||[];
+  const hOrds=((hist&&hist.orders)||[]).filter(o=>o.type!=='BUY'&&o.type!=='SELL'&&o.type!=='CLOSE_BY'); // only pending-type orders
   const ins=deals.filter(d=>d.entry==='IN');
   const outs=deals.filter(d=>d.entry==='OUT'||d.entry==='OUT_BY');
 
   // symbols + direction
-  const syms=[...new Set(deals.map(d=>d.symbol).concat(pos.map(p=>p.symbol)))].filter(Boolean);
+  const syms=[...new Set(deals.map(d=>d.symbol).concat(pos.map(p=>p.symbol)).concat(ords.map(o=>o.symbol)).concat(hOrds.map(o=>o.symbol)))].filter(Boolean);
   const buys=ins.filter(d=>d.type==='BUY').length, sells=ins.filter(d=>d.type==='SELL').length;
 
-  // lots
-  const lots=ins.map(d=>+d.volume).filter(v=>v>0);
-  const avgLot=lots.length?lots.reduce((a,b)=>a+b,0)/lots.length:0;
+  // lots (deals + pending orders)
+  const lots=ins.map(d=>+d.volume).concat(ords.map(o=>+o.volume)).concat(hOrds.map(o=>+o.volume)).filter(v=>v>0);
+  const avgLot=avg(lots);
   const maxLot=lots.length?Math.max(...lots):0;
   const minLot=lots.length?Math.min(...lots):0;
 
-  // martingale: look at increasing lot runs
+  // martingale: increasing lot runs in entries
   let mult=[];
   const byTime=[...ins].sort((a,b)=>a.time<b.time?-1:1);
   for(let i=1;i<byTime.length;i++){
     const a=+byTime[i-1].volume,b=+byTime[i].volume;
     if(a>0&&b>a*1.05&&b<a*5) mult.push(b/a);
   }
-  mult.sort((a,b)=>a-b);
-  const medMult=mult.length?mult[Math.floor(mult.length/2)]:0;
+  const medMult=med(mult);
   const isMarti=medMult>1.1;
 
-  // grid gap from current open basket (same symbol+side)
-  function gapFor(sym,side){
-    const arr=pos.filter(p=>p.symbol===sym&&p.type===side).map(p=>+p.open).sort((a,b)=>a-b);
+  // grid gap from open basket
+  function gapOf(arr){
+    arr=arr.map(Number).sort((a,b)=>a-b);
     if(arr.length<2) return null;
     let g=[]; for(let i=1;i<arr.length;i++) g.push(arr[i]-arr[i-1]);
-    return g.reduce((a,b)=>a+b,0)/g.length;
+    return avg(g);
   }
   let gapTxt='—';
   for(const sym of syms){
-    const gb=gapFor(sym,'BUY'), gs=gapFor(sym,'SELL');
-    const g=gb||gs;
-    if(g){ gapTxt=`~${g.toFixed( g<1?2:1 )} price (${sym})`; break; }
+    const g=gapOf(pos.filter(p=>p.symbol===sym&&p.type==='BUY').map(p=>p.open))
+         ||gapOf(pos.filter(p=>p.symbol===sym&&p.type==='SELL').map(p=>p.open));
+    if(g){ gapTxt=`~${fmtP(g)} price (${sym})`; break; }
   }
 
-  // basket close $: group OUT deals by exact close time, sum profit
+  // pending-order grid
+  let pendGapTxt='—';
+  const pendGroups={};
+  ords.forEach(o=>{ const k=o.symbol+'|'+o.type; (pendGroups[k]=pendGroups[k]||[]).push(o.price); });
+  const gapParts=[];
+  Object.entries(pendGroups).forEach(([k,arr])=>{
+    const g=gapOf(arr); if(g){ const [s,t]=k.split('|'); gapParts.push(`${nice(t)} ~${fmtP(g)}`); }
+  });
+  if(gapParts.length) pendGapTxt=gapParts.join(' · ');
+
+  // SL / TP distance (positions + pending + history pending orders)
+  const slSrc=[...pos.map(p=>({p:p.open,sl:p.sl,tp:p.tp})), ...ords.map(o=>({p:o.price,sl:o.sl,tp:o.tp})), ...hOrds.map(o=>({p:o.price,sl:o.sl,tp:o.tp}))];
+  const sld=slSrc.filter(x=>+x.sl>0).map(x=>dist(x.p,x.sl));
+  const tpd=slSrc.filter(x=>+x.tp>0).map(x=>dist(x.p,x.tp));
+
+  // how far from market pending orders sit
+  const away=ords.filter(o=>+o.market>0).map(o=>dist(o.price,o.market));
+
+  // order type mix + fill rate
+  const typeCount={};
+  hOrds.concat(ords).forEach(o=>{ typeCount[o.type]=(typeCount[o.type]||0)+1; });
+  const typeMix=Object.entries(typeCount).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`${nice(t)} ${n}`).join(' · ')||'—';
+  const filled=hOrds.filter(o=>o.state==='FILLED').length;
+  const canceled=hOrds.filter(o=>o.state==='CANCELED'||o.state==='EXPIRED').length;
+  const fillRate=(filled+canceled)?Math.round(100*filled/(filled+canceled)):null;
+  const stopN=Object.entries(typeCount).filter(([t])=>t.indexOf('STOP')>=0).reduce((a,[,n])=>a+n,0);
+  const limN=Object.entries(typeCount).filter(([t])=>t.indexOf('LIMIT')>=0&&t.indexOf('STOP')<0).reduce((a,[,n])=>a+n,0);
+
+  // pending orders placed per day
+  let perDay=null;
+  if(hOrds.length>1){
+    const t=hOrds.map(o=>o.setup).sort();
+    const d0=new Date(t[0].replace(/\./g,'-').replace(' ','T')), d1=new Date(t[t.length-1].replace(/\./g,'-').replace(' ','T'));
+    const days=Math.max(1,(d1-d0)/86400000);
+    perDay=hOrds.length/days;
+  }
+
+  // EA identity: magic numbers + comments
+  const magics=[...new Set(ins.map(x=>x.magic).concat(ords.map(x=>x.magic)).concat(hOrds.map(x=>x.magic)).filter(m=>m!==undefined&&+m!==0))];
+  const comments=[...new Set(ins.map(x=>x.comment).concat(ords.map(x=>x.comment)).concat(hOrds.map(x=>x.comment)).filter(c=>c&&c.trim()))].slice(0,4);
+
+  // basket close $
   const grp={};
   outs.forEach(d=>{ grp[d.time]=(grp[d.time]||0)+(+d.profit); });
   const baskets=Object.entries(grp).map(([t,v])=>({t,v,n:outs.filter(o=>o.time===t).length}));
   const multi=baskets.filter(b=>b.n>1);
-  const posBaskets=baskets.map(b=>b.v).filter(v=>v>0).sort((a,b)=>a-b);
-  const medBasket=posBaskets.length?posBaskets[Math.floor(posBaskets.length/2)]:0;
+  const medBasket=med(baskets.map(b=>b.v).filter(v=>v>0));
   const maxConcurrent=multi.length?Math.max(...multi.map(b=>b.n)):(pos.length||0);
 
-  // TP/SL distances from current positions
-  let tpd=[],sld=[];
-  pos.forEach(p=>{
-    const o=+p.open;
-    if(+p.tp>0) tpd.push(Math.abs(+p.tp-o));
-    if(+p.sl>0) sld.push(Math.abs(o-+p.sl));
-  });
-  const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
-
-  // per-trade profit typical
-  const tp=outs.map(d=>+d.profit).filter(v=>v>0).sort((a,b)=>a-b);
-  const medTrade=tp.length?tp[Math.floor(tp.length/2)]:0;
+  const medTrade=med(outs.map(d=>+d.profit).filter(v=>v>0));
 
   return {syms,buys,sells,avgLot,maxLot,minLot,isMarti,medMult,gapTxt,
     medBasket,maxConcurrent,hasTP:tpd.length>0,hasSL:sld.length>0,
-    avgTP:avg(tpd),avgSL:avg(sld),medTrade,totalIn:ins.length,totalOut:outs.length};
+    medTP:med(tpd),medSL:med(sld),medTrade,totalIn:ins.length,totalOut:outs.length,
+    pendNow:ords.length,pendHist:hOrds.length,pendGapTxt,medAway:med(away),typeMix,
+    filled,canceled,fillRate,stopN,limN,perDay,magics,comments};
 }
 
 function viewSummary(){
   if(!cache.hist && !cache.live) return `<div class="card muted">No data to analyse yet.</div>`;
   const a=analyse();
   const dir = a.buys&&a.sells ? 'Both (buy + sell)' : a.buys ? 'Buy only' : a.sells ? 'Sell only' : '—';
-  const style = a.maxConcurrent>1 ? (a.isMarti?'Grid + Martingale basket':'Grid / basket') : (a.isMarti?'Martingale':'Single trade');
+  let style = a.maxConcurrent>1 ? (a.isMarti?'Grid + Martingale basket':'Grid / basket') : (a.isMarti?'Martingale':'Single trade');
+  if(a.pendNow+a.pendHist>0){
+    const kind = a.stopN>=a.limN ? 'Stop-order breakout' : 'Limit-order';
+    const gridish = a.pendNow>1 || a.pendGapTxt!=='—';
+    style = kind + (gridish?' grid':'') + (a.isMarti?' + Martingale':'');
+  }
   return `
   <div class="card">
     <div class="tiny">Auto-detected behaviour — guessed from the trades, treat as a strong hint, confirm over a few days.</div>
     <div class="trait"><span class="lbl">Likely style</span><span class="val big">${style}</span></div>
-    <div class="trait"><span class="lbl">Direction</span><span class="val">${dir}</span></div>
+    <div class="trait"><span class="lbl">Direction (filled)</span><span class="val">${dir}</span></div>
     <div class="trait"><span class="lbl">Symbols</span><span class="val">${a.syms.join(', ')||'—'}</span></div>
     <div class="trait"><span class="lbl">Lot: min / avg / max</span><span class="val">${a.minLot.toFixed(2)} / ${a.avgLot.toFixed(2)} / ${a.maxLot.toFixed(2)}</span></div>
     <div class="trait"><span class="lbl">Martingale multiplier</span><span class="val">${a.isMarti?('~'+a.medMult.toFixed(2)+'×'):'No / not seen'}</span></div>
+    <div class="trait"><span class="lbl">SL distance (typical)</span><span class="val">${a.hasSL?fmtP(a.medSL)+' price':'No SL'}</span></div>
+    <div class="trait"><span class="lbl">TP distance (typical)</span><span class="val">${a.hasTP?fmtP(a.medTP)+' price':'No TP'}</span></div>
     <div class="trait"><span class="lbl">Grid gap (open basket)</span><span class="val">${a.gapTxt}</span></div>
     <div class="trait"><span class="lbl">Max trades at once</span><span class="val">${a.maxConcurrent||'—'}</span></div>
     <div class="trait"><span class="lbl">Basket closes around</span><span class="val">${a.medBasket?money(a.medBasket):'—'}</span></div>
-    <div class="trait"><span class="lbl">Uses fixed TP / SL?</span><span class="val">${a.hasTP?'TP yes':'TP no'} · ${a.hasSL?'SL yes':'SL no'}</span></div>
     <div class="trait"><span class="lbl">Typical profit / closed trade</span><span class="val">${a.medTrade?money(a.medTrade):'—'}</span></div>
     <div class="trait"><span class="lbl">Entries / exits seen</span><span class="val">${a.totalIn} / ${a.totalOut}</span></div>
+  </div>
+  <h3>Pending-order behaviour</h3>
+  <div class="card">
+    <div class="trait"><span class="lbl">Pending now / in history</span><span class="val">${a.pendNow} / ${a.pendHist}</span></div>
+    <div class="trait"><span class="lbl">Order types</span><span class="val">${a.typeMix}</span></div>
+    <div class="trait"><span class="lbl">Gap between pending orders</span><span class="val">${a.pendGapTxt}</span></div>
+    <div class="trait"><span class="lbl">Placed away from market</span><span class="val">${a.medAway?'~'+fmtP(a.medAway)+' price':'—'}</span></div>
+    <div class="trait"><span class="lbl">Filled / cancelled</span><span class="val">${a.filled} / ${a.canceled}${a.fillRate!==null?` (${a.fillRate}% fill)`:''}</span></div>
+    <div class="trait"><span class="lbl">Orders placed per day</span><span class="val">${a.perDay?a.perDay.toFixed(1):'—'}</span></div>
+    <div class="trait"><span class="lbl">EA magic number</span><span class="val">${a.magics.join(', ')||'—'}</span></div>
+    <div class="trait"><span class="lbl">Order comment</span><span class="val">${a.comments.join(' · ')||'—'}</span></div>
   </div>
   <div class="tiny" style="margin:0 2px">Send this screen to the chat and I'll turn it into your own EA.</div>`;
 }

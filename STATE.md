@@ -25,10 +25,15 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.02 (2026-10-17) — Pending orders. EA: live.json me `orders` (pending buy/sell stop/limit: price, SL, TP, market price, magic, comment, setup time); history.json me `orders` (placed/canceled/filled/expired); positions/deals me magic + comment. App: Live tab me Pending orders table, History tab me Order history, Behaviour me "Pending-order behaviour" card (order types, pending gap, distance from market, fill rate, orders/day, EA magic + comment). SW cache iw-shell-v2. Test (4 live BTC orders): Stop-order breakout grid, SL ~150, TP ~4000.
 - EA v1.01 (2026-10-17) — FIX 401 "Bad credentials": token trim, token length in Experts log, optional TokenFile (MQL5\Files\investor_token.txt). Also delivered via samusignal/vps-ea (VPS Helper auto-compiles).
 - APK v1.0.1 built via apk-factory (release v1.0.1-build30).
 - v1.01 (2026-10-17) — PWA installable: manifest.json, icons (192/512 + maskable), apple-touch-icon, favicon, service worker (network-first app shell, data fetches bypass SW). App now installs on mobile with the Investor Watch lens+candles icon.
 - v1.00 (2026-10-17) — first build: Reader EA + PWA dashboard + behaviour summary.
+
+## Notes
+- Account 362293099 (XMGlobal-MT5 12) watched; token via MQL5\Files\investor_token.txt (TokenFile) — fixed 401.
+- APK auto-updates (wraps Pages URL) — no rebuild needed for app changes.
 
 ## Pending / ideas
 - Offline service worker for the PWA (currently online-only).
