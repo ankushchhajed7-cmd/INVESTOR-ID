@@ -358,13 +358,13 @@ function vMethod(k, U){
   const head = `<div class="card"><p class="ttl">${M[k].n} <span class="r gd">${PER[per]}</span></p>
     <div class="kv">
       <div><span>Trades</span><b>${s.n}</b></div>
-      <div><span>Win %</span><b>${s.wr.toFixed(0)}%</b></div>
+      <div><span>Win %</span><b>${s.n ? s.wr.toFixed(0) + '%' : '—'}</b></div>
       <div><span>Kul P/L</span><b class="${cls(s.net)}">${usd(s.net)}</b></div>
       <div><span>Avg jeet</span><b class="up">${s.aw ? usd(s.aw) : '—'}</b></div>
       <div><span>Avg haar</span><b class="dn">${s.al ? usd(s.al) : '—'}</b></div>
       <div><span>PF</span><b>${pfTxt(s.pf)}</b></div>
       <div><span>Max DD</span><b class="dn">${s.dd ? '−$' + s.dd.toFixed(2) : '—'}</b></div>
-      <div><span>Avg bura (DD)</span><b class="dn">${usd(s.mae)}</b></div>
+      <div><span>Avg bura (DD)</span><b class="dn">${s.n ? usd(s.mae) : '—'}</b></div>
       <div><span>Avg samay</span><b>${dur(s.hold)}</b></div>
     </div>
     ${s.n ? `<p class="small muted" style="margin:12px 0 0">Band kaise hue</p>
@@ -429,8 +429,20 @@ function vAccount(){
         <div><span>Max DD %</span><b class="dn">${ddp ? ddp.toFixed(2) + '%' : '—'}</b></div>
       </div>
       <div style="margin-top:12px">${ch}</div>
-      <p class="hint" style="margin:8px 0 0">Khule trades: ${(lv.positions || []).length} · Pending: ${(lv.orders || []).length} · data ${esc(r.updatedAt || '')} (server time)</p></div>`;
+      ${openList(a, lv, r)}
+      <p class="hint" style="margin:8px 0 0">data ${esc(r.updatedAt || '')} (server time) · band trades ${esc(cfg.start)} ke baad wale hi gine jaate hain</p></div>`;
   }).join('');
+}
+
+/* v1.02: Account tab me abhi chal rahe trades + pending — method ke saath */
+function openList(a, lv, r){
+  const P = (lv.positions || []), O = (lv.orders || []);
+  const mName = (mg, cm) => { const m = methodOf(+mg, cm); return (M[m === 'grid' ? 'chart' : m] || M.other).n };
+  const pos = P.map(p => { const w = ((r.open || []).find(o => o.ticket == p.ticket)) || {};
+    return `<div class="leg"><span class="${p.type === 'BUY' ? 'up' : 'dn'}">${esc(p.type)} ${esc(p.symbol)} ${(+p.volume).toFixed(2)}</span><span class="muted">${esc(mName(p.magic, p.comment))}${w.worst !== undefined ? ' · bura ' + usd(+w.worst) : ''}</span><b class="${cls(+p.profit)}">${usd(+p.profit)}</b></div>`}).join('');
+  const ord = O.map(o => `<div class="leg"><span class="muted">${esc(String(o.type).replace('_', ' '))} ${esc(o.symbol)} ${(+o.volume).toFixed(2)} @ ${+o.price}</span><span class="muted">${esc(mName(o.magic, o.comment))}</span></div>`).join('');
+  return `<p class="small muted" style="margin:12px 0 4px">Abhi khule trades: ${P.length}</p>${pos || '<p class="hint" style="margin:0">— koi nahi —</p>'}
+    <p class="small muted" style="margin:10px 0 4px">Pending orders: ${O.length}</p>${ord || '<p class="hint" style="margin:0">— koi nahi —</p>'}`;
 }
 
 /* ---------- settings ---------- */
