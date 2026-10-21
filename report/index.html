@@ -16,44 +16,63 @@
     --bg:#0b0f17; --card:#131a26; --card2:#0f1521; --line:#223047;
     --txt:#e7edf6; --mut:#8aa0bd; --up:#1ea97c; --dn:#e5484d;
     --gold:#d9b25f; --blue:#4c8dff; --warn:#f5a524; --chip:#1b2636;
+    /* v1.01 mirror finish — gold (SamuSignal logo jaisa) + silver */
+    --gm:linear-gradient(180deg,#FFF8DC 0%,#F4D98E 22%,#C29232 46%,#6B470F 50%,#E2B253 54%,#FFE9A8 78%,#B98A2C 100%);
+    --gm2:linear-gradient(135deg,#B98A2C 0%,#FFE9A8 30%,#C29232 50%,#FFF8DC 70%,#B98A2C 100%);
+    --gm3:linear-gradient(180deg,#FFF6D5 0%,#F1D27E 38%,#D4A443 50%,#E9C46A 62%,#FFF0BF 100%);   /* chips/button: bina gehri patti */
+    --sm:linear-gradient(180deg,#FFFFFF 0%,#E6E8EB 22%,#A9AFB7 46%,#5E646C 50%,#C9CED4 54%,#F2F4F6 78%,#8D949C 100%);
+    --sm2:linear-gradient(135deg,#5E646C 0%,#E6E8EB 28%,#8D949C 50%,#FFFFFF 72%,#5E646C 100%);
   }
+  body{background:radial-gradient(120% 60% at 50% -10%,#1d2430 0%,#0b0f17 60%) fixed,#0b0f17}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;background:var(--bg);color:var(--txt);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px;padding:0 0 40px}
   header{position:sticky;top:0;z-index:5;background:#0b0f17f2;backdrop-filter:blur(8px);
     padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
-  header h1{font-size:17px;margin:0;font-weight:800;letter-spacing:1px;color:var(--gold)}
+  header h1{font-size:19px;margin:0;font-weight:900;letter-spacing:2px;background:var(--gm);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.3px #6E4A12;filter:drop-shadow(0 1px 0 #000)}
+  header{border-bottom:1px solid transparent;border-image:var(--sm2) 1}
+  header button{background:var(--sm);color:#1a1d22;border:1px solid #5E646C;box-shadow:inset 0 1px 0 #fff8,0 1px 3px #0008;padding:7px 10px}
   header .dot{width:9px;height:9px;border-radius:50%;background:var(--dn);flex:0 0 auto}
   header .dot.ok{background:var(--up)}
   header .sp{margin-left:auto;display:flex;gap:6px}
   .wrap{padding:12px 16px;max-width:760px;margin:0 auto}
   select,input,button{font:inherit;color:var(--txt);background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
   button{cursor:pointer}
-  button.gold{background:var(--gold);color:#1a1405;border:none;font-weight:700}
+  button.gold{background:var(--gm3);color:#1a1405;border:1px solid #6E4A12;font-weight:800;letter-spacing:1px;box-shadow:inset 0 1px 0 #fff9,0 2px 6px #0009}
   .chips{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 0 6px;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
-  .chip{flex:0 0 auto;border-radius:999px;padding:7px 12px;font-size:13px;color:var(--mut);background:var(--chip);border:1px solid var(--line);white-space:nowrap}
-  .chip.on{background:var(--gold);color:#1a1405;border-color:var(--gold);font-weight:700}
+  .chip{flex:0 0 auto;border-radius:999px;padding:7px 12px;font-size:13px;color:#cfd5dc;white-space:nowrap;
+    border:1px solid transparent;background:linear-gradient(#161d29,#161d29) padding-box,var(--sm2) border-box}
+  .chip.on{background:var(--gm3) padding-box,linear-gradient(#6E4A12,#6E4A12) border-box;color:#1a1405;font-weight:800;
+    box-shadow:inset 0 1px 0 #fff9,0 2px 6px #0009}
   .chip small{opacity:.8;font-weight:600}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
-  .ttl{margin:0 0 10px;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .card{border:1.5px solid transparent;border-radius:14px;padding:14px;margin:12px 0;
+    background:linear-gradient(180deg,#161e2b,#111722) padding-box,var(--sm2) border-box;box-shadow:0 6px 18px #0007,inset 0 1px 0 #ffffff12}
+  .ttl{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:1px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .ttl{background:var(--sm);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ttl .r{color:#cfd5dc;-webkit-text-fill-color:currentColor}
+  .ttl .r.gd{color:transparent}
   .ttl .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600}
   .muted{color:var(--mut)} .small{font-size:12px}
-  .up{color:var(--up)} .dn{color:var(--dn)} .gd{color:var(--gold)}
+  .up{color:var(--up)} .dn{color:var(--dn)}
+  .gd{background:var(--gm2);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
   .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .kv div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center}
-  .kv span{display:block;color:var(--mut);font-size:10px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px}
+  .kv div{border:1px solid transparent;border-radius:10px;padding:8px 6px;text-align:center;
+    background:linear-gradient(#0d121b,#0d121b) padding-box,linear-gradient(135deg,#5E646C,#C9CED4 50%,#5E646C) border-box}
+  .kv span{display:block;color:#aeb6c0;font-size:10px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px}
   .kv b{font-size:16px}
   table{width:100%;border-collapse:collapse;font-size:13px}
   th,td{text-align:right;padding:8px 4px;border-bottom:1px solid var(--line);white-space:nowrap}
   table.cmp{font-size:12px}
   th:first-child,td:first-child{text-align:left}
   th{color:var(--mut);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
-  tr.best td{background:#d9b25f1a}
+  tr.best td{background:linear-gradient(90deg,#d9b25f33,#d9b25f0d)}
+  tr.best td:first-child{border-left:3px solid #E2B253}
   .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .bar{height:8px;border-radius:4px;background:var(--card2);overflow:hidden;display:flex;margin-top:4px}
   .bar i{display:block;height:100%}
-  .tr{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
+  .tr{border:1px solid transparent;border-radius:10px;padding:10px;margin:8px 0;
+    background:linear-gradient(#0d121b,#0d121b) padding-box,linear-gradient(135deg,#3a4049,#A9AFB7 50%,#3a4049) border-box}
   .tr .h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
   .tr .h b{font-size:15px}
   .tag{font-size:10px;font-weight:800;letter-spacing:.6px;padding:2px 7px;border-radius:5px;border:1px solid currentColor}
@@ -108,7 +127,7 @@
 
 <script>
 /* ============================================================
-   SAMU REPORT v1.00 — kaun sa method sahi chal raha hai
+   SAMU REPORT v1.01 (gold + silver mirror) — kaun sa method sahi chal raha hai
    Data: Investor Account Watcher v1.05 → data/<acc>/report.json (band trades +
    magic + comment + SL/TP + worst P/L + equity) aur live.json (khule trades).
    Method pehchaan: magic + comment
@@ -133,8 +152,8 @@ let tab = LS.get('sr_tab', 'cmp');
 let D = {};                                 /* acc -> {rep, live, err} */
 
 const M = {
-  signal: {n:'📡 Signal App', s:'📡 Signal', c:'#4c8dff'},
-  chart:  {n:'📸 Chart Analysis', s:'📸 Chart', c:'#d9b25f'},
+  signal: {n:'📡 Signal App', s:'📡 Signal', c:'#C9CED4'},
+  chart:  {n:'📸 Chart Analysis', s:'📸 Chart', c:'#E2B253'},
   pair:   {n:'⚖️ Pair Trading', s:'⚖️ Pair', c:'#1ea97c'},
   manual: {n:'✋ Manual', s:'✋ Manual', c:'#b07cff'},
   other:  {n:'🤖 Dusre EA', s:'🤖 Dusre', c:'#8aa0bd'}
@@ -396,9 +415,9 @@ function vAccount(){
       const t0 = eq[0].t, t1 = eq[eq.length-1].t || t0 + 1;
       const x = t => ((t - t0) / ((t1 - t0) || 1) * (W - 8) + 4).toFixed(1), y = v => (H - 6 - (v - lo) / sp * (H - 12)).toFixed(1);
       ch = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:130px">
-        <polyline fill="none" stroke="#8aa0bd" stroke-width="1.3" stroke-dasharray="4 3" points="${eq.map(e => x(e.t) + ',' + y(e.b)).join(' ')}"/>
+        <polyline fill="none" stroke="#C9CED4" stroke-width="1.3" stroke-dasharray="4 3" points="${eq.map(e => x(e.t) + ',' + y(e.b)).join(' ')}"/>
         <polyline fill="none" stroke="#d9b25f" stroke-width="2" points="${eq.map(e => x(e.t) + ',' + y(e.e)).join(' ')}"/></svg>
-        <div class="lg"><span><i style="background:#d9b25f"></i>Equity</span><span><i style="background:#8aa0bd"></i>Balance</span></div>`;
+        <div class="lg"><span><i style="background:#d9b25f"></i>Equity</span><span><i style="background:#C9CED4"></i>Balance</span></div>`;
     }
     return `<div class="card"><p class="ttl">${esc(accLbl(a))} <span class="r muted">${esc(r.server || '')}</span></p>
       <div class="kv">

@@ -1,6 +1,6 @@
 // SAMU REPORT service worker — network-first app shell (scope: /report/).
 // Data (raw.githubusercontent / api.github.com) is cross-origin and NOT handled here.
-const CACHE = 'sr-shell-v1';
+const CACHE = 'sr-shell-v2';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
