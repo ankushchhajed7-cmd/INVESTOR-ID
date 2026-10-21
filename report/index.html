@@ -79,7 +79,10 @@
   .tr .pl{margin-left:auto;font-size:17px;font-weight:800;font-family:ui-monospace,Menlo,monospace}
   .tr .g{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;font-size:12px;margin-top:6px;color:var(--mut)}
   .tr .g b{color:var(--txt);font-weight:600;font-family:ui-monospace,Menlo,monospace}
-  .leg{display:flex;justify-content:space-between;font-size:12px;font-family:ui-monospace,Menlo,monospace;margin-top:4px}
+  .leg{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;font-family:ui-monospace,Menlo,monospace;margin-top:6px}
+  .leg>span:first-child{flex:0 0 auto;max-width:42%}
+  .leg>span:nth-child(2){flex:1 1 auto;min-width:0;font-size:11px}
+  .leg>:last-child{flex:0 0 auto;white-space:nowrap;text-align:right}
   .hint{font-size:12px;color:var(--mut);line-height:1.5}
   .empty{color:var(--mut);text-align:center;padding:20px 0}
   .cfg{display:none} .cfg.on{display:block}
