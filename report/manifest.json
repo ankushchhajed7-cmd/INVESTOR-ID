@@ -1,0 +1,16 @@
+{
+  "name": "SAMU REPORT",
+  "short_name": "SAMU REPORT",
+  "description": "Signal app, Chart Analysis, Pair Trading aur Manual trades ka alag hisaab — kaun sa method sahi chal raha hai.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0f17",
+  "theme_color": "#0b0f17",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

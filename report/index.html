@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f17">
+<title>SAMU REPORT</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="SAMU REPORT">
+<style>
+  :root{
+    --bg:#0b0f17; --card:#131a26; --card2:#0f1521; --line:#223047;
+    --txt:#e7edf6; --mut:#8aa0bd; --up:#1ea97c; --dn:#e5484d;
+    --gold:#d9b25f; --blue:#4c8dff; --warn:#f5a524; --chip:#1b2636;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px;padding:0 0 40px}
+  header{position:sticky;top:0;z-index:5;background:#0b0f17f2;backdrop-filter:blur(8px);
+    padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  header h1{font-size:17px;margin:0;font-weight:800;letter-spacing:1px;color:var(--gold)}
+  header .dot{width:9px;height:9px;border-radius:50%;background:var(--dn);flex:0 0 auto}
+  header .dot.ok{background:var(--up)}
+  header .sp{margin-left:auto;display:flex;gap:6px}
+  .wrap{padding:12px 16px;max-width:760px;margin:0 auto}
+  select,input,button{font:inherit;color:var(--txt);background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+  button{cursor:pointer}
+  button.gold{background:var(--gold);color:#1a1405;border:none;font-weight:700}
+  .chips{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 0 6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;border-radius:999px;padding:7px 12px;font-size:13px;color:var(--mut);background:var(--chip);border:1px solid var(--line);white-space:nowrap}
+  .chip.on{background:var(--gold);color:#1a1405;border-color:var(--gold);font-weight:700}
+  .chip small{opacity:.8;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+  .ttl{margin:0 0 10px;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .ttl .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600}
+  .muted{color:var(--mut)} .small{font-size:12px}
+  .up{color:var(--up)} .dn{color:var(--dn)} .gd{color:var(--gold)}
+  .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .kv div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center}
+  .kv span{display:block;color:var(--mut);font-size:10px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px}
+  .kv b{font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:right;padding:8px 4px;border-bottom:1px solid var(--line);white-space:nowrap}
+  table.cmp{font-size:12px}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--mut);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+  tr.best td{background:#d9b25f1a}
+  .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .bar{height:8px;border-radius:4px;background:var(--card2);overflow:hidden;display:flex;margin-top:4px}
+  .bar i{display:block;height:100%}
+  .tr{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
+  .tr .h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .tr .h b{font-size:15px}
+  .tag{font-size:10px;font-weight:800;letter-spacing:.6px;padding:2px 7px;border-radius:5px;border:1px solid currentColor}
+  .tr .pl{margin-left:auto;font-size:17px;font-weight:800;font-family:ui-monospace,Menlo,monospace}
+  .tr .g{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;font-size:12px;margin-top:6px;color:var(--mut)}
+  .tr .g b{color:var(--txt);font-weight:600;font-family:ui-monospace,Menlo,monospace}
+  .leg{display:flex;justify-content:space-between;font-size:12px;font-family:ui-monospace,Menlo,monospace;margin-top:4px}
+  .hint{font-size:12px;color:var(--mut);line-height:1.5}
+  .empty{color:var(--mut);text-align:center;padding:20px 0}
+  .cfg{display:none} .cfg.on{display:block}
+  .cfg label{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px}
+  .cfg input{width:100%}
+  svg{display:block;width:100%}
+  .lg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;margin-top:6px}
+  .lg i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:4px;vertical-align:middle}
+</style>
+</head>
+<body>
+<header>
+  <span class="dot" id="dot"></span>
+  <h1>SAMU REPORT</h1>
+  <div class="sp">
+    <button id="refBtn" title="Refresh">🔄</button>
+    <button id="cfgBtn" title="Settings">⚙️</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card cfg" id="cfg">
+    <p class="ttl">Settings</p>
+    <label>Data kab se gine (aaj se naya data)</label>
+    <input type="date" id="cStart">
+    <label>PERSONAL FX magic</label>
+    <input type="number" id="cPfx">
+    <label>FXBridge EA magic (Signal app)</label>
+    <input type="number" id="cFxb">
+    <label>SamuSignal EA magic (Signal app)</label>
+    <input type="number" id="cSse">
+    <label>GitHub owner / repo / branch (Investor Watcher yahin data bhejta hai)</label>
+    <input id="cOwner"><input id="cRepo" style="margin-top:6px"><input id="cBranch" style="margin-top:6px">
+    <label>Account number haath se jodo (agar list me na aaye)</label>
+    <div style="display:flex;gap:6px"><input id="cAdd" placeholder="jaise 123456789" style="flex:1"><button id="cAddBtn">+</button></div>
+    <button class="gold" id="cSave" style="width:100%;margin-top:14px">SAVE</button>
+  </div>
+
+  <div class="chips" id="acctChips"></div>
+  <div class="chips" id="perChips"></div>
+  <div class="chips" id="tabChips"></div>
+  <p class="hint" id="status">—</p>
+  <div id="view"></div>
+</div>
+
+<script>
+/* ============================================================
+   SAMU REPORT v1.00 — kaun sa method sahi chal raha hai
+   Data: Investor Account Watcher v1.05 → data/<acc>/report.json (band trades +
+   magic + comment + SL/TP + worst P/L + equity) aur live.json (khule trades).
+   Method pehchaan: magic + comment
+     777001 FXBridge / 777100 SamuSignal EA  → 📡 Signal app
+     PERSONAL FX + "PFXA…"                   → 📸 Chart Analysis (grid adds isi me)
+     PERSONAL FX + "PFXP<jodi>_<leg>"        → ⚖️ Pair Trading (jodi = 1 trade)
+     PERSONAL FX panel / haath se (magic 0)  → ✋ Manual
+     baaki magic                             → 🤖 Dusre EA
+   ============================================================ */
+const LS = {
+  get:(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DEF = {owner:'ankushchhajed7-cmd', repo:'INVESTOR-ID', branch:'main', start:'2026-10-21', pfx:111222, fxb:777001, sse:777100};
+let cfg = Object.assign({}, DEF, LS.get('sr_cfg', {}));
+let accts = LS.get('sr_accts', []);        /* [{acc}] — GitHub data/ folder se apne aap */
+let cur = LS.get('sr_cur', 'ALL');
+let per = LS.get('sr_per', 'all');
+let tab = LS.get('sr_tab', 'cmp');
+let D = {};                                 /* acc -> {rep, live, err} */
+
+const M = {
+  signal: {n:'📡 Signal App', s:'📡 Signal', c:'#4c8dff'},
+  chart:  {n:'📸 Chart Analysis', s:'📸 Chart', c:'#d9b25f'},
+  pair:   {n:'⚖️ Pair Trading', s:'⚖️ Pair', c:'#1ea97c'},
+  manual: {n:'✋ Manual', s:'✋ Manual', c:'#b07cff'},
+  other:  {n:'🤖 Dusre EA', s:'🤖 Dusre', c:'#8aa0bd'}
+};
+const PER = {today:'Aaj', d7:'7 din', d30:'30 din', all:'Sab'};
+const TABS = {cmp:'🏆 Compare', signal:'📡 Signal', chart:'📸 Chart', pair:'⚖️ Pair', manual:'✋ Manual', other:'🤖 Dusre', acc:'💰 Account'};
+
+/* ---------- helpers ---------- */
+function pt(s){                              /* "2026.10.21 18:17:39" -> ms (server time) */
+  const m = /^(\d{4})\.(\d{2})\.(\d{2})\s+(\d{2}):(\d{2}):?(\d{2})?/.exec(s || '');
+  return m ? new Date(+m[1], m[2]-1, +m[3], +m[4], +m[5], +(m[6]||0)).getTime() : 0;
+}
+const usd = v => (v >= 0 ? '+' : '−') + '$' + Math.abs(v).toFixed(2);
+const cls = v => v > 0 ? 'up' : v < 0 ? 'dn' : '';
+const fmtT = ms => { if(!ms) return '—'; const d = new Date(ms); return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + ' ' + d.toTimeString().slice(0,5) };
+const dur = ms => { if(!(ms > 0)) return '—'; const m = Math.round(ms/60000); return m < 60 ? m + 'm' : m < 1440 ? (m/60).toFixed(1) + 'h' : (m/1440).toFixed(1) + 'd' };
+const rawUrl = (acc, f) => `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/data/${acc}/${f}?t=${Date.now()}`;
+async function getJson(acc, f){ const r = await fetch(rawUrl(acc, f), {cache:'no-store'}); if(!r.ok) throw new Error(r.status + ' ' + f); return r.json() }
+
+/* ---------- method pehchaan ---------- */
+function methodOf(magic, cm){
+  cm = cm || '';
+  if(magic == cfg.fxb || magic == cfg.sse) return 'signal';
+  if(magic == cfg.pfx){
+    if(cm.startsWith('PFXP')) return 'pair';
+    if(cm.startsWith('PFXA')) return 'chart';
+    if(cm.startsWith('PFX_GRID_ADD')) return 'grid';
+    return 'manual';
+  }
+  if(magic == 0) return 'manual';
+  return 'other';
+}
+const subOf = (magic) => magic == cfg.fxb ? 'FXBridge' : magic == cfg.sse ? 'SamuSignal EA' : magic == 0 ? 'haath se' : magic == cfg.pfx ? 'PERSONAL FX' : 'magic ' + magic;
+function reasonOf(r, pl){
+  if(r === 'TP') return 'TP';
+  if(r === 'SL') return pl > 0 ? 'LOCK' : 'SL';
+  if(r === 'EA') return pl >= 0 ? 'EA ✓' : 'EA ✗';
+  if(r === 'MANUAL' || r === 'MOBILE' || r === 'WEB') return 'KHUD';
+  if(r === 'STOPOUT') return 'STOPOUT';
+  return r || '—';
+}
+const RC = {'TP':'var(--up)','LOCK':'var(--up)','EA ✓':'var(--up)','SL':'var(--dn)','EA ✗':'var(--dn)','STOPOUT':'var(--dn)','KHUD':'var(--gold)','AKELA LEG':'var(--warn)'};
+
+/* period filter — har account ka apna server "aaj" */
+function inPer(ms, rep){
+  const start = new Date(cfg.start + 'T00:00:00').getTime();
+  if(ms < start) return false;
+  const now = pt(rep.updatedAt) || Date.now();
+  if(per === 'today'){ const d = new Date(now); d.setHours(0,0,0,0); return ms >= d.getTime() }
+  if(per === 'd7') return ms >= now - 7*86400000;
+  if(per === 'd30') return ms >= now - 30*86400000;
+  return true;
+}
+
+/* ---------- band trades -> "units" (1 trade / grid basket / pair jodi) ---------- */
+function buildUnits(acc, rep){
+  const raw = (rep.closes || []).filter(c => c && c.magic !== undefined)    /* v1.05+ records */
+    .map(c => ({acc, tk:c.ticket, sym:c.sym, side:c.side, vol:+c.vol||0, open:+c.open, close:+c.close,
+      sl:+c.sl||0, tp:+c.tp||0, t0:pt(c.t), t1:pt(c.ct), pl:+c.profit||0, best:+c.peakProfit||0, worst:+c.worst||0,
+      r:c.reason, magic:+c.magic, cm:c.cm||'', pre:!!c.pre, m:methodOf(+c.magic, c.cm)}));
+  const units = [], used = new Set();
+  /* pair: jodi id se */
+  const pairs = {};
+  raw.filter(c => c.m === 'pair').forEach(c => {
+    const g = (c.cm.slice(4).split('_')[0]) || c.tk;
+    (pairs[g] = pairs[g] || []).push(c); used.add(c);
+  });
+  Object.keys(pairs).forEach(g => {
+    const L = pairs[g].sort((a,b) => a.cm.localeCompare(b.cm)), pl = L.reduce((s,c) => s + c.pl, 0);
+    units.push({acc, m:'pair', kind:'pair', id:g, legs:L, sym:L.map(c => c.sym).join(' / '), t0:Math.min(...L.map(c=>c.t0)), t1:Math.max(...L.map(c=>c.t1)),
+      pl, worst:L.reduce((s,c)=>s+c.worst,0), best:L.reduce((s,c)=>s+c.best,0), vol:L[0].vol,
+      rs: L.length < 2 ? 'AKELA LEG' : pl > 0 ? 'LOCK' : 'SL'});
+  });
+  /* PERSONAL FX / manual grid basket: same symbol, ek saath band (±20 sec) */
+  const gridable = raw.filter(c => !used.has(c) && (c.magic == cfg.pfx || c.magic == 0)).sort((a,b) => a.t0 - b.t0);
+  gridable.forEach(c => {
+    if(used.has(c) || c.m === 'grid') return;
+    const legs = [c]; used.add(c);
+    gridable.forEach(o => { if(!used.has(o) && o.sym === c.sym && o.m === 'grid' && o.t0 >= c.t0 && Math.abs(o.t1 - c.t1) <= 20000){ legs.push(o); used.add(o) } });
+    units.push(mkBasket(acc, c.m, legs));
+  });
+  gridable.filter(c => !used.has(c)).forEach(c => { used.add(c); units.push(mkBasket(acc, 'manual', [c])) });   /* akela grid add */
+  /* baaki (Signal app, dusre EA): har trade alag */
+  raw.filter(c => !used.has(c)).forEach(c => units.push(mkBasket(acc, c.m, [c])));
+  return units;
+}
+function mkBasket(acc, m, L){
+  const f = L[0], pl = L.reduce((s,c) => s + c.pl, 0);
+  return {acc, m, kind: L.length > 1 ? 'basket' : 'single', id:f.tk, legs:L, sym:f.sym, side:f.side, vol:f.vol,
+    t0:f.t0, t1:Math.max(...L.map(c => c.t1)), pl, worst:L.reduce((s,c)=>s+c.worst,0), best:L.reduce((s,c)=>s+c.best,0),
+    rs: L.length > 1 ? (pl >= 0 ? 'EA ✓' : 'EA ✗') : reasonOf(f.r, f.pl), sub:subOf(f.magic)};
+}
+
+/* ---------- stats ---------- */
+function stats(U){
+  const n = U.length, W = U.filter(u => u.pl > 0), Lo = U.filter(u => u.pl < 0);
+  const net = U.reduce((s,u) => s + u.pl, 0), gw = W.reduce((s,u) => s + u.pl, 0), gl = -Lo.reduce((s,u) => s + u.pl, 0);
+  let peak = 0, cum = 0, dd = 0;
+  [...U].sort((a,b) => a.t1 - b.t1).forEach(u => { cum += u.pl; peak = Math.max(peak, cum); dd = Math.max(dd, peak - cum) });
+  const rs = {}; U.forEach(u => rs[u.rs] = (rs[u.rs] || 0) + 1);
+  return {n, w:W.length, wr: n ? W.length / n * 100 : 0, net, aw: W.length ? gw / W.length : 0, al: Lo.length ? -gl / Lo.length : 0,
+    pf: gl > 0 ? gw / gl : (gw > 0 ? Infinity : 0), dd, mae: n ? U.reduce((s,u) => s + u.worst, 0) / n : 0,
+    maeMin: n ? Math.min(...U.map(u => u.worst)) : 0, best: n ? Math.max(...U.map(u => u.pl)) : 0, worstPl: n ? Math.min(...U.map(u => u.pl)) : 0,
+    hold: n ? U.reduce((s,u) => s + (u.t1 - u.t0), 0) / n : 0, rs};
+}
+const pfTxt = v => v === Infinity ? '∞' : v ? v.toFixed(2) : '—';
+
+/* ---------- data ---------- */
+async function discover(){
+  try{
+    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/data?ref=${cfg.branch}`, {cache:'no-store'});
+    if(!r.ok) return;
+    const j = await r.json();
+    const found = (Array.isArray(j) ? j : []).filter(x => x.type === 'dir').map(x => x.name);
+    found.forEach(a => { if(!accts.includes(a)) accts.push(a) });
+    LS.set('sr_accts', accts);
+  }catch(e){}
+}
+async function load(){
+  $('#status').textContent = 'Data aa raha hai…';
+  if(!accts.length) await discover();
+  await Promise.all(accts.map(async a => {
+    const o = {};
+    try{ o.rep = await getJson(a, 'report.json') }catch(e){ o.err = e.message }
+    try{ o.live = await getJson(a, 'live.json') }catch(e){}
+    D[a] = o;
+  }));
+  const ok = accts.filter(a => D[a] && D[a].rep);
+  $('#dot').classList.toggle('ok', ok.length > 0);
+  $('#status').textContent = ok.length
+    ? `${ok.length} account · data ${ok.map(a => D[a].rep.updatedAt).sort().pop()} · refresh ${new Date().toLocaleTimeString()}`
+    : 'Abhi koi report.json nahi mili — VPS pe Investor Account Watcher v1.05 lagao (har account pe ek).';
+  render();
+}
+
+/* ---------- views ---------- */
+function curAccs(){ return (cur === 'ALL' ? accts : [cur]).filter(a => D[a] && D[a].rep) }
+function allUnits(){
+  return curAccs().flatMap(a => buildUnits(a, D[a].rep).filter(u => inPer(u.t1, D[a].rep)));
+}
+function accLbl(a){ const r = D[a] && D[a].rep; return r ? `${r.real ? 'REAL' : 'DEMO'} ${r.login}` : a }
+
+function render(){
+  $('#acctChips').innerHTML = ['ALL', ...accts].map(a => `<button class="chip ${cur === a ? 'on' : ''}" data-a="${esc(a)}">${a === 'ALL' ? '🌐 Sab account' : esc(accLbl(a))}${a !== 'ALL' && D[a] && D[a].rep ? ` <small>${esc(D[a].rep.server || '')}</small>` : ''}</button>`).join('');
+  $('#perChips').innerHTML = Object.keys(PER).map(k => `<button class="chip ${per === k ? 'on' : ''}" data-p="${k}">${PER[k]}</button>`).join('');
+  const U = allUnits();
+  const has = k => U.some(u => u.m === k);
+  $('#tabChips').innerHTML = Object.keys(TABS).filter(k => k !== 'other' || has('other')).map(k => `<button class="chip ${tab === k ? 'on' : ''}" data-t="${k}">${TABS[k]}</button>`).join('');
+  document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { cur = b.dataset.a; LS.set('sr_cur', cur); render() });
+  document.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { per = b.dataset.p; LS.set('sr_per', per); render() });
+  document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { tab = b.dataset.t; LS.set('sr_tab', tab); render() });
+  if(!curAccs().length){ $('#view').innerHTML = `<div class="card empty">Is account ka data nahi mila.<br><span class="small">VPS pe Investor Account Watcher v1.05 chalu hai? ⚙️ me repo sahi hai?</span></div>`; return }
+  $('#view').innerHTML = tab === 'cmp' ? vCompare(U) : tab === 'acc' ? vAccount() : vMethod(tab, U);
+}
+
+/* cumulative P/L line chart (method wise) */
+function curve(series){
+  const W = 320, H = 120, pts = series.flatMap(s => s.p);
+  if(!pts.length) return '<p class="empty small">Abhi koi band trade nahi</p>';
+  const t0 = Math.min(...pts.map(p => p[0])), t1 = Math.max(...pts.map(p => p[0]), t0 + 1);
+  const vs = pts.map(p => p[1]).concat(0), lo = Math.min(...vs), hi = Math.max(...vs), sp = (hi - lo) || 1;
+  const x = t => ((t - t0) / (t1 - t0) * (W - 8) + 4).toFixed(1), y = v => (H - 6 - (v - lo) / sp * (H - 12)).toFixed(1);
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:140px">
+    <line x1="0" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="#8aa0bd" stroke-dasharray="3 3" stroke-width=".7"/>
+    ${series.map(s => `<polyline fill="none" stroke="${s.c}" stroke-width="2" points="${s.p.map(p => x(p[0]) + ',' + y(p[1])).join(' ')}"/>`).join('')}
+  </svg><div class="lg">${series.map(s => `<span><i style="background:${s.c}"></i>${s.n} ${usd(s.p.length ? s.p[s.p.length-1][1] : 0)}</span>`).join('')}</div>`;
+}
+function cumSeries(U){
+  if(!U.length) return [];
+  let c = 0;
+  return [[Math.min(...U.map(u => u.t0)), 0], ...[...U].sort((a,b) => a.t1 - b.t1).map(u => [u.t1, c += u.pl])];   /* pehle trade ke khulne se shuru */
+}
+
+function vCompare(U){
+  const keys = Object.keys(M).filter(k => U.some(u => u.m === k));
+  if(!keys.length) return `<div class="card empty">${PER[per]} me abhi koi band trade nahi.<br><span class="small">Gintee ${esc(cfg.start)} se — ⚙️ me badal sakte ho.</span></div>`;
+  const S = keys.map(k => ({k, s:stats(U.filter(u => u.m === k))}));
+  const best = S.filter(x => x.s.n >= 1).sort((a,b) => b.s.net - a.s.net)[0];
+  const rows = S.map(x => `<tr class="${best && x.k === best.k ? 'best' : ''}"><td>${M[x.k].s}</td><td>${x.s.n}</td><td>${x.s.wr.toFixed(0)}%</td>
+    <td class="${cls(x.s.net)}"><b>${usd(x.s.net)}</b></td><td>${pfTxt(x.s.pf)}</td><td class="dn">${x.s.dd ? '−$' + x.s.dd.toFixed(2) : '—'}</td><td class="dn">${usd(x.s.maeMin)}</td></tr>`).join('');
+  const tot = stats(U);
+  const few = S.filter(x => x.s.n < 10).length;
+  return `<div class="card"><p class="ttl">Kaun sa method sahi? <span class="r gd">${PER[per]}</span></p>
+    <div class="tbl"><table class="cmp"><tr><th>Method</th><th>Trd</th><th>Win</th><th>P/L</th><th>PF</th><th>Max DD</th><th>Bura</th></tr>${rows}
+    <tr><td><b>KUL</b></td><td>${tot.n}</td><td>${tot.wr.toFixed(0)}%</td><td class="${cls(tot.net)}"><b>${usd(tot.net)}</b></td><td>${pfTxt(tot.pf)}</td><td class="dn">${tot.dd ? '−$' + tot.dd.toFixed(2) : '—'}</td><td></td></tr></table></div>
+    ${best ? `<p class="hint" style="margin-top:10px">🏆 Abhi tak sabse aage: <b class="gd">${M[best.k].n}</b> (${usd(best.s.net)}).${few ? ' ⚠️ Jis method me 10 se kam trade hain uska nateeja abhi pakka nahi.' : ''}</p>` : ''}
+  </div>
+  <div class="card"><p class="ttl">Kul P/L — samay ke saath</p>${curve(S.map(x => ({n:M[x.k].n, c:M[x.k].c, p:cumSeries(U.filter(u => u.m === x.k))})))}</div>
+  <div class="card"><p class="ttl">Shabd</p><p class="hint">
+    <b>Trades</b> = Pair me 1 jodi = 1 trade, Chart Analysis me 1 grid (pehla + adds) = 1 trade.<br>
+    <b>PF</b> (Profit Factor) = kul jeet ÷ kul haar. 1 se upar = faayda.<br>
+    <b>Max DD</b> = band trades ki kamaai me sabse badi girawat (upar se neeche).<br>
+    <b>Sabse bura</b> = kisi ek trade me khule rehte sabse zyada minus (grid/jodi me legs ka jod — lagbhag).</p></div>`;
+}
+
+function vMethod(k, U){
+  const L = U.filter(u => u.m === k).sort((a,b) => b.t1 - a.t1), s = stats(L);
+  const openNow = curAccs().flatMap(a => ((D[a].live || {}).positions || []).map(p => Object.assign({acc:a}, p)))
+    .filter(p => { const m = methodOf(+p.magic, p.comment); return m === k || (k === 'chart' && m === 'grid') })
+    .sort((a,b) => String(a.comment).localeCompare(String(b.comment)));     /* pair ki dono legs saath */
+  const rsTot = Object.values(s.rs).reduce((a,b) => a + b, 0) || 1;
+  const head = `<div class="card"><p class="ttl">${M[k].n} <span class="r gd">${PER[per]}</span></p>
+    <div class="kv">
+      <div><span>Trades</span><b>${s.n}</b></div>
+      <div><span>Win %</span><b>${s.wr.toFixed(0)}%</b></div>
+      <div><span>Kul P/L</span><b class="${cls(s.net)}">${usd(s.net)}</b></div>
+      <div><span>Avg jeet</span><b class="up">${s.aw ? usd(s.aw) : '—'}</b></div>
+      <div><span>Avg haar</span><b class="dn">${s.al ? usd(s.al) : '—'}</b></div>
+      <div><span>PF</span><b>${pfTxt(s.pf)}</b></div>
+      <div><span>Max DD</span><b class="dn">${s.dd ? '−$' + s.dd.toFixed(2) : '—'}</b></div>
+      <div><span>Avg bura (DD)</span><b class="dn">${usd(s.mae)}</b></div>
+      <div><span>Avg samay</span><b>${dur(s.hold)}</b></div>
+    </div>
+    ${s.n ? `<p class="small muted" style="margin:12px 0 0">Band kaise hue</p>
+    <div class="bar">${Object.keys(s.rs).map(r => `<i style="width:${s.rs[r]/rsTot*100}%;background:${RC[r] || '#8aa0bd'}"></i>`).join('')}</div>
+    <div class="lg">${Object.keys(s.rs).map(r => `<span><i style="background:${RC[r] || '#8aa0bd'}"></i>${esc(r)} ${s.rs[r]}</span>`).join('')}</div>` : ''}
+  </div>`;
+  const live = openNow.length ? `<div class="card"><p class="ttl">Abhi khule <span class="r">${openNow.length}</span></p>${openNow.map(p => {
+      const w = (((D[p.acc].rep || {}).open) || []).find(o => o.ticket == p.ticket) || {};
+      return `<div class="leg"><span class="${p.type === 'BUY' ? 'up' : 'dn'}">${esc(p.type)} ${esc(p.symbol)} ${(+p.volume).toFixed(2)}</span><span class="muted">SL ${+p.sl || '—'} · TP ${+p.tp || '—'}${w.worst !== undefined ? ' · bura ' + usd(+w.worst) : ''}</span><b class="${cls(+p.profit)}">${usd(+p.profit)}</b></div>`;
+    }).join('')}<p class="hint" style="margin:8px 0 0">${cur === 'ALL' && accts.length > 1 ? 'Sab accounts · ' : ''}live.json se (har ~20 sec)</p></div>` : '';
+  const syms = {}; L.forEach(u => { const o = syms[u.sym] = syms[u.sym] || {n:0, pl:0, w:0}; o.n++; o.pl += u.pl; if(u.pl > 0) o.w++ });
+  const symT = L.length ? `<div class="card"><p class="ttl">Symbol ke hisaab se</p><div class="tbl"><table><tr><th>Symbol</th><th>Trades</th><th>Win</th><th>P/L</th></tr>${
+    Object.keys(syms).sort((a,b) => syms[b].pl - syms[a].pl).map(x => `<tr><td>${esc(x)}</td><td>${syms[x].n}</td><td>${(syms[x].w/syms[x].n*100).toFixed(0)}%</td><td class="${cls(syms[x].pl)}">${usd(syms[x].pl)}</td></tr>`).join('')}</table></div></div>` : '';
+  const list = `<div class="card"><p class="ttl">Band trades <span class="r">${L.length}</span></p>${L.length ? L.slice(0, 150).map(tradeCard).join('') : '<p class="empty">Abhi koi band trade nahi</p>'}</div>`;
+  return head + live + `<div class="card"><p class="ttl">Kul P/L — samay ke saath</p>${curve([{n:M[k].n, c:M[k].c, p:cumSeries(L)}])}</div>` + symT + list;
+}
+
+function tradeCard(u){
+  const f = u.legs[0], dg = v => +v ? +(+v).toPrecision(7) : '—';
+  const tagTxt = u.kind === 'pair' ? 'JODI' : u.kind === 'basket' ? `GRID ×${u.legs.length}` : (f.side || '');
+  const legs = (u.kind !== 'single') ? u.legs.map(c => `<div class="leg"><span class="${c.side === 'BUY' ? 'up' : 'dn'}">${esc(c.side)} ${esc(c.sym)} ${c.vol.toFixed(2)}</span><span class="muted">${dg(c.open)} → ${dg(c.close)}</span><span class="${cls(c.pl)}">${usd(c.pl)}</span></div>`).join('') : '';
+  return `<div class="tr"><div class="h"><b>${esc(u.sym)}</b>
+      <span class="tag" style="color:${u.kind === 'single' ? (f.side === 'BUY' ? 'var(--up)' : 'var(--dn)') : 'var(--gold)'}">${esc(tagTxt)}</span>
+      <span class="tag" style="color:${RC[u.rs] || 'var(--mut)'}">${esc(u.rs)}</span>
+      <span class="pl ${cls(u.pl)}">${usd(u.pl)}</span></div>
+    ${u.kind === 'single' ? `<div class="g">
+      <span>Lot <b>${f.vol.toFixed(2)}</b></span><span>${esc(u.sub || '')}${cur === 'ALL' && accts.length > 1 ? ' · ' + esc(accLbl(u.acc)) : ''}</span>
+      <span>Entry <b>${dg(f.open)}</b></span><span>Exit <b>${dg(f.close)}</b></span>
+      <span>SL <b>${dg(f.sl)}</b></span><span>TP <b>${dg(f.tp)}</b></span>
+      <span>Sabse bura <b class="dn">${usd(f.worst)}</b></span><span>Sabse achha <b class="up">${usd(f.best)}</b></span>
+      <span>Khula <b>${fmtT(f.t0)}</b></span><span>Band <b>${fmtT(f.t1)}</b> (${dur(f.t1 - f.t0)})</span></div>`
+    : `${legs}<div class="g"><span>Sabse bura ≈ <b class="dn">${usd(u.worst)}</b></span><span>Khula <b>${fmtT(u.t0)}</b></span><span>Band <b>${fmtT(u.t1)}</b> (${dur(u.t1 - u.t0)})</span>${cur === 'ALL' && accts.length > 1 ? `<span>${esc(accLbl(u.acc))}</span>` : ''}</div>`}
+  </div>`;
+}
+
+function vAccount(){
+  return curAccs().map(a => {
+    const r = D[a].rep, lv = D[a].live || {};
+    const start = new Date(cfg.start + 'T00:00:00').getTime();
+    const eq = (r.eq || []).map(e => ({t:pt(e.t), b:+e.b, e:+e.e, lo:+(e.lo ?? e.e)})).filter(e => e.t >= start && inPer(e.t, r));
+    let pk = 0, dd = 0, ddp = 0;
+    eq.forEach(e => { pk = Math.max(pk, e.e); const d = pk - Math.min(e.lo, e.e); if(d > dd){ dd = d; ddp = pk ? d / pk * 100 : 0 } });
+    const first = eq[0], pl = first ? (+r.balance - first.b) : 0;
+    const W = 320, H = 110;
+    let ch = '<p class="empty small">Equity data abhi kam hai (har 15 min ek point)</p>';
+    if(eq.length > 1){
+      const vs = eq.flatMap(e => [e.e, e.b, e.lo]), lo = Math.min(...vs), hi = Math.max(...vs), sp = (hi - lo) || 1;
+      const t0 = eq[0].t, t1 = eq[eq.length-1].t || t0 + 1;
+      const x = t => ((t - t0) / ((t1 - t0) || 1) * (W - 8) + 4).toFixed(1), y = v => (H - 6 - (v - lo) / sp * (H - 12)).toFixed(1);
+      ch = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:130px">
+        <polyline fill="none" stroke="#8aa0bd" stroke-width="1.3" stroke-dasharray="4 3" points="${eq.map(e => x(e.t) + ',' + y(e.b)).join(' ')}"/>
+        <polyline fill="none" stroke="#d9b25f" stroke-width="2" points="${eq.map(e => x(e.t) + ',' + y(e.e)).join(' ')}"/></svg>
+        <div class="lg"><span><i style="background:#d9b25f"></i>Equity</span><span><i style="background:#8aa0bd"></i>Balance</span></div>`;
+    }
+    return `<div class="card"><p class="ttl">${esc(accLbl(a))} <span class="r muted">${esc(r.server || '')}</span></p>
+      <div class="kv">
+        <div><span>Balance</span><b>${(+r.balance).toFixed(2)}</b></div>
+        <div><span>Equity</span><b>${(+(lv.equity ?? r.equity)).toFixed(2)}</b></div>
+        <div><span>Floating</span><b class="${cls(+lv.floating || 0)}">${usd(+lv.floating || 0)}</b></div>
+        <div><span>${PER[per]} P/L</span><b class="${cls(pl)}">${usd(pl)}</b></div>
+        <div><span>Max DD</span><b class="dn">${dd ? '−$' + dd.toFixed(2) : '—'}</b></div>
+        <div><span>Max DD %</span><b class="dn">${ddp ? ddp.toFixed(2) + '%' : '—'}</b></div>
+      </div>
+      <div style="margin-top:12px">${ch}</div>
+      <p class="hint" style="margin:8px 0 0">Khule trades: ${(lv.positions || []).length} · Pending: ${(lv.orders || []).length} · data ${esc(r.updatedAt || '')} (server time)</p></div>`;
+  }).join('');
+}
+
+/* ---------- settings ---------- */
+function openCfg(){
+  const c = $('#cfg'); c.classList.toggle('on');
+  $('#cStart').value = cfg.start; $('#cPfx').value = cfg.pfx; $('#cFxb').value = cfg.fxb; $('#cSse').value = cfg.sse;
+  $('#cOwner').value = cfg.owner; $('#cRepo').value = cfg.repo; $('#cBranch').value = cfg.branch;
+}
+$('#cfgBtn').onclick = openCfg;
+$('#cSave').onclick = () => {
+  cfg = {start:$('#cStart').value || DEF.start, pfx:+$('#cPfx').value || DEF.pfx, fxb:+$('#cFxb').value || DEF.fxb, sse:+$('#cSse').value || DEF.sse,
+    owner:$('#cOwner').value.trim() || DEF.owner, repo:$('#cRepo').value.trim() || DEF.repo, branch:$('#cBranch').value.trim() || 'main'};
+  LS.set('sr_cfg', cfg); $('#cfg').classList.remove('on'); accts = []; LS.set('sr_accts', []); load();
+};
+$('#cAddBtn').onclick = () => { const v = $('#cAdd').value.trim(); if(!v) return; if(!accts.includes(v)) accts.push(v); LS.set('sr_accts', accts); $('#cAdd').value = ''; load() };
+$('#refBtn').onclick = async () => { await discover(); load() };
+setInterval(() => { if(!document.hidden) load() }, 60000);
+
+load();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
