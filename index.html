@@ -69,9 +69,8 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.04</span></h1>
+  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.05</span></h1>
   <span class="tiny" id="clock" style="margin-left:auto"></span>
-  <a href="report/" style="color:#d9b25f;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #d9b25f;border-radius:8px;padding:4px 8px">📊 SAMU REPORT</a>
 </header>
 
 <div class="wrap">
@@ -402,41 +401,50 @@ function viewSummary(){
   <div class="tiny" style="margin:0 2px">Send this screen to the chat and I'll turn it into your own EA.</div>`;
 }
 
-// ---- shadow test comparison (v1.04) ----
+// ---- shadow test comparison (v1.05: + set E hybrid) ----
 function shadowCard(t){
   const sh=t.shadow||[];
-  if(!sh.length) return `<div class="card"><div class="tiny"><b>Shadow test:</b> abhi koi nateeja nahi. BTC Trailing Manager v1.01 ko SHADOW mode me lagao — har Buster trade band hone (aur uske 4 virtual copies band hone) ke baad yahan Buster asli vs A/B/C/D ki tulna aayegi.</div></div>`;
-  const keys=['REAL','A','B','C','D'];
+  if(!sh.length) return `<div class="card"><div class="tiny"><b>Shadow test:</b> abhi koi nateeja nahi. BTC Trailing Manager ko SHADOW mode me lagao — har Buster trade band hone (aur uske virtual copies band hone) ke baad yahan Buster asli vs A/B/C/D/E ki tulna aayegi.</div></div>`;
   const byTk={};
   sh.forEach(x=>{ (byTk[x.ticket]=byTk[x.ticket]||{})[x.set]=x; });
   const tks=Object.keys(byTk);
-  const complete=tks.filter(tk=>keys.every(k=>byTk[tk][k]));
-  const waiting=tks.filter(tk=>byTk[tk].REAL && !keys.every(k=>byTk[tk][k])).length;
-  const label=k=>{ if(k==='REAL') return 'Buster asli'; const any=sh.find(x=>x.set===k); return any?`${k} · ${any.start}/${any.dist}`:k; };
-  const rows=keys.map(k=>{
-    const p=complete.map(tk=>+byTk[tk][k].profit);
-    const tot=p.reduce((a,b)=>a+b,0);
-    return {k,label:label(k),n:p.length,tot,avg:p.length?tot/p.length:0,
-            win:p.length?Math.round(100*p.filter(v=>v>0).length/p.length):null};
-  });
-  const bestTot=complete.length?Math.max(...rows.map(r=>r.tot)):null;
-  const best=rows.find(r=>complete.length&&r.tot===bestTot);
-  const real=rows[0];
-  const body=rows.map(r=>`<tr${complete.length&&r.tot===bestTot?' style="background:#1ea97c26"':''}>
-     <td>${r.label}</td><td>${r.n}</td><td class="${cls(r.tot)}">${r.tot.toFixed(2)}</td>
-     <td class="${cls(r.avg)}">${r.avg.toFixed(2)}</td><td>${r.win!==null?r.win+'%':'—'}</td></tr>`).join('');
-  let verdict='';
-  if(complete.length&&best){
-    verdict = best.k==='REAL'
-      ? `Abhi tak Buster ka apna trailing hi sabse aage hai.`
-      : `Abhi tak <b>${best.label}</b> sabse aage — Buster asli se ${(best.tot-real.tot)>=0?'+':''}${(best.tot-real.tot).toFixed(2)} $ zyada (${complete.length} trade par).`;
-    if(complete.length<10) verdict+=` Abhi trade kam hain, 10+ hone par faisla pakka maano.`;
+  const label=k=>{
+    if(k==='REAL') return 'Buster asli';
+    const any=sh.find(x=>x.set===k); if(!any) return k;
+    return (+any.be>0) ? `${k} · BE ${any.be}+${any.beLock} → ${any.start}/${any.dist}` : `${k} · ${any.start}/${any.dist}`;
+  };
+  function table(keys, title, note){
+    const complete=tks.filter(tk=>keys.every(k=>byTk[tk][k]));
+    if(!complete.length) return '';
+    const rows=keys.map(k=>{
+      const p=complete.map(tk=>+byTk[tk][k].profit);
+      const tot=p.reduce((a,b)=>a+b,0);
+      return {k,label:label(k),n:p.length,tot,avg:tot/p.length,win:Math.round(100*p.filter(v=>v>0).length/p.length)};
+    });
+    const bestTot=Math.max(...rows.map(r=>r.tot));
+    const best=rows.find(r=>r.tot===bestTot), real=rows[0];
+    const body=rows.map(r=>`<tr${r.tot===bestTot?' style="background:#1ea97c26"':''}>
+       <td>${r.label}</td><td>${r.n}</td><td class="${cls(r.tot)}">${r.tot.toFixed(2)}</td>
+       <td class="${cls(r.avg)}">${r.avg.toFixed(2)}</td><td>${r.win}%</td></tr>`).join('');
+    let verdict = best.k==='REAL' ? `Abhi tak Buster ka apna trailing hi aage.`
+      : `Abhi tak <b>${best.label}</b> sabse aage — Buster asli se ${(best.tot-real.tot)>=0?'+':''}${(best.tot-real.tot).toFixed(2)} $ (${complete.length} trade).`;
+    if(complete.length<10) verdict+=` Trade kam hain, 10+ par faisla pakka maano.`;
+    return `<h3>${title}</h3>
+    <div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
+     <thead><tr><th>Setting (pts)</th><th>Trades</th><th>Kul $</th><th>Avg $</th><th>Win</th></tr></thead>
+     <tbody>${body}</tbody></table></div>
+     <div class="tiny" style="padding:8px 2px">${verdict} ${note}</div></div>`;
   }
-  return `<h3>Shadow test — kaunsi setting best</h3>
-  <div class="card" style="padding:4px 10px"><div class="tbl-scroll"><table>
-   <thead><tr><th>Setting (start/doori pts)</th><th>Trades</th><th>Kul $</th><th>Avg $</th><th>Win</th></tr></thead>
-   <tbody>${body}</tbody></table></div>
-   <div class="tiny" style="padding:8px 2px">${verdict} ${waiting?`${waiting} trade ke kuch virtual copies abhi khule hain, band hote hi judenge.`:''} Sirf wahi trades gine jinke asli + charon virtual band ho chuke (barabar tulna). Hara row = sabse zyada kul $.</div></div>`;
+  const waiting=tks.filter(tk=>byTk[tk].REAL && !['A','B','C','D'].every(k=>byTk[tk][k])).length;
+  const hasE=sh.some(x=>x.set==='E');
+  let html = table(['REAL','A','B','C','D'], 'Shadow test — kaunsi setting best',
+     `${waiting?waiting+' trade ke virtual abhi khule hain. ':''}Sirf wahi trades jinke asli + A-D sab band (barabar tulna). Hara = sabse zyada kul $.`);
+  html += hasE
+    ? (table(['REAL','A','B','C','D','E'], 'E (hybrid) ke saath — sirf naye trades',
+        'Ye table sirf un trades ki hai jo v1.02 lagne ke baad aaye (E sabke saath barabar tula).')
+       || `<div class="card"><div class="tiny"><b>E (hybrid):</b> virtual copies chal rahi hain — pehla trade poora band hote hi yahan table aayegi.</div></div>`)
+    : `<div class="card"><div class="tiny"><b>E (hybrid)</b> ke nateeje Manager v1.02 lagne ke baad ke naye trades se aayenge.</div></div>`;
+  return html;
 }
 
 // ---- trailing analysis (v1.03) ----
