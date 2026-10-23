@@ -1,1 +1,1 @@
-{"updatedAt":"2026.10.23 08:21:23","open":[],"events":[],"closes":[],"shadow":[]}
+{"updatedAt":"2026.10.23 08:36:39","open":[{"ticket":4031695650,"sym":"EURAUDm","side":"SELL","open":1.59357,"sl":0.00000,"peak":-0.00009,"peakProfit":-0.63,"trails":0}],"events":[{"t":"2026.10.23 08:36:39","ticket":4031695650,"sym":"EURAUDm","side":"SELL","vol":0.10,"open":1.59357,"price":1.59404,"oldSL":0.00000,"sl":0.00000,"tp":1.58929,"step":null,"lock":null,"gap":null,"move":-0.00047,"peak":-0.00009,"profit":-3.30,"n":0,"kind":"TP","pre":false}],"closes":[],"shadow":[]}
