@@ -130,7 +130,7 @@
 
 <script>
 /* ============================================================
-   SAMU REPORT v1.01 (gold + silver mirror) — kaun sa method sahi chal raha hai
+   SAMU REPORT v1.02 (gold + silver mirror) — kaun sa method sahi chal raha hai
    Data: Investor Account Watcher v1.05 → data/<acc>/report.json (band trades +
    magic + comment + SL/TP + worst P/L + equity) aur live.json (khule trades).
    Method pehchaan: magic + comment
@@ -189,6 +189,13 @@ function methodOf(magic, cm){
   if(magic == 0) return 'manual';
   return 'other';
 }
+/* v1.02: 📸 Chart Analysis ki kism — app order apni key se bhejta hai (SamuSignal v10.7.3 / Pro FIB v0.2.3),
+   EA comment = "PFXA" + key: -SN/-FN 🚀 LIMIT/STOP · -SU/-FU 🔄 ULTA · -SA/-FA ⚡ ABHI (market) · -SO/-FC baaki · purani random key = ⏳ */
+const KIND = {N:'🚀 LIMIT/STOP', U:'🔄 ULTA', A:'⚡ ABHI (market)', O:'📷 Screenshot', C:'🔍 Confirm', old:'⏳ Pehle ke (bina tag)'};
+function kindOf(cm){
+  const m = /^PFXA-([SF])([NUAOC])[0-9a-z]{8}/.exec(cm || '');
+  return m ? {k:m[2], app:m[1] === 'S' ? 'SamuSignal' : 'Pro FIB'} : {k:'old', app:''};
+}
 const subOf = (magic) => magic == cfg.fxb ? 'FXBridge' : magic == cfg.sse ? 'SamuSignal EA' : magic == 0 ? 'haath se' : magic == cfg.pfx ? 'PERSONAL FX' : 'magic ' + magic;
 function reasonOf(r, pl){
   if(r === 'TP') return 'TP';
@@ -245,7 +252,8 @@ function buildUnits(acc, rep){
 }
 function mkBasket(acc, m, L){
   const f = L[0], pl = L.reduce((s,c) => s + c.pl, 0);
-  return {acc, m, kind: L.length > 1 ? 'basket' : 'single', id:f.tk, legs:L, sym:f.sym, side:f.side, vol:f.vol,
+  const kd = m === 'chart' ? kindOf(f.cm) : null;
+  return {acc, m, kd, kind: L.length > 1 ? 'basket' : 'single', id:f.tk, legs:L, sym:f.sym, side:f.side, vol:f.vol,
     t0:f.t0, t1:Math.max(...L.map(c => c.t1)), pl, worst:L.reduce((s,c)=>s+c.worst,0), best:L.reduce((s,c)=>s+c.best,0),
     rs: L.length > 1 ? (pl >= 0 ? 'EA ✓' : 'EA ✗') : reasonOf(f.r, f.pl), sub:subOf(f.magic)};
 }
@@ -330,6 +338,20 @@ function cumSeries(U){
   return [[Math.min(...U.map(u => u.t0)), 0], ...[...U].sort((a,b) => a.t1 - b.t1).map(u => [u.t1, c += u.pl])];   /* pehle trade ke khulne se shuru */
 }
 
+/* v1.02: 📸 Chart Analysis — kism ke hisaab se (🚀 / 🔄 ULTA / ⚡ ABHI) */
+function vKinds(U){
+  const C = U.filter(u => u.m === 'chart' && u.kd); if(!C.length) return '';
+  const g = {}; C.forEach(u => { const key = u.kd.k + '|' + u.kd.app; (g[key] = g[key] || []).push(u) });
+  const order = ['N', 'U', 'A', 'O', 'C', 'old'];
+  const keys = Object.keys(g).sort((a, b) => order.indexOf(a.split('|')[0]) - order.indexOf(b.split('|')[0]) || a.localeCompare(b));
+  const rows = keys.map(key => { const [k, app] = key.split('|'), s = stats(g[key]);
+    return `<tr><td>${KIND[k]}${app ? ` <small class="muted">${esc(app)}</small>` : ''}</td><td>${s.n}</td><td>${s.wr.toFixed(0)}%</td><td class="${cls(s.net)}"><b>${usd(s.net)}</b></td>
+      <td>${s.n ? usd(s.net / s.n) : '—'}</td><td>${pfTxt(s.pf)}</td><td class="dn">${s.n ? usd(s.mae) : '—'}</td><td>${dur(s.hold)}</td></tr>` }).join('');
+  return `<div class="card"><p class="ttl">📸 Chart Analysis — kism ke hisaab se <span class="r gd">${PER[per]}</span></p>
+    <div class="tbl"><table class="cmp"><tr><th>Kism</th><th>Trd</th><th>Win</th><th>P/L</th><th>/trade</th><th>PF</th><th>Avg bura</th><th>Samay</th></tr>${rows}</table></div>
+    <p class="hint" style="margin-top:8px">Kism order ki key se (SamuSignal v10.7.3 / Pro FIB v0.2.3 ke baad). ⏳ = usse pehle ke trade. 10 se kam trade = abhi pakka nahi.</p></div>`;
+}
+
 function vCompare(U){
   const keys = Object.keys(M).filter(k => U.some(u => u.m === k));
   if(!keys.length) return `<div class="card empty">${PER[per]} me abhi koi band trade nahi.<br><span class="small">Gintee ${esc(cfg.start)} se — ⚙️ me badal sakte ho.</span></div>`;
@@ -344,6 +366,7 @@ function vCompare(U){
     <tr><td><b>KUL</b></td><td>${tot.n}</td><td>${tot.wr.toFixed(0)}%</td><td class="${cls(tot.net)}"><b>${usd(tot.net)}</b></td><td>${pfTxt(tot.pf)}</td><td class="dn">${tot.dd ? '−$' + tot.dd.toFixed(2) : '—'}</td><td></td></tr></table></div>
     ${best ? `<p class="hint" style="margin-top:10px">🏆 Abhi tak sabse aage: <b class="gd">${M[best.k].n}</b> (${usd(best.s.net)}).${few ? ' ⚠️ Jis method me 10 se kam trade hain uska nateeja abhi pakka nahi.' : ''}</p>` : ''}
   </div>
+  ${vKinds(U)}
   <div class="card"><p class="ttl">Kul P/L — samay ke saath</p>${curve(S.map(x => ({n:M[x.k].n, c:M[x.k].c, p:cumSeries(U.filter(u => u.m === x.k))})))}</div>
   <div class="card"><p class="ttl">Shabd</p><p class="hint">
     <b>Trades</b> = Pair me 1 jodi = 1 trade, Chart Analysis me 1 grid (pehla + adds) = 1 trade.<br>
@@ -382,7 +405,7 @@ function vMethod(k, U){
   const symT = L.length ? `<div class="card"><p class="ttl">Symbol ke hisaab se</p><div class="tbl"><table><tr><th>Symbol</th><th>Trades</th><th>Win</th><th>P/L</th></tr>${
     Object.keys(syms).sort((a,b) => syms[b].pl - syms[a].pl).map(x => `<tr><td>${esc(x)}</td><td>${syms[x].n}</td><td>${(syms[x].w/syms[x].n*100).toFixed(0)}%</td><td class="${cls(syms[x].pl)}">${usd(syms[x].pl)}</td></tr>`).join('')}</table></div></div>` : '';
   const list = `<div class="card"><p class="ttl">Band trades <span class="r">${L.length}</span></p>${L.length ? L.slice(0, 150).map(tradeCard).join('') : '<p class="empty">Abhi koi band trade nahi</p>'}</div>`;
-  return head + live + `<div class="card"><p class="ttl">Kul P/L — samay ke saath</p>${curve([{n:M[k].n, c:M[k].c, p:cumSeries(L)}])}</div>` + symT + list;
+  return head + (k === 'chart' ? vKinds(U) : '') + live + `<div class="card"><p class="ttl">Kul P/L — samay ke saath</p>${curve([{n:M[k].n, c:M[k].c, p:cumSeries(L)}])}</div>` + symT + list;
 }
 
 function tradeCard(u){
@@ -392,6 +415,7 @@ function tradeCard(u){
   return `<div class="tr"><div class="h"><b>${esc(u.sym)}</b>
       <span class="tag" style="color:${u.kind === 'single' ? (f.side === 'BUY' ? 'var(--up)' : 'var(--dn)') : 'var(--gold)'}">${esc(tagTxt)}</span>
       <span class="tag" style="color:${RC[u.rs] || 'var(--mut)'}">${esc(u.rs)}</span>
+      ${u.kd && u.kd.k !== 'old' ? `<span class="tag">${esc(KIND[u.kd.k].split(' ')[0])}</span>` : ''}
       <span class="pl ${cls(u.pl)}">${usd(u.pl)}</span></div>
     ${u.kind === 'single' ? `<div class="g">
       <span>Lot <b>${f.vol.toFixed(2)}</b></span><span>${esc(u.sub || '')}${cur === 'ALL' && accts.length > 1 ? ' · ' + esc(accLbl(u.acc)) : ''}</span>
