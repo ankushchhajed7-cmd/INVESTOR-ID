@@ -1,1 +1,1 @@
-{"updatedAt":"2026.10.29 16:30:56","open":[],"events":[],"closes":[],"shadow":[]}
+{"updatedAt":"2026.10.29 17:04:03","open":[{"ticket":1014510066,"sym":"GBPJPYc","side":"BUY","open":210.291,"sl":0.000,"peak":0.038,"peakProfit":0.24,"trails":0}],"events":[{"t":"2026.10.29 17:04:03","ticket":1014510066,"sym":"GBPJPYc","side":"BUY","vol":0.01,"open":210.291,"price":210.329,"oldSL":0.000,"sl":0.000,"tp":210.765,"step":null,"lock":null,"gap":null,"move":0.038,"peak":0.038,"profit":0.24,"n":0,"kind":"TP","pre":false}],"closes":[],"shadow":[]}
