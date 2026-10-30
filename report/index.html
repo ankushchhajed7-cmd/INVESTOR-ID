@@ -130,7 +130,7 @@
 
 <script>
 /* ============================================================
-   SAMU REPORT v1.02 (gold + silver mirror) — kaun sa method sahi chal raha hai
+   SAMU REPORT v1.03 (gold + silver mirror) — kaun sa method sahi chal raha hai
    Data: Investor Account Watcher v1.05 → data/<acc>/report.json (band trades +
    magic + comment + SL/TP + worst P/L + equity) aur live.json (khule trades).
    Method pehchaan: magic + comment
@@ -191,9 +191,9 @@ function methodOf(magic, cm){
 }
 /* v1.02: 📸 Chart Analysis ki kism — app order apni key se bhejta hai (SamuSignal v10.7.3 / Pro FIB v0.2.3),
    EA comment = "PFXA" + key: -SN/-FN 🚀 LIMIT/STOP · -SU/-FU 🔄 ULTA · -SA/-FA ⚡ ABHI (market) · -SO/-FC baaki · purani random key = ⏳ */
-const KIND = {N:'🚀 LIMIT/STOP', U:'🔄 ULTA', A:'⚡ ABHI (market)', O:'📷 Screenshot', C:'🔍 Confirm', old:'⏳ Pehle ke (bina tag)'};
+const KIND = {N:'🚀 LIMIT/STOP', U:'🔄 ULTA', A:'⚡ ABHI (market)', K:'✍️ Khud mark', O:'📷 Screenshot', C:'🔍 Confirm', old:'⏳ Pehle ke (bina tag)'};
 function kindOf(cm){
-  const m = /^PFXA-([SF])([NUAOC])[0-9a-z]{8}/.exec(cm || '');
+  const m = /^PFXA-([SF])([NUAKOC])[0-9a-z]{8}/.exec(cm || '');
   return m ? {k:m[2], app:m[1] === 'S' ? 'SamuSignal' : 'Pro FIB'} : {k:'old', app:''};
 }
 const subOf = (magic) => magic == cfg.fxb ? 'FXBridge' : magic == cfg.sse ? 'SamuSignal EA' : magic == 0 ? 'haath se' : magic == cfg.pfx ? 'PERSONAL FX' : 'magic ' + magic;
@@ -342,7 +342,7 @@ function cumSeries(U){
 function vKinds(U){
   const C = U.filter(u => u.m === 'chart' && u.kd); if(!C.length) return '';
   const g = {}; C.forEach(u => { const key = u.kd.k + '|' + u.kd.app; (g[key] = g[key] || []).push(u) });
-  const order = ['N', 'U', 'A', 'O', 'C', 'old'];
+  const order = ['N', 'U', 'A', 'K', 'O', 'C', 'old'];
   const keys = Object.keys(g).sort((a, b) => order.indexOf(a.split('|')[0]) - order.indexOf(b.split('|')[0]) || a.localeCompare(b));
   const rows = keys.map(key => { const [k, app] = key.split('|'), s = stats(g[key]);
     return `<tr><td>${KIND[k]}${app ? ` <small class="muted">${esc(app)}</small>` : ''}</td><td>${s.n}</td><td>${s.wr.toFixed(0)}%</td><td class="${cls(s.net)}"><b>${usd(s.net)}</b></td>
