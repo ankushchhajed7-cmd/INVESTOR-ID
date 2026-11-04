@@ -1,1 +1,1 @@
-{"updatedAt":"2026.11.04 05:24:44","open":[],"events":[],"closes":[],"shadow":[]}
+{"updatedAt":"2026.11.04 14:12:04","open":[],"events":[],"closes":[{"t":"2026.11.04 06:30:00","ct":"2026.11.04 14:12:04","ticket":4983477098,"sym":"XAUUSDm","side":"BUY","vol":0.01,"open":4017.467,"close":4043.212,"move":25.745,"peak":33.946,"giveBack":8.201,"profit":25.74,"peakProfit":33.94,"trails":0,"first":null,"firstLock":null,"reason":"MOBILE","magic":30836,"cm":"Ninja Flow Iron","sl":3941.633,"tp":4092.916,"worst":-6.58,"pre":false}],"shadow":[]}
