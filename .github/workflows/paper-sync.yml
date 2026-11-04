@@ -1,0 +1,43 @@
+# SAMUSIGNAL AI — paper trades: Firebase /samuai/paper  ->  data/paper/ (har 15 min)
+# Secrets (repo Settings -> Secrets and variables -> Actions): FIREBASE_URL, FIREBASE_AUTH
+name: Paper trades sync (SAMUSIGNAL AI)
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: paper-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Firebase se paper trades
+        env:
+          FB_URL: ${{ secrets.FIREBASE_URL }}
+          FB_AUTH: ${{ secrets.FIREBASE_AUTH }}
+        run: |
+          set -e
+          if [ -z "$FB_URL" ]; then echo "::error::FIREBASE_URL secret nahi mila"; exit 1; fi
+          B="${FB_URL%/}"; case "$B" in http*) ;; *) B="https://$B";; esac
+          U="$B/samuai/paper.json"; if [ -n "$FB_AUTH" ]; then U="$U?auth=$FB_AUTH"; fi
+          curl -sfS --max-time 60 "$U" -o /tmp/paper.json
+          python3 scripts/paper_build.py /tmp/paper.json data/paper
+      - name: Commit (sirf badlav ho to)
+        run: |
+          git config user.name "paper-sync"
+          git config user.email "paper-sync@users.noreply.github.com"
+          git add data/paper
+          if git diff --cached --quiet; then echo "koi badlav nahi"; exit 0; fi
+          git commit -q -m "paper update $(date -u +%H:%M)"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin main && git push -q origin HEAD:main; then exit 0; fi
+            sleep $((i*5))
+          done
+          exit 1
