@@ -1,1 +1,137 @@
-[]
+[
+ {
+  "adx": 32.3,
+  "ai": {
+   "agree": false,
+   "conf": 85
+  },
+  "at": 1793815089274,
+  "buyPct": 60,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 213.085,
+  "expiresAt": 1793818689274,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmw2f6tqf",
+  "mt5": false,
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 212.871,
+  "src": "td",
+  "sym": "GBP/JPY",
+  "tp": 213.3,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 23.7,
+  "ai": {
+   "agree": false,
+   "conf": 85
+  },
+  "at": 1793815123159,
+  "buyPct": 93,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 0.70055,
+  "expiresAt": 1793818723159,
+  "fibX": 0.382,
+  "grade": "B",
+  "id": "rmw2f7jvn",
+  "mt5": false,
+  "regime": "Weak trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.69968,
+  "src": "td",
+  "sym": "AUD/USD",
+  "tp": 0.70143,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 17.9,
+  "ai": {
+   "agree": false,
+   "conf": 85
+  },
+  "at": 1793817107047,
+  "buyPct": 63,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 89.012,
+  "expiresAt": 1793820707047,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmw2ge2np",
+  "mt5": true,
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 88.865,
+  "src": "td",
+  "sym": "NZD/JPY",
+  "tp": 89.159,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 11.9,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1793817144748,
+  "buyPct": 7,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.83425,
+  "expiresAt": 1793820744748,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmw2gevqz",
+  "mt5": false,
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.83502,
+  "src": "td",
+  "sym": "EUR/GBP",
+  "tp": 0.83347,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 16,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1793817783212,
+  "buyPct": 67,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 2.39424,
+  "expiresAt": 1793821383212,
+  "fibX": 0.5,
+  "grade": "B",
+  "id": "rmw2gske3",
+  "mt5": false,
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 2.39201,
+  "src": "td",
+  "sym": "GBP/NZD",
+  "tp": 2.39647,
+  "v": "1.5.0"
+ }
+]
