@@ -44,8 +44,8 @@
   "mt5": false,
   "regime": "Weak trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 0.69968,
   "src": "td",
@@ -72,7 +72,8 @@
   "regime": "Range",
   "res": {
    "done": false,
-   "state": "PENDING"
+   "filledAt": 1793817900000,
+   "state": "OPEN"
   },
   "sl": 88.865,
   "src": "td",
@@ -98,8 +99,8 @@
   "mt5": false,
   "regime": "Range",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 0.83502,
   "src": "td",
@@ -125,13 +126,122 @@
   "mt5": false,
   "regime": "Range",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 2.39201,
   "src": "td",
   "sym": "GBP/NZD",
   "tp": 2.39647,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 18.4,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1793820008169,
+  "buyPct": 53,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 0.70067,
+  "expiresAt": 1793823608169,
+  "fibX": 0.5,
+  "grade": "B",
+  "id": "rmw2i496e",
+  "mt5": false,
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "filledAt": 1793820600000,
+   "state": "OPEN"
+  },
+  "sl": 0.69985,
+  "src": "td",
+  "sym": "AUD/USD",
+  "tp": 0.7015,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 15.1,
+  "ai": {
+   "agree": false,
+   "conf": 75
+  },
+  "at": 1793820037147,
+  "buyPct": 67,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 158.354,
+  "expiresAt": 1793823637147,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmw2i4vjb",
+  "mt5": false,
+  "regime": "Range",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 158.18,
+  "src": "td",
+  "sym": "USD/JPY",
+  "tp": 158.528,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 11.3,
+  "ai": {
+   "agree": true,
+   "conf": 78
+  },
+  "at": 1793828182123,
+  "buyPct": 70,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 158.322,
+  "expiresAt": 1793831782123,
+  "fibX": 0.786,
+  "grade": "B",
+  "id": "rmw2mzg8s",
+  "mt5": true,
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 158.265,
+  "src": "td",
+  "sym": "USD/JPY",
+  "tp": 158.379,
+  "v": "1.5.0"
+ },
+ {
+  "adx": 10.5,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1793828408647,
+  "buyPct": 57,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 1.99669,
+  "expiresAt": 1793832008647,
+  "fibX": 0.618,
+  "grade": "B",
+  "id": "rmw2n4b14",
+  "mt5": false,
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.99534,
+  "src": "td",
+  "sym": "EUR/NZD",
+  "tp": 1.99805,
   "v": "1.5.0"
  }
 ]

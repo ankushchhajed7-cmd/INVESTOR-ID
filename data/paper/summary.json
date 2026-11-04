@@ -1,65 +1,74 @@
 {
- "last_signal_at": 1793817783212,
+ "last_signal_at": 1793828408647,
  "total": {
-  "signals": 5,
+  "signals": 9,
   "win": 0,
   "loss": 0,
-  "expired": 0,
+  "expired": 4,
   "open_or_pending": 5,
   "win_rate": null,
   "net_pips": 0
  },
  "by_grade": {
   "A": {
-   "signals": 3,
+   "signals": 4,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 3,
+   "expired": 2,
+   "open_or_pending": 2,
    "win_rate": null,
    "net_pips": 0
   },
   "B": {
-   "signals": 2,
+   "signals": 5,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 2,
+   "expired": 2,
+   "open_or_pending": 3,
    "win_rate": null,
    "net_pips": 0
   }
  },
  "by_ai": {
   "agree": {
-   "signals": 2,
+   "signals": 5,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 2,
+   "expired": 2,
+   "open_or_pending": 3,
    "win_rate": null,
    "net_pips": 0
   },
   "disagree": {
-   "signals": 3,
+   "signals": 4,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 3,
+   "expired": 2,
+   "open_or_pending": 2,
    "win_rate": null,
    "net_pips": 0
   }
  },
  "by_pair": {
   "AUD/USD": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
    "loss": 0,
-   "expired": 0,
+   "expired": 1,
    "open_or_pending": 1,
    "win_rate": null,
    "net_pips": 0
   },
   "EUR/GBP": {
+   "signals": 1,
+   "win": 0,
+   "loss": 0,
+   "expired": 1,
+   "open_or_pending": 0,
+   "win_rate": null,
+   "net_pips": 0
+  },
+  "EUR/NZD": {
    "signals": 1,
    "win": 0,
    "loss": 0,
@@ -81,8 +90,8 @@
    "signals": 1,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 1,
+   "expired": 1,
+   "open_or_pending": 0,
    "win_rate": null,
    "net_pips": 0
   },
@@ -94,15 +103,24 @@
    "open_or_pending": 1,
    "win_rate": null,
    "net_pips": 0
+  },
+  "USD/JPY": {
+   "signals": 2,
+   "win": 0,
+   "loss": 0,
+   "expired": 1,
+   "open_or_pending": 1,
+   "win_rate": null,
+   "net_pips": 0
   }
  },
  "by_dir": {
   "BUY": {
-   "signals": 4,
+   "signals": 8,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 4,
+   "expired": 3,
+   "open_or_pending": 5,
    "win_rate": null,
    "net_pips": 0
   },
@@ -110,28 +128,28 @@
    "signals": 1,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 1,
+   "expired": 1,
+   "open_or_pending": 0,
    "win_rate": null,
    "net_pips": 0
   }
  },
  "sent_to_mt5": {
   "no": {
-   "signals": 4,
+   "signals": 7,
    "win": 0,
    "loss": 0,
-   "expired": 0,
-   "open_or_pending": 4,
+   "expired": 4,
+   "open_or_pending": 3,
    "win_rate": null,
    "net_pips": 0
   },
   "yes": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
    "loss": 0,
    "expired": 0,
-   "open_or_pending": 1,
+   "open_or_pending": 2,
    "win_rate": null,
    "net_pips": 0
   }
