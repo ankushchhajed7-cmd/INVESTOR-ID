@@ -1,1 +1,1 @@
-{"days":60,"deals":[],"orders":[]}
+{"days":60,"deals":[{"ticket":4394797982,"time":"2026.11.04 06:30:00","symbol":"XAUUSDm","type":"BUY","entry":"IN","volume":0.01,"price":4017.467,"profit":0.00,"magic":30836,"comment":"Ninja Flow Iron"}],"orders":[{"ticket":4983477098,"symbol":"XAUUSDm","type":"BUY","state":"FILLED","volume":0.01,"price":0.000,"sl":3941.633,"tp":4092.916,"magic":30836,"comment":"Ninja Flow Iron","setup":"2026.11.04 06:30:00","done":"2026.11.04 06:30:00"}]}
