@@ -1,0 +1,47 @@
+# SamuSignal Data Feed ki jaanch (sirf haath se chalao) — Firebase /feed padhkar log me haalat likhta hai.
+# Koi commit nahi, koi key log me nahi. Secrets: FIREBASE_URL, FIREBASE_AUTH (paper-sync wale hi).
+name: Data Feed check
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Feed ki haalat
+        env:
+          FB_URL: ${{ secrets.FIREBASE_URL }}
+          FB_AUTH: ${{ secrets.FIREBASE_AUTH }}
+        run: |
+          B="${FB_URL%/}"; case "$B" in http*) ;; *) B="https://$B";; esac
+          A=""; if [ -n "$FB_AUTH" ]; then A="?auth=$FB_AUTH"; fi
+          curl -sS --max-time 30 "$B/feed/meta.json$A" -o meta.json || true
+          curl -sS --max-time 30 "$B/feed/live.json$A" -o live.json || true
+          curl -sS --max-time 30 "$B/feed/bars/1min/EURUSD.json$A" -o bars.json || true
+          python3 - <<'PY'
+          import json, time
+          def load(p):
+              try: return json.load(open(p))
+              except Exception as e: return {'_err': str(e)}
+          now = time.time()
+          m = load('meta.json') or {}
+          print('META:', json.dumps({k: m.get(k) for k in ('at', 'acct', 'n', 'ver', 'off', 'error', '_err') if k in m}))
+          if isinstance(m, dict) and m.get('at'):
+              print('FEED_AGE_SEC:', int(now - m['at']), '(120 se kam = chalu)')
+          L = load('live.json') or {}
+          if isinstance(L, dict) and '_err' not in L and 'error' not in L:
+              print('LIVE_SYMBOLS:', len(L))
+              for s in ('EURUSD', 'GBPUSD', 'XAUUSD'):
+                  q = L.get(s) or {}
+                  if q: print('LIVE', s, 'bid', q.get('b'), 'spread', q.get('sp'), 'age_sec', int(now - (q.get('t') or now)))
+          else:
+              print('LIVE:', json.dumps(L)[:200])
+          b = load('bars.json')
+          if isinstance(b, str) and b:
+              last = b.split(';')[-1].split(',')
+              print('BARS_1MIN_EURUSD:', len(b.split(';')), 'candles, last t', last[0], 'age_sec', int(now - int(last[0])))
+          else:
+              print('BARS:', json.dumps(b)[:200])
+          PY
