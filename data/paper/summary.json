@@ -1,68 +1,68 @@
 {
- "last_signal_at": 1793873803449,
+ "last_signal_at": 1793894793546,
  "total": {
-  "signals": 32,
-  "win": 3,
-  "loss": 7,
-  "expired": 18,
+  "signals": 39,
+  "win": 5,
+  "loss": 9,
+  "expired": 21,
   "open_or_pending": 4,
-  "win_rate": 30.0,
-  "net_pips": -26.0
+  "win_rate": 35.7,
+  "net_pips": -32.9
  },
  "by_grade": {
   "A": {
-   "signals": 15,
+   "signals": 16,
    "win": 1,
    "loss": 5,
-   "expired": 8,
+   "expired": 9,
    "open_or_pending": 1,
    "win_rate": 16.7,
    "net_pips": -21.5
   },
   "B": {
-   "signals": 16,
-   "win": 2,
-   "loss": 2,
-   "expired": 9,
+   "signals": 21,
+   "win": 4,
+   "loss": 3,
+   "expired": 11,
    "open_or_pending": 3,
-   "win_rate": 50.0,
-   "net_pips": -4.5
+   "win_rate": 57.1,
+   "net_pips": -4.3
   },
   "C": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
-   "loss": 0,
+   "loss": 1,
    "expired": 1,
    "open_or_pending": 0,
-   "win_rate": null,
-   "net_pips": 0
+   "win_rate": 0.0,
+   "net_pips": -7.1
   }
  },
  "by_ai": {
   "agree": {
-   "signals": 13,
-   "win": 1,
-   "loss": 4,
-   "expired": 5,
-   "open_or_pending": 3,
-   "win_rate": 20.0,
-   "net_pips": -29.8
+   "signals": 16,
+   "win": 3,
+   "loss": 5,
+   "expired": 8,
+   "open_or_pending": 0,
+   "win_rate": 37.5,
+   "net_pips": -29.6
   },
   "disagree": {
-   "signals": 18,
+   "signals": 21,
    "win": 2,
-   "loss": 3,
+   "loss": 4,
    "expired": 12,
-   "open_or_pending": 1,
-   "win_rate": 40.0,
-   "net_pips": 3.8
+   "open_or_pending": 3,
+   "win_rate": 33.3,
+   "net_pips": -3.3
   },
   "none": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
    "loss": 0,
    "expired": 1,
-   "open_or_pending": 0,
+   "open_or_pending": 1,
    "win_rate": null,
    "net_pips": 0
   }
@@ -87,13 +87,13 @@
    "net_pips": 0
   },
   "AUD/USD": {
-   "signals": 4,
-   "win": 1,
+   "signals": 6,
+   "win": 2,
    "loss": 0,
-   "expired": 2,
+   "expired": 3,
    "open_or_pending": 1,
    "win_rate": 100.0,
-   "net_pips": 8.3
+   "net_pips": 12.9
   },
   "CHF/JPY": {
    "signals": 2,
@@ -133,12 +133,21 @@
   },
   "EUR/GBP": {
    "signals": 2,
-   "win": 0,
+   "win": 1,
    "loss": 0,
    "expired": 1,
-   "open_or_pending": 1,
-   "win_rate": null,
-   "net_pips": 0
+   "open_or_pending": 0,
+   "win_rate": 100.0,
+   "net_pips": 4.8
+  },
+  "EUR/JPY": {
+   "signals": 1,
+   "win": 0,
+   "loss": 1,
+   "expired": 0,
+   "open_or_pending": 0,
+   "win_rate": 0.0,
+   "net_pips": -7.1
   },
   "EUR/NZD": {
    "signals": 1,
@@ -168,11 +177,11 @@
    "net_pips": 0
   },
   "GBP/JPY": {
-   "signals": 2,
+   "signals": 4,
    "win": 0,
    "loss": 0,
-   "expired": 2,
-   "open_or_pending": 0,
+   "expired": 3,
+   "open_or_pending": 1,
    "win_rate": null,
    "net_pips": 0
   },
@@ -186,13 +195,13 @@
    "net_pips": 0
   },
   "GBP/USD": {
-   "signals": 2,
+   "signals": 3,
    "win": 0,
-   "loss": 2,
+   "loss": 3,
    "expired": 0,
    "open_or_pending": 0,
    "win_rate": 0.0,
-   "net_pips": -12.8
+   "net_pips": -22.0
   },
   "NZD/JPY": {
    "signals": 1,
@@ -204,11 +213,11 @@
    "net_pips": 14.7
   },
   "NZD/USD": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
    "loss": 1,
    "expired": 0,
-   "open_or_pending": 0,
+   "open_or_pending": 1,
    "win_rate": 0.0,
    "net_pips": -7.4
   },
@@ -225,8 +234,8 @@
    "signals": 6,
    "win": 0,
    "loss": 0,
-   "expired": 5,
-   "open_or_pending": 1,
+   "expired": 6,
+   "open_or_pending": 0,
    "win_rate": null,
    "net_pips": 0
   },
@@ -242,64 +251,170 @@
  },
  "by_dir": {
   "BUY": {
-   "signals": 23,
-   "win": 3,
-   "loss": 5,
-   "expired": 13,
-   "open_or_pending": 2,
-   "win_rate": 37.5,
-   "net_pips": -13.7
+   "signals": 25,
+   "win": 4,
+   "loss": 7,
+   "expired": 14,
+   "open_or_pending": 0,
+   "win_rate": 36.4,
+   "net_pips": -25.4
   },
   "SELL": {
-   "signals": 9,
-   "win": 0,
+   "signals": 14,
+   "win": 1,
    "loss": 2,
-   "expired": 5,
-   "open_or_pending": 2,
-   "win_rate": 0.0,
-   "net_pips": -12.3
+   "expired": 7,
+   "open_or_pending": 4,
+   "win_rate": 33.3,
+   "net_pips": -7.5
   }
  },
  "sent_to_mt5": {
   "no": {
-   "signals": 28,
-   "win": 2,
-   "loss": 7,
-   "expired": 16,
-   "open_or_pending": 3,
-   "win_rate": 22.2,
-   "net_pips": -40.7
+   "signals": 33,
+   "win": 3,
+   "loss": 9,
+   "expired": 17,
+   "open_or_pending": 4,
+   "win_rate": 25.0,
+   "net_pips": -52.2
   },
   "yes": {
-   "signals": 4,
-   "win": 1,
+   "signals": 6,
+   "win": 2,
    "loss": 0,
-   "expired": 2,
-   "open_or_pending": 1,
+   "expired": 4,
+   "open_or_pending": 0,
    "win_rate": 100.0,
-   "net_pips": 14.7
+   "net_pips": 19.3
   }
  },
- "limit_usd": -2.99,
+ "limit_usd": -3.27,
+ "trail_vs_tp1": {
+  "tp1": {
+   "signals": 23,
+   "win": 5,
+   "loss": 9,
+   "expired": 5,
+   "open_or_pending": 4,
+   "win_rate": 35.7,
+   "net_pips": -32.9
+  },
+  "tp1_usd": -3.27,
+  "trail": {
+   "signals": 23,
+   "tp": 4,
+   "lock": 1,
+   "loss": 9,
+   "win_rate": 35.7,
+   "usd": -3.54
+  }
+ },
+ "council": {
+  "all": {
+   "signals": 1,
+   "win": 0,
+   "loss": 0,
+   "open_or_pending": 1,
+   "win_rate": null,
+   "usd": 0
+  },
+  "by_order": {
+   "LIMIT": {
+    "signals": 1,
+    "win": 0,
+    "loss": 0,
+    "open_or_pending": 1,
+    "win_rate": null,
+    "usd": 0
+   },
+   "MARKET": {
+    "signals": 0,
+    "win": 0,
+    "loss": 0,
+    "open_or_pending": 0,
+    "win_rate": null,
+    "usd": 0
+   }
+  },
+  "agree": {
+   "signals": 1,
+   "win": 0,
+   "loss": 0,
+   "open_or_pending": 1,
+   "win_rate": null,
+   "usd": 0
+  },
+  "disagree": {
+   "signals": 0,
+   "win": 0,
+   "loss": 0,
+   "open_or_pending": 0,
+   "win_rate": null,
+   "usd": 0
+  },
+  "our_signal_by_verdict": {
+   "yes": {
+    "signals": 1,
+    "win": 0,
+    "loss": 0,
+    "expired": 0,
+    "open_or_pending": 1,
+    "win_rate": null,
+    "net_pips": 0,
+    "usd": 0
+   },
+   "weak": {
+    "signals": 0,
+    "win": 0,
+    "loss": 0,
+    "expired": 0,
+    "open_or_pending": 0,
+    "win_rate": null,
+    "net_pips": 0,
+    "usd": 0
+   },
+   "wait": {
+    "signals": 0,
+    "win": 0,
+    "loss": 0,
+    "expired": 0,
+    "open_or_pending": 0,
+    "win_rate": null,
+    "net_pips": 0,
+    "usd": 0
+   },
+   "no": {
+    "signals": 0,
+    "win": 0,
+    "loss": 0,
+    "expired": 0,
+    "open_or_pending": 0,
+    "win_rate": null,
+    "net_pips": 0,
+    "usd": 0
+   }
+  }
+ },
  "limit_vs_market": {
   "all": {
    "limit": {
-    "signals": 5,
-    "win": 0,
-    "loss": 1,
-    "expired": 2,
-    "open_or_pending": 2,
-    "win_rate": 0.0,
-    "net_pips": -5.1
-   },
-   "limit_usd": -0.51,
-   "market": {
-    "signals": 5,
+    "signals": 12,
     "win": 1,
-    "loss": 1,
-    "open": 3,
-    "win_rate": 50.0,
-    "usd": -0.73
+    "loss": 3,
+    "expired": 5,
+    "open_or_pending": 3,
+    "win_rate": 25.0,
+    "net_pips": -16.8
+   },
+   "limit_usd": -1.42,
+   "market": {
+    "signals": 12,
+    "win": 6,
+    "loss": 4,
+    "open": 2,
+    "win_rate": 60.0,
+    "usd": 1.62
    }
   },
   "rule_ok": {
@@ -324,22 +439,22 @@
   },
   "rule_no": {
    "limit": {
-    "signals": 5,
-    "win": 0,
-    "loss": 1,
-    "expired": 2,
-    "open_or_pending": 2,
-    "win_rate": 0.0,
-    "net_pips": -5.1
-   },
-   "limit_usd": -0.51,
-   "market": {
-    "signals": 5,
+    "signals": 12,
     "win": 1,
-    "loss": 1,
-    "open": 3,
-    "win_rate": 50.0,
-    "usd": -0.73
+    "loss": 3,
+    "expired": 5,
+    "open_or_pending": 3,
+    "win_rate": 25.0,
+    "net_pips": -16.8
+   },
+   "limit_usd": -1.42,
+   "market": {
+    "signals": 12,
+    "win": 6,
+    "loss": 4,
+    "open": 2,
+    "win_rate": 60.0,
+    "usd": 1.62
    }
   }
  }
