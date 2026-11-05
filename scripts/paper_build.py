@@ -33,6 +33,13 @@ def mstats(rs):
             'win_rate': round(100 * win / fin, 1) if fin else None, 'usd': round(usd, 2)}
 def lusd(rs):
     return round(sum(((r.get('res') or {}).get('usd') or 0) for r in rs if state(r).startswith('TP') or state(r) == 'SL'), 2)
+def tstate(r): return ((r.get('trail') or {}).get('state')) or 'PENDING'
+def tstats(rs):
+    rs = [r for r in rs if r.get('trail')]
+    tp = sum(1 for r in rs if tstate(r).startswith('TP')); lk = sum(1 for r in rs if tstate(r) == 'LOCK'); loss = sum(1 for r in rs if tstate(r) == 'SL')
+    fin = tp + lk + loss
+    usd = sum(((r.get('trail') or {}).get('usd') or 0) for r in rs if tstate(r) in ('TP1', 'LOCK', 'SL'))
+    return {'signals': len(rs), 'tp': tp, 'lock': lk, 'loss': loss, 'win_rate': round(100 * (tp + lk) / fin, 1) if fin else None, 'usd': round(usd, 2)}
 rule_ok = [r for r in rows if (r.get('mkt') or {}).get('ok')]
 rule_no = [r for r in rows if r.get('mkt') and not (r.get('mkt') or {}).get('ok')]
 summary = {
@@ -44,6 +51,8 @@ summary = {
     'by_dir': group(lambda r: r.get('dir') or '?'),
     'sent_to_mt5': group(lambda r: 'yes' if r.get('mt5') else 'no'),
     'limit_usd': lusd(rows),
+    # v1.8.0: 🔒 Trail niyam ($0.50 pe $0.25 lock, har $0.10) — usi LIMIT trade pe alag hisaab
+    'trail_vs_tp1': {'tp1': stats([r for r in rows if r.get('trail')]), 'tp1_usd': lusd([r for r in rows if r.get('trail')]), 'trail': tstats(rows)},
     # v1.7.0: LIMIT banaam MARKET (paper hisaab). rule_ok = niyam ne MARKET kaha tha
     'limit_vs_market': {
         'all': {'limit': stats([r for r in rows if r.get('mkt')]), 'limit_usd': lusd([r for r in rows if r.get('mkt')]), 'market': mstats(rows)},
