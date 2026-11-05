@@ -1,20 +1,20 @@
 {
- "last_signal_at": 1793894793546,
+ "last_signal_at": 1793899385384,
  "total": {
-  "signals": 39,
+  "signals": 41,
   "win": 5,
   "loss": 9,
-  "expired": 21,
-  "open_or_pending": 4,
+  "expired": 22,
+  "open_or_pending": 5,
   "win_rate": 35.7,
   "net_pips": -32.9
  },
  "by_grade": {
   "A": {
-   "signals": 16,
+   "signals": 17,
    "win": 1,
    "loss": 5,
-   "expired": 9,
+   "expired": 10,
    "open_or_pending": 1,
    "win_rate": 16.7,
    "net_pips": -21.5
@@ -29,22 +29,22 @@
    "net_pips": -4.3
   },
   "C": {
-   "signals": 2,
+   "signals": 3,
    "win": 0,
    "loss": 1,
    "expired": 1,
-   "open_or_pending": 0,
+   "open_or_pending": 1,
    "win_rate": 0.0,
    "net_pips": -7.1
   }
  },
  "by_ai": {
   "agree": {
-   "signals": 16,
+   "signals": 18,
    "win": 3,
    "loss": 5,
    "expired": 8,
-   "open_or_pending": 0,
+   "open_or_pending": 2,
    "win_rate": 37.5,
    "net_pips": -29.6
   },
@@ -52,8 +52,8 @@
    "signals": 21,
    "win": 2,
    "loss": 4,
-   "expired": 12,
-   "open_or_pending": 3,
+   "expired": 13,
+   "open_or_pending": 2,
    "win_rate": 33.3,
    "net_pips": -3.3
   },
@@ -87,10 +87,10 @@
    "net_pips": 0
   },
   "AUD/USD": {
-   "signals": 6,
+   "signals": 7,
    "win": 2,
    "loss": 0,
-   "expired": 3,
+   "expired": 4,
    "open_or_pending": 1,
    "win_rate": 100.0,
    "net_pips": 12.9
@@ -231,11 +231,11 @@
    "net_pips": -3.9
   },
   "USD/JPY": {
-   "signals": 6,
+   "signals": 7,
    "win": 0,
    "loss": 0,
    "expired": 6,
-   "open_or_pending": 0,
+   "open_or_pending": 1,
    "win_rate": null,
    "net_pips": 0
   },
@@ -260,22 +260,22 @@
    "net_pips": -25.4
   },
   "SELL": {
-   "signals": 14,
+   "signals": 16,
    "win": 1,
    "loss": 2,
-   "expired": 7,
-   "open_or_pending": 4,
+   "expired": 8,
+   "open_or_pending": 5,
    "win_rate": 33.3,
    "net_pips": -7.5
   }
  },
  "sent_to_mt5": {
   "no": {
-   "signals": 33,
+   "signals": 35,
    "win": 3,
    "loss": 9,
-   "expired": 17,
-   "open_or_pending": 4,
+   "expired": 18,
+   "open_or_pending": 5,
    "win_rate": 25.0,
    "net_pips": -52.2
   },
@@ -292,17 +292,17 @@
  "limit_usd": -3.27,
  "trail_vs_tp1": {
   "tp1": {
-   "signals": 23,
+   "signals": 25,
    "win": 5,
    "loss": 9,
-   "expired": 5,
-   "open_or_pending": 4,
+   "expired": 6,
+   "open_or_pending": 5,
    "win_rate": 35.7,
    "net_pips": -32.9
   },
   "tp1_usd": -3.27,
   "trail": {
-   "signals": 23,
+   "signals": 25,
    "tp": 4,
    "lock": 1,
    "loss": 9,
@@ -312,19 +312,19 @@
  },
  "council": {
   "all": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
    "loss": 0,
-   "open_or_pending": 1,
+   "open_or_pending": 2,
    "win_rate": null,
    "usd": 0
   },
   "by_order": {
    "LIMIT": {
-    "signals": 1,
+    "signals": 2,
     "win": 0,
     "loss": 0,
-    "open_or_pending": 1,
+    "open_or_pending": 2,
     "win_rate": null,
     "usd": 0
    },
@@ -338,10 +338,10 @@
    }
   },
   "agree": {
-   "signals": 1,
+   "signals": 2,
    "win": 0,
    "loss": 0,
-   "open_or_pending": 1,
+   "open_or_pending": 2,
    "win_rate": null,
    "usd": 0
   },
@@ -355,11 +355,11 @@
   },
   "our_signal_by_verdict": {
    "yes": {
-    "signals": 1,
+    "signals": 2,
     "win": 0,
     "loss": 0,
     "expired": 0,
-    "open_or_pending": 1,
+    "open_or_pending": 2,
     "win_rate": null,
     "net_pips": 0,
     "usd": 0
@@ -399,20 +399,20 @@
  "limit_vs_market": {
   "all": {
    "limit": {
-    "signals": 12,
+    "signals": 14,
     "win": 1,
     "loss": 3,
-    "expired": 5,
-    "open_or_pending": 3,
+    "expired": 6,
+    "open_or_pending": 4,
     "win_rate": 25.0,
     "net_pips": -16.8
    },
    "limit_usd": -1.42,
    "market": {
-    "signals": 12,
+    "signals": 14,
     "win": 6,
     "loss": 4,
-    "open": 2,
+    "open": 4,
     "win_rate": 60.0,
     "usd": 1.62
    }
@@ -439,20 +439,20 @@
   },
   "rule_no": {
    "limit": {
-    "signals": 12,
+    "signals": 14,
     "win": 1,
     "loss": 3,
-    "expired": 5,
-    "open_or_pending": 3,
+    "expired": 6,
+    "open_or_pending": 4,
     "win_rate": 25.0,
     "net_pips": -16.8
    },
    "limit_usd": -1.42,
    "market": {
-    "signals": 12,
+    "signals": 14,
     "win": 6,
     "loss": 4,
-    "open": 2,
+    "open": 4,
     "win_rate": 60.0,
     "usd": 1.62
    }
