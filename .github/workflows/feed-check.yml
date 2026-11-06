@@ -20,6 +20,9 @@ jobs:
           curl -sS --max-time 30 "$B/feed/meta.json$A" -o meta.json || true
           curl -sS --max-time 30 "$B/feed/live.json$A" -o live.json || true
           curl -sS --max-time 30 "$B/feed/bars/1min/EURUSD.json$A" -o bars.json || true
+          curl -sS --max-time 30 "$B/feed/news/meta.json$A" -o nmeta.json || true
+          curl -sS --max-time 30 "$B/feed/news/cal.json$A" -o ncal.json || true
+          curl -sS --max-time 30 "$B/copytrade/vps.json$A" -o vps.json || true
           python3 - <<'PY'
           import json, time
           def load(p):
@@ -44,4 +47,22 @@ jobs:
               print('BARS_1MIN_EURUSD:', len(b.split(';')), 'candles, last t', last[0], 'age_sec', int(now - int(last[0])))
           else:
               print('BARS:', json.dumps(b)[:200])
+          nm = load('nmeta.json')
+          print('NEWS_META:', json.dumps(nm)[:200], '| age_sec', int(now - nm['at']) if isinstance(nm, dict) and nm.get('at') else '-')
+          nc = load('ncal.json')
+          if isinstance(nc, dict) and nc.get('list'):
+              print('NEWS_CAL:', nc.get('n'), 'events, age_sec', int(now - nc.get('at', now)))
+              for e in [x for x in nc['list'] if x.get('imp') == 'High'][:6]: print('  ', time.strftime('%d %b %H:%M', time.gmtime(e['t'] + 19800)), 'IST', e['title'], 'F', e.get('fc'), 'P', e.get('pv'), 'A', e.get('act'))
+          else:
+              print('NEWS_CAL:', json.dumps(nc)[:200])
+          # VPS Helper: sirf "News" wali compile / log lines (koi secret nahi)
+          v = load('vps.json')
+          def walk(o, path=''):
+              if isinstance(o, dict):
+                  for k, x in o.items(): walk(x, path + '/' + str(k))
+              elif isinstance(o, list):
+                  for i, x in enumerate(o): walk(x, path + '[' + str(i) + ']')
+              elif isinstance(o, str) and ('News' in o or 'news' in o): print('VPS', path[-60:], '|', o[:220])
+          if isinstance(v, dict): print('VPS_KEYS:', list(v.keys())[:12], '| at', v.get('at') or v.get('ts')); walk(v)
+          else: print('VPS:', json.dumps(v)[:200])
           PY
