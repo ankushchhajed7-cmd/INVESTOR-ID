@@ -59,6 +59,20 @@ def verdict(r):
     if v >= 4 and conf >= 65: return 'yes'
     return 'weak'
 crows = [r for r in rows if r.get('council')]
+# v1.11 (app): 🟦 PERSONAL FX jaisa — $0.25 TP, SL nahi; dd = bhaav sabse zyada kitna ulta gaya ($, 0.01 lot)
+def pfx_stats(rs):
+    f = [r for r in rs if (r.get('pfx') or {}).get('filledAt')]
+    st = lambda r: r['pfx'].get('state')
+    tp = [r for r in f if st(r) == 'TP']; op = [r for r in f if st(r) == 'OPEN']; to = [r for r in f if st(r) == 'TIMEOUT']
+    dd = [r['pfx'].get('dd') or 0 for r in f]
+    mins = [r['pfx'].get('mins') or 0 for r in tp]
+    usd = 0.25 * len(tp) + sum((r['pfx'].get('usd') or 0) for r in to)
+    return {'filled': len(f), 'tp': len(tp), 'open': len(op), 'timeout': len(to),
+            'tp_rate': round(100 * len(tp) / (len(tp) + len(to)), 1) if (tp or to) else None,
+            'usd_closed': round(usd, 2), 'open_usd': round(sum((r['pfx'].get('usd') or 0) for r in op), 2),
+            'avg_mins_to_tp': round(sum(mins) / len(mins)) if mins else None,
+            'worst_dd': round(max(dd), 2) if dd else 0, 'avg_dd': round(sum(dd) / len(dd), 2) if dd else 0,
+            'dd_over_1': sum(1 for x in dd if x > 1), 'dd_over_5': sum(1 for x in dd if x > 5), 'dd_over_10': sum(1 for x in dd if x > 10)}
 rule_ok = [r for r in rows if (r.get('mkt') or {}).get('ok')]
 rule_no = [r for r in rows if r.get('mkt') and not (r.get('mkt') or {}).get('ok')]
 summary = {
@@ -72,6 +86,7 @@ summary = {
     'limit_usd': lusd(rows),
     # v1.8.0: 🔒 Trail niyam ($0.50 pe $0.25 lock, har $0.10) — usi LIMIT trade pe alag hisaab
     'trail_vs_tp1': {'tp1': stats([r for r in rows if r.get('trail')]), 'tp1_usd': lusd([r for r in rows if r.get('trail')]), 'trail': tstats(rows)},
+    'pfx': pfx_stats(rows),
     'council': {
         'all': cstats(crows),
         'by_order': {k: cstats([r for r in crows if (r['council'].get('order') or 'LIMIT') == k]) for k in ('LIMIT', 'MARKET')},
