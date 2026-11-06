@@ -89,7 +89,7 @@
    "state": "TP1",
    "usd": 0.94
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 11.9,
@@ -181,7 +181,7 @@
    "state": "TP1",
    "usd": 0.83
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 15.1,
@@ -273,7 +273,7 @@
    "state": "SL",
    "usd": -0.76
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 32,
@@ -338,7 +338,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 22.2,
@@ -403,7 +403,7 @@
    "state": "TP1",
    "usd": 0.42
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 28,
@@ -461,7 +461,7 @@
    "done": true,
    "state": "EXPIRED"
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 16.5,
@@ -553,7 +553,7 @@
    "state": "SL",
    "usd": -0.48
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 33.4,
@@ -645,7 +645,7 @@
    "state": "SL",
    "usd": -0.88
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 30,
@@ -683,7 +683,7 @@
    "state": "SL",
    "usd": -0.77
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 14.9,
@@ -775,7 +775,7 @@
    "state": "SL",
    "usd": -1.03
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 10.2,
@@ -836,7 +836,7 @@
    "state": "SL",
    "usd": -0.74
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 37.6,
@@ -943,7 +943,7 @@
    "state": "SL",
    "usd": -0.51
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 30.9,
@@ -1100,7 +1100,7 @@
    "state": "TP1",
    "usd": 0.46
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 19.6,
@@ -1206,7 +1206,7 @@
    "state": "SL",
    "usd": -0.45
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 20.3,
@@ -1263,7 +1263,7 @@
    "state": "SL",
    "usd": -0.92
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 35.1,
@@ -1313,7 +1313,7 @@
    "done": true,
    "state": "PENDING"
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 18.6,
@@ -1473,7 +1473,7 @@
    "done": true,
    "state": "PENDING"
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 52.3,
@@ -1723,7 +1723,7 @@
    "state": "LOCK",
    "usd": 0.65
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 13.7,
@@ -1988,7 +1988,7 @@
    "state": "TP1",
    "usd": 1.06
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 29.5,
@@ -2060,7 +2060,7 @@
    "state": "LOCK",
    "usd": 0.65
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 59.5,
@@ -2132,7 +2132,7 @@
    "state": "LOCK",
    "usd": 0.55
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 29,
@@ -2525,7 +2525,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 26.5,
@@ -2598,7 +2598,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
  },
  {
   "adx": 44.7,
@@ -2857,6 +2857,130 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.9.6"
+  "v": "1.10.0"
+ },
+ {
+  "adx": 20,
+  "ai": {
+   "agree": false,
+   "conf": 85
+  },
+  "at": 1793981071327,
+  "buyPct": 63,
+  "council": {
+   "bots": "T:B M:W L:B M:B R:B D:S",
+   "conf": 75,
+   "dir": "BUY",
+   "entry": 158.132,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 157.89,
+   "tp": 158.374
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 158.132,
+  "expiresAt": 1793984671327,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmw560eb1",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 158.253,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 158.088,
+   "tp": 158.418
+  },
+  "mt5": false,
+  "regime": "Weak trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 157.89,
+  "src": "mt5",
+  "sym": "USD/JPY",
+  "tp": 158.374,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.10.0"
+ },
+ {
+  "adx": 28.1,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1793981092904,
+  "buyPct": 27,
+  "council": {
+   "bots": "T:S M:S L:S M:W R:S D:B",
+   "conf": 75,
+   "dir": "SELL",
+   "entry": 0.68846,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 0.68947,
+   "tp": 0.68745
+  },
+  "danger": "medium",
+  "dir": "SELL",
+  "entry": 0.68846,
+  "expiresAt": 1793984692904,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmw560uyd",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 0.68769,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.68937,
+   "tp": 0.68601
+  },
+  "mt5": false,
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.68947,
+  "src": "mt5",
+  "sym": "AUD/USD",
+  "tp": 0.68745,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.10.0"
  }
 ]
