@@ -69,6 +69,10 @@
   "grade": "A",
   "id": "rmw2ge2np",
   "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Range",
   "res": {
    "done": true,
@@ -89,7 +93,7 @@
    "state": "TP1",
    "usd": 0.94
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 11.9,
@@ -161,6 +165,10 @@
   "grade": "B",
   "id": "rmw2i496e",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Range",
   "res": {
    "done": true,
@@ -181,7 +189,7 @@
    "state": "TP1",
    "usd": 0.83
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 15.1,
@@ -253,6 +261,10 @@
   "grade": "B",
   "id": "rmw2n4b14",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Range",
   "res": {
    "done": true,
@@ -273,7 +285,7 @@
    "state": "SL",
    "usd": -0.76
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 32,
@@ -318,6 +330,10 @@
   "grade": "B",
   "id": "rmw2wyzvb",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -338,7 +354,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 22.2,
@@ -383,6 +399,10 @@
   "grade": "B",
   "id": "rmw2x087v",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -403,7 +423,7 @@
    "state": "TP1",
    "usd": 0.42
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 28,
@@ -448,6 +468,10 @@
   "grade": "B",
   "id": "rmw2x5ie5",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Weak trend",
   "res": {
    "done": true,
@@ -461,7 +485,7 @@
    "done": true,
    "state": "EXPIRED"
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 16.5,
@@ -533,6 +557,10 @@
   "grade": "A",
   "id": "rmw31c09j",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -553,7 +581,7 @@
    "state": "SL",
    "usd": -0.48
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 33.4,
@@ -625,6 +653,10 @@
   "grade": "A",
   "id": "rmw35r4d3",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -645,7 +677,7 @@
    "state": "SL",
    "usd": -0.88
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 30,
@@ -663,6 +695,10 @@
   "grade": "A",
   "id": "rmw35rcb3",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -683,7 +719,7 @@
    "state": "SL",
    "usd": -0.77
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 14.9,
@@ -755,6 +791,10 @@
   "grade": "A",
   "id": "rmw35x53u",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Weak trend",
   "res": {
    "done": true,
@@ -775,7 +815,7 @@
    "state": "SL",
    "usd": -1.03
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 10.2,
@@ -816,6 +856,10 @@
   "grade": "A",
   "id": "rmw378671",
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -836,7 +880,7 @@
    "state": "SL",
    "usd": -0.74
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 37.6,
@@ -923,6 +967,10 @@
    "tp": 1.3487
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -943,7 +991,7 @@
    "state": "SL",
    "usd": -0.51
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 30.9,
@@ -1080,6 +1128,10 @@
    "tp": 0.70188
   },
   "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Range",
   "res": {
    "done": true,
@@ -1100,7 +1152,7 @@
    "state": "TP1",
    "usd": 0.46
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 19.6,
@@ -1186,6 +1238,10 @@
    "tp": 177.853
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Range",
   "res": {
    "done": true,
@@ -1206,7 +1262,7 @@
    "state": "SL",
    "usd": -0.45
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 20.3,
@@ -1243,6 +1299,10 @@
    "tp": 1.34945
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Weak trend",
   "res": {
    "done": true,
@@ -1263,7 +1323,7 @@
    "state": "SL",
    "usd": -0.92
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 35.1,
@@ -1300,6 +1360,10 @@
    "tp": 0.56083
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -1313,7 +1377,7 @@
    "done": true,
    "state": "PENDING"
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 18.6,
@@ -1460,6 +1524,10 @@
    "tp": 212.284
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Weak trend",
   "res": {
    "done": true,
@@ -1473,7 +1541,7 @@
    "done": true,
    "state": "PENDING"
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 52.3,
@@ -1703,6 +1771,14 @@
    "tp": 157.64
   },
   "mt5": false,
+  "pfx": {
+   "dd": 0.06,
+   "done": true,
+   "filledAt": 1793933100000,
+   "mins": 10,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -1723,7 +1799,7 @@
    "state": "LOCK",
    "usd": 0.65
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 13.7,
@@ -1968,6 +2044,14 @@
    "tp": 1.62206
   },
   "mt5": true,
+  "pfx": {
+   "dd": 0.08,
+   "done": true,
+   "filledAt": 1793933100000,
+   "mins": 5,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -1988,7 +2072,7 @@
    "state": "TP1",
    "usd": 1.06
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 29.5,
@@ -2040,6 +2124,14 @@
    "tp": 1.11825
   },
   "mt5": true,
+  "pfx": {
+   "dd": 0.47,
+   "done": true,
+   "filledAt": 1793939700000,
+   "mins": 105,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -2060,7 +2152,7 @@
    "state": "LOCK",
    "usd": 0.65
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 59.5,
@@ -2112,6 +2204,14 @@
    "tp": 0.68817
   },
   "mt5": false,
+  "pfx": {
+   "dd": 0.59,
+   "done": true,
+   "filledAt": 1793939400000,
+   "mins": 40,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -2132,7 +2232,7 @@
    "state": "LOCK",
    "usd": 0.55
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 29,
@@ -2505,6 +2605,14 @@
    "tp": 157.599
   },
   "mt5": false,
+  "pfx": {
+   "dd": 0.39,
+   "done": true,
+   "filledAt": 1793951400000,
+   "mins": 15,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Range",
   "res": {
    "done": true,
@@ -2525,7 +2633,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 26.5,
@@ -2578,6 +2686,14 @@
    "tp": 176.135
   },
   "mt5": false,
+  "pfx": {
+   "dd": 0.27,
+   "done": true,
+   "filledAt": 1793952600000,
+   "mins": 5,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Trend",
   "res": {
    "done": true,
@@ -2598,7 +2714,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 44.7,
@@ -2808,8 +2924,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": 15.4,
+    "state": "TP1",
+    "usd": 1.88
    },
    "sl": 1.09826,
    "tp": 1.09518
@@ -2841,11 +2959,23 @@
    "tp": 1.09486
   },
   "mt5": false,
+  "pfx": {
+   "dd": 0.01,
+   "done": true,
+   "filledAt": 1793964300000,
+   "mins": 5,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Range",
   "res": {
-   "done": false,
+   "done": true,
+   "exitAt": 1793981400000,
    "filledAt": 1793964300000,
-   "state": "OPEN"
+   "lot": 0.01,
+   "pips": 15.4,
+   "state": "TP1",
+   "usd": 1.88
   },
   "sl": 1.09826,
   "src": "mt5",
@@ -2857,7 +2987,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 20,
@@ -2875,8 +3005,8 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "EXPIRED"
    },
    "sl": 157.89,
    "tp": 158.374
@@ -2899,27 +3029,33 @@
    "entry": 158.253,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -16.5,
+    "state": "SL",
+    "usd": -1.05
    },
    "sl": 158.088,
    "tp": 158.418
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Weak trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 157.89,
   "src": "mt5",
   "sym": "USD/JPY",
   "tp": 158.374,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  },
  {
   "adx": 28.1,
@@ -2937,8 +3073,8 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "EXPIRED"
    },
    "sl": 0.68947,
    "tp": 0.68745
@@ -2961,26 +3097,32 @@
    "entry": 0.68769,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": 16.8,
+    "state": "TP1",
+    "usd": 1.68
    },
    "sl": 0.68937,
    "tp": 0.68601
   },
   "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 0.68947,
   "src": "mt5",
   "sym": "AUD/USD",
   "tp": 0.68745,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
-  "v": "1.10.0"
+  "v": "1.11.0"
  }
 ]
