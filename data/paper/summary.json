@@ -453,10 +453,10 @@
    "market": {
     "signals": 36,
     "win": 23,
-    "loss": 12,
-    "open": 1,
-    "win_rate": 65.7,
-    "usd": 16.82
+    "loss": 13,
+    "open": 0,
+    "win_rate": 63.9,
+    "usd": 14.64
    }
   },
   "rule_ok": {
@@ -493,10 +493,10 @@
    "market": {
     "signals": 35,
     "win": 22,
-    "loss": 12,
-    "open": 1,
-    "win_rate": 64.7,
-    "usd": 15.61
+    "loss": 13,
+    "open": 0,
+    "win_rate": 62.9,
+    "usd": 13.43
    }
   }
  }

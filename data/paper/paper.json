@@ -3165,8 +3165,10 @@
    "entry": 75793.62,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -217.8,
+    "state": "SL",
+    "usd": -2.18
    },
    "sl": 76011.44,
    "tp": 75575.8
