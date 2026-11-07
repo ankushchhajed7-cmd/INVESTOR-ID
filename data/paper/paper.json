@@ -3124,5 +3124,71 @@
    "state": "EXPIRED"
   },
   "v": "1.11.0"
+ },
+ {
+  "adx": 12,
+  "ai": {
+   "agree": true,
+   "conf": 72
+  },
+  "at": 1794022508543,
+  "buyPct": 27,
+  "council": {
+   "bots": "T:S M:S L:S M:W R:S D:B",
+   "conf": 75,
+   "dir": "SELL",
+   "entry": 75937.89,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "PENDING"
+   },
+   "sl": 76025.02,
+   "tp": 75850.76
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 75937.89,
+  "expiresAt": 1794026108543,
+  "fibX": 0.786,
+  "grade": "B",
+  "id": "rmw5uojgs",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 75793.62,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 76011.44,
+   "tp": 75575.8
+  },
+  "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": true,
+   "state": "PENDING"
+  },
+  "sl": 76025.02,
+  "src": "mt5",
+  "sym": "BTC/USD",
+  "tp": 75850.76,
+  "trail": {
+   "done": true,
+   "state": "PENDING"
+  },
+  "v": "1.11.0"
  }
 ]
