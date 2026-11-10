@@ -64,11 +64,13 @@ def pfx_stats(rs):
     f = [r for r in rs if (r.get('pfx') or {}).get('filledAt')]
     st = lambda r: r['pfx'].get('state')
     tp = [r for r in f if st(r) == 'TP']; op = [r for r in f if st(r) == 'OPEN']; to = [r for r in f if st(r) == 'TIMEOUT']
+    sl = [r for r in f if st(r) == 'SL']                      # v1.13 app: REAL jaisa $1.50 SL
     dd = [r['pfx'].get('dd') or 0 for r in f]
     mins = [r['pfx'].get('mins') or 0 for r in tp]
-    usd = 0.25 * len(tp) + sum((r['pfx'].get('usd') or 0) for r in to)
-    return {'filled': len(f), 'tp': len(tp), 'open': len(op), 'timeout': len(to),
-            'tp_rate': round(100 * len(tp) / (len(tp) + len(to)), 1) if (tp or to) else None,
+    usd = 0.25 * len(tp) + sum((r['pfx'].get('usd') or 0) for r in to + sl)
+    done = len(tp) + len(to) + len(sl)
+    return {'filled': len(f), 'tp': len(tp), 'sl': len(sl), 'open': len(op), 'timeout': len(to),
+            'tp_rate': round(100 * len(tp) / done, 1) if done else None,
             'usd_closed': round(usd, 2), 'open_usd': round(sum((r['pfx'].get('usd') or 0) for r in op), 2),
             'avg_mins_to_tp': round(sum(mins) / len(mins)) if mins else None,
             'worst_dd': round(max(dd), 2) if dd else 0, 'avg_dd': round(sum(dd) / len(dd), 2) if dd else 0,
