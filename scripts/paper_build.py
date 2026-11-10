@@ -75,6 +75,23 @@ def pfx_stats(rs):
             'avg_mins_to_tp': round(sum(mins) / len(mins)) if mins else None,
             'worst_dd': round(max(dd), 2) if dd else 0, 'avg_dd': round(sum(dd) / len(dd), 2) if dd else 0,
             'dd_over_1': sum(1 for x in dd if x > 1), 'dd_over_5': sum(1 for x in dd if x > 5), 'dd_over_10': sum(1 for x in dd if x > 10)}
+# v1.14 (app): 🎯 Smart Order (paper) — LIMIT / MARKET / STOP khud chune; EARLY = jhoothe breakout pe jaldi bahar
+def smart_stats(rs):
+    done = ('TP1', 'SL', 'EARLY')
+    f = [r for r in rs if ((r.get('smart') or {}).get('res') or {}).get('state') in done]
+    def g(x):
+        u = [((r['smart'].get('res') or {}).get('usd') or 0) for r in x]
+        w = sum(1 for v in u if v > 0)
+        return {'n': len(x), 'win': w, 'win_rate': round(100 * w / len(x), 1) if x else None, 'usd': round(sum(u), 2)}
+    out = {'all': g(f)}
+    for t in ('MARKET', 'STOP', 'LIMIT'): out[t] = g([r for r in f if r['smart'].get('type') == t])
+    st = [r for r in f if r['smart'].get('type') == 'STOP']
+    early = [r for r in st if r['smart']['res'].get('state') == 'EARLY']
+    out['stop_early'] = len(early)
+    out['stop_saved_usd'] = round(sum(((r['smart']['res'].get('usd') or 0) - ((r['smart'].get('res0') or {}).get('usd') or 0)) for r in early if (r['smart'].get('res0') or {}).get('state') == 'SL'), 2)
+    c3 = [r for r in rs if ((r.get('smart') or {}).get('res3') or {}).get('state') in done]
+    out['stop_close_confirm'] = {'n': len(c3), 'usd': round(sum(((r['smart']['res3'].get('usd') or 0)) for r in c3), 2)}
+    return out
 rule_ok = [r for r in rows if (r.get('mkt') or {}).get('ok')]
 rule_no = [r for r in rows if r.get('mkt') and not (r.get('mkt') or {}).get('ok')]
 summary = {
@@ -88,6 +105,7 @@ summary = {
     'limit_usd': lusd(rows),
     # v1.8.0: 🔒 Trail niyam ($0.50 pe $0.25 lock, har $0.10) — usi LIMIT trade pe alag hisaab
     'trail_vs_tp1': {'tp1': stats([r for r in rows if r.get('trail')]), 'tp1_usd': lusd([r for r in rows if r.get('trail')]), 'trail': tstats(rows)},
+    'smart': smart_stats(rows),
     'pfx': pfx_stats(rows),
     'council': {
         'all': cstats(crows),
