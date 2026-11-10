@@ -23,6 +23,7 @@ jobs:
           curl -sS --max-time 30 "$B/feed/news/meta.json$A" -o nmeta.json || true
           curl -sS --max-time 30 "$B/feed/news/cal.json$A" -o ncal.json || true
           curl -sS --max-time 30 "$B/copytrade/vps.json$A" -o vps.json || true
+          curl -sS --max-time 30 "$B/feed/news/paper.json$A" -o npaper.json || true
           python3 - <<'PY'
           import json, time
           def load(p):
@@ -55,6 +56,14 @@ jobs:
               for e in [x for x in nc['list'] if x.get('imp') == 'High'][:6]: print('  ', time.strftime('%d %b %H:%M', time.gmtime(e['t'] + 19800)), 'IST', e['title'], 'F', e.get('fc'), 'P', e.get('pv'), 'A', e.get('act'))
           else:
               print('NEWS_CAL:', json.dumps(nc)[:200])
+          npp = load('npaper.json')
+          if isinstance(npp, dict) and '_err' not in npp:
+              for k, p in sorted(npp.items(), key=lambda kv: kv[1].get('at', 0) if isinstance(kv[1], dict) else 0)[-8:]:
+                  if not isinstance(p, dict): continue
+                  sg = ' | '.join(f"{n} {g.get('dir')} @{g.get('entry')} 1m {g.get('u1')} 5m {g.get('u5')} tgt {g.get('uT')} hit {g.get('hit')}" for n, g in (p.get('sigs') or {}).items())
+                  print('NEWS_PAPER:', time.strftime('%d %b %H:%M', time.gmtime((p.get('t') or 0) + 19800)), 'IST', p.get('title'), p.get('act'), 'vs', p.get('fc'), 'usd', p.get('usd'), 'conf', p.get('conf'), '::', sg)
+          else:
+              print('NEWS_PAPER:', json.dumps(npp)[:200])
           # VPS Helper: sirf "News" wali compile / log lines (koi secret nahi)
           v = load('vps.json')
           def walk(o, path=''):
