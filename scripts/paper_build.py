@@ -97,10 +97,7 @@ rule_no = [r for r in rows if r.get('mkt') and not (r.get('mkt') or {}).get('ok'
 summary = {
     'last_signal_at': rows[-1]['at'] if rows else None,
     'total': stats(rows),
-    'by_grade': group(lambda r: r.get('grade') or '?'),
     'by_ai': group(ai_key),
-    'by_pair': group(lambda r: r.get('sym') or '?'),
-    'by_dir': group(lambda r: r.get('dir') or '?'),
     'sent_to_mt5': group(lambda r: 'yes' if r.get('mt5') else 'no'),
     'limit_usd': lusd(rows),
     # v1.8.0: 🔒 Trail niyam ($0.50 pe $0.25 lock, har $0.10) — usi LIMIT trade pe alag hisaab
