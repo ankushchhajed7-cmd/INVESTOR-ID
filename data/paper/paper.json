@@ -6453,11 +6453,11 @@
   },
   "mt5": true,
   "pfx": {
-   "dd": 1.42,
+   "dd": 13.22,
    "done": false,
    "filledAt": 1794301200000,
    "state": "OPEN",
-   "usd": -1.3
+   "usd": -11.76
   },
   "regime": "Trend",
   "res": {
@@ -6497,8 +6497,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -15.6,
+    "state": "SL",
+    "usd": -0.99
    },
    "sl": 158.259,
    "tp": 157.947
@@ -6539,17 +6541,842 @@
   },
   "regime": "Range",
   "res": {
-   "done": false,
+   "done": true,
+   "exitAt": 1794317400000,
    "filledAt": 1794301200000,
-   "state": "OPEN"
+   "lot": 0.01,
+   "pips": -15.6,
+   "state": "SL",
+   "usd": -0.99
   },
   "sl": 158.259,
   "src": "mt5",
   "sym": "USD/JPY",
   "tp": 157.947,
   "trail": {
+   "done": true,
+   "pips": 5.5,
+   "state": "LOCK",
+   "usd": 0.35
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 31.9,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794319674190,
+  "buyPct": 95,
+  "council": {
+   "bots": "T:B M:W L:B M:B R:B D:S",
+   "conf": 78,
+   "dir": "BUY",
+   "entry": 158.507,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "pips": 17.7,
+    "state": "TP1",
+    "usd": 1.12
+   },
+   "sl": 158.331,
+   "tp": 158.684
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 158.507,
+  "expiresAt": 1794323274190,
+  "grade": "C",
+  "id": "rmwarlty4",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": false,
+    "pullback": true,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 158.56,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": 17.7,
+    "state": "TP1",
+    "usd": 1.12
+   },
+   "sl": 158.383,
+   "tp": 158.737
+  },
+  "mt5": true,
+  "pfx": {
+   "dd": 0.21,
+   "done": true,
+   "filledAt": 1794319860000,
+   "mins": 4,
+   "state": "TP",
+   "usd": 0.25
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "exitAt": 1794322020000,
+   "filledAt": 1794319860000,
+   "lot": 0.01,
+   "pips": 17.7,
+   "state": "TP1",
+   "usd": 1.12
+  },
+  "sl": 158.331,
+  "src": "mt5",
+  "sym": "USD/JPY",
+  "tp": 158.684,
+  "trail": {
+   "done": true,
+   "pips": 17.7,
+   "state": "TP1",
+   "usd": 1.12
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 22.7,
+  "ai": {
+   "agree": true,
+   "conf": 82
+  },
+  "at": 1794319742057,
+  "buyPct": 43,
+  "council": {
+   "bots": "T:B M:W L:B M:B R:B D:S",
+   "conf": 75,
+   "dir": "BUY",
+   "entry": 177.249,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 177.065,
+   "tp": 177.432
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 177.249,
+  "expiresAt": 1794323342057,
+  "fibX": 0.5,
+  "grade": "B",
+  "id": "rmwarnaba",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 177.332,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -18.3,
+    "state": "SL",
+    "usd": -1.15
+   },
+   "sl": 177.149,
+   "tp": 177.515
+  },
+  "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Weak trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 177.065,
+  "src": "mt5",
+  "sym": "EUR/JPY",
+  "tp": 177.432,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 20.8,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794319819793,
+  "buyPct": 95,
+  "council": {
+   "bots": "T:B M:B L:B M:B R:B D:W",
+   "conf": 85,
+   "dir": "BUY",
+   "entry": 1.94537,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.94264,
+   "tp": 1.94809
+  },
+  "danger": "medium",
+  "dir": "BUY",
+  "entry": 1.94537,
+  "expiresAt": 1794323419793,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwaroyam",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.94774,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -27.2,
+    "state": "SL",
+    "usd": -1.87
+   },
+   "sl": 1.94502,
+   "tp": 1.95046
+  },
+  "mt5": true,
+  "pfx": {
+   "dd": 1.31,
+   "done": true,
+   "filledAt": 1794322440000,
+   "mins": 51,
+   "state": "TP",
+   "usd": 0.25
+  },
+  "regime": "Weak trend",
+  "res": {
    "done": false,
+   "filledAt": 1794322440000,
    "state": "OPEN"
+  },
+  "sl": 1.94264,
+  "src": "mt5",
+  "sym": "GBP/AUD",
+  "tp": 1.94809,
+  "trail": {
+   "done": true,
+   "pips": 3.6,
+   "state": "LOCK",
+   "usd": 0.25
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 34.5,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794320318103,
+  "buyPct": 95,
+  "council": {
+   "bots": "T:B M:B L:B M:B R:B D:S",
+   "conf": 85,
+   "dir": "BUY",
+   "entry": 1.41403,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 1.41231,
+   "tp": 1.41575
+  },
+  "danger": "high",
+  "dir": "BUY",
+  "entry": 1.41403,
+  "expiresAt": 1794323918103,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwarzmsk",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 1.41592,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": 17.2,
+    "state": "TP1",
+    "usd": 1.21
+   },
+   "sl": 1.4142,
+   "tp": 1.41764
+  },
+  "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 1.41231,
+  "src": "mt5",
+  "sym": "USD/CAD",
+  "tp": 1.41575,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 42.1,
+  "ai": {
+   "agree": false,
+   "conf": 90
+  },
+  "at": 1794326703348,
+  "buyPct": 95,
+  "council": {
+   "bots": "T:B M:B L:B M:B R:B D:W",
+   "conf": 85,
+   "dir": "BUY",
+   "entry": 158.674,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 158.489,
+   "tp": 158.86
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 158.674,
+  "expiresAt": 1794330303348,
+  "grade": "C",
+  "id": "rmwavshoh",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 158.73,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 158.544,
+   "tp": 158.916
+  },
+  "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 158.489,
+  "src": "mt5",
+  "sym": "USD/JPY",
+  "tp": 158.86,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 45.9,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794326740883,
+  "buyPct": 95,
+  "council": {
+   "bots": "T:B M:B L:B M:B R:B D:S",
+   "conf": 75,
+   "dir": "BUY",
+   "entry": 0.8259,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 0.82435,
+   "tp": 0.82744
+  },
+  "danger": "medium",
+  "dir": "BUY",
+  "entry": 0.8259,
+  "expiresAt": 1794330340883,
+  "grade": "C",
+  "id": "rmwavtan4",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 0.82636,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.82481,
+   "tp": 0.82791
+  },
+  "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 0.82435,
+  "src": "mt5",
+  "sym": "USD/CHF",
+  "tp": 0.82744,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 51,
+  "ai": {
+   "agree": false,
+   "conf": 90
+  },
+  "at": 1794327045318,
+  "buyPct": 5,
+  "council": {
+   "bots": "T:S M:S L:S M:S R:S D:B",
+   "conf": 85,
+   "dir": "SELL",
+   "entry": 0.68744,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 0.68894,
+   "tp": 0.68594
+  },
+  "danger": "high",
+  "dir": "SELL",
+  "entry": 0.68744,
+  "expiresAt": 1794330645318,
+  "fibX": 0.382,
+  "grade": "B",
+  "id": "rmwavztjn",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": false,
+    "pullback": true,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 0.6856,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.6871,
+   "tp": 0.6841
+  },
+  "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 0.68894,
+  "src": "mt5",
+  "sym": "AUD/USD",
+  "tp": 0.68594,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 27.4,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794327089548,
+  "buyPct": 20,
+  "council": {
+   "bots": "T:S M:S L:S M:S R:S D:S",
+   "conf": 85,
+   "dir": "SELL",
+   "entry": 177.341,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 177.561,
+   "tp": 177.12
+  },
+  "danger": "medium",
+  "dir": "SELL",
+  "entry": 177.341,
+  "expiresAt": 1794330689548,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwaw0roa",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": false,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 177.074,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 177.294,
+   "tp": 176.854
+  },
+  "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 177.561,
+  "src": "mt5",
+  "sym": "EUR/JPY",
+  "tp": 177.12,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 27.4,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794327249690,
+  "buyPct": 5,
+  "council": {
+   "bots": "T:S M:S L:S M:S R:S D:W",
+   "conf": 85,
+   "dir": "SELL",
+   "entry": 109.082,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 109.31,
+   "tp": 108.855
+  },
+  "danger": "high",
+  "dir": "SELL",
+  "entry": 109.082,
+  "expiresAt": 1794330849690,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwaw478p",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 108.808,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 109.036,
+   "tp": 108.58
+  },
+  "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 109.31,
+  "src": "mt5",
+  "sym": "AUD/JPY",
+  "tp": 108.855,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 34.5,
+  "ai": {
+   "agree": false,
+   "conf": 90
+  },
+  "at": 1794331666423,
+  "buyPct": 7,
+  "council": {
+   "bots": "T:S M:S L:S M:W R:S D:B",
+   "conf": 85,
+   "dir": "SELL",
+   "entry": 109.072,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 109.276,
+   "tp": 108.867
+  },
+  "danger": "medium",
+  "dir": "SELL",
+  "entry": 109.072,
+  "expiresAt": 1794335266423,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwayqv7s",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 108.817,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": 6.1,
+    "state": "TP1",
+    "usd": 0.39
+   },
+   "sl": 108.878,
+   "tp": 108.756
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 109.276,
+  "src": "mt5",
+  "sym": "AUD/JPY",
+  "tp": 108.867,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 23.7,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794331781741,
+  "buyPct": 77,
+  "council": {
+   "bots": "T:B M:B L:B M:W R:B D:S",
+   "conf": 72,
+   "dir": "BUY",
+   "entry": 1.9939,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.9926,
+   "tp": 1.9959
+  },
+  "danger": "medium",
+  "dir": "SELL",
+  "entry": 1.99535,
+  "expiresAt": 1794335381741,
+  "grade": "C",
+  "id": "rmwaytc6y",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 1.99457,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.99611,
+   "tp": 1.99303
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Weak trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.99643,
+  "src": "mt5",
+  "sym": "EUR/NZD",
+  "tp": 1.99427,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.11.0"
+ },
+ {
+  "adx": 37.1,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794331851213,
+  "buyPct": 37,
+  "council": {
+   "bots": "T:B M:B L:B M:W R:B D:S",
+   "conf": 65,
+   "dir": "BUY",
+   "entry": 0.79328,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 0.7924,
+   "tp": 0.79417
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 0.79328,
+  "expiresAt": 1794335451213,
+  "grade": "C",
+  "id": "rmwayutsq",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 0.79355,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -2.7,
+    "state": "SL",
+    "usd": -0.2
+   },
+   "sl": 0.79328,
+   "tp": 0.79382
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.7924,
+  "src": "mt5",
+  "sym": "NZD/CAD",
+  "tp": 0.79417,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
   },
   "v": "1.11.0"
  }
