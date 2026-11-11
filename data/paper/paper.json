@@ -2681,8 +2681,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": 23.2,
+    "state": "TP1",
+    "usd": 1.48
    },
    "sl": 192.226,
    "tp": 191.763
@@ -2724,9 +2726,13 @@
   },
   "regime": "Trend",
   "res": {
-   "done": false,
+   "done": true,
+   "exitAt": 1794418860000,
    "filledAt": 1794411000000,
-   "state": "OPEN"
+   "lot": 0.01,
+   "pips": 23.2,
+   "state": "TP1",
+   "usd": 1.48
   },
   "sl": 192.226,
   "smart": {
@@ -3215,8 +3221,10 @@
    "entry": 1.57976,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -6.6,
+    "state": "SL",
+    "usd": -0.48
    },
    "sl": 1.58042,
    "tp": 1.5791
@@ -3293,8 +3301,10 @@
    "entry": 1.57959,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -8,
+    "state": "SL",
+    "usd": -0.58
    },
    "sl": 1.58039,
    "tp": 1.57879
@@ -3328,6 +3338,390 @@
    "done": false,
    "state": "PENDING"
   },
+  "v": "1.19.0"
+ },
+ {
+  "adx": 29.4,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794420091623,
+  "auto": "scan",
+  "buyPct": 33,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.83597,
+  "expiresAt": 1794423691623,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwcfe413a0",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": true,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 0.83552,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.83565,
+   "tp": 0.83539
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.83641,
+  "smart": {
+   "entry": 0.83552,
+   "pfx": {
+    "dd": 0.12,
+    "done": false,
+    "state": "OPEN",
+    "usd": -0.1
+   },
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.8357,
+   "tp": 0.83534,
+   "type": "MARKET",
+   "why": "tez trend (ADX 29); LIMIT 2.0 ATR door; bhaav zyada nahi bhaaga; candle trend ki disha"
+  },
+  "src": "mt5",
+  "sym": "EUR/GBP",
+  "tp": 0.83552,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.19.0"
+ },
+ {
+  "adx": 17.2,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794420091623,
+  "auto": "scan",
+  "buyPct": 10,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 191.903,
+  "expiresAt": 1794423691623,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwcfe413a1",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 191.78,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 191.957,
+   "tp": 191.603
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 192.087,
+  "smart": {
+   "entry": 191.903,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 192.087,
+   "tp": 191.718,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "CHF/JPY",
+  "tp": 191.718,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.19.0"
+ },
+ {
+  "adx": 14.4,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794420247606,
+  "auto": "scan",
+  "buyPct": 33,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.93886,
+  "expiresAt": 1794423847606,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwcfhgdya0",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.93828,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.93895,
+   "tp": 1.93761
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.94028,
+  "smart": {
+   "entry": 1.93886,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.94028,
+   "tp": 1.93744,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "GBP/AUD",
+  "tp": 1.93744,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.19.0"
+ },
+ {
+  "adx": 44.1,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794420247606,
+  "auto": "scan",
+  "buyPct": 33,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.79321,
+  "expiresAt": 1794423847606,
+  "fibX": 0.382,
+  "grade": "A",
+  "id": "rmwcfhgdya1",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 0.79267,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.79288,
+   "tp": 0.79246
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.79389,
+  "smart": {
+   "entry": 0.79321,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 0.79389,
+   "tp": 0.79252,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "NZD/CAD",
+  "tp": 0.79252,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.19.0"
+ },
+ {
+  "adx": 14.4,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1794420267097,
+  "auto": "",
+  "buyPct": 33,
+  "council": {
+   "bots": "T:S M:S L:S M:W R:S D:B",
+   "conf": 75,
+   "dir": "SELL",
+   "entry": 1.93886,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.94028,
+   "tp": 1.93744
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.93886,
+  "expiresAt": 1794423867097,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwcfhp0k",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.9382,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.93897,
+   "tp": 1.93743
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.94028,
+  "smart": {
+   "entry": 1.93886,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.94028,
+   "tp": 1.93744,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "GBP/AUD",
+  "tp": 1.93744,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.19.0"
+ },
+ {
+  "adx": 44.1,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794420285731,
+  "auto": "",
+  "buyPct": 33,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.79321,
+  "expiresAt": 1794423885731,
+  "fibX": 0.382,
+  "grade": "A",
+  "id": "rmwcfi3pw",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 0.79266,
+   "ok": false,
+   "sl": 0.79287,
+   "tp": 0.79245
+  },
+  "mt5": true,
+  "regime": "Trend",
+  "sl": 0.79389,
+  "smart": {
+   "entry": 0.79321,
+   "sl": 0.79389,
+   "tp": 0.79252,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "NZD/CAD",
+  "tp": 0.79252,
   "v": "1.19.0"
  }
 ]
