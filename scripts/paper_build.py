@@ -14,9 +14,9 @@ def stats(rs):
     fin = win + loss
     return {'signals': len(rs), 'win': win, 'loss': loss, 'expired': exp, 'open_or_pending': live,
             'win_rate': round(100 * win / fin, 1) if fin else None, 'net_pips': round(pips, 1)}
-def group(key):
+def group(key, rs):
     g = {}
-    for r in rows: g.setdefault(key(r), []).append(r)
+    for r in rs: g.setdefault(key(r), []).append(r)
     return {k: stats(v) for k, v in sorted(g.items(), key=lambda kv: str(kv[0]))}
 def ai_key(r):
     a = r.get('ai')
@@ -58,7 +58,6 @@ def verdict(r):
     if w >= 3 or conf < 55: return 'wait'
     if v >= 4 and conf >= 65: return 'yes'
     return 'weak'
-crows = [r for r in rows if r.get('council')]
 # v1.11 (app): 🟦 PERSONAL FX jaisa — $0.25 TP, SL nahi; dd = bhaav sabse zyada kitna ulta gaya ($, 0.01 lot)
 def pfx_stats(rs):
     f = [r for r in rs if (r.get('pfx') or {}).get('filledAt')]
@@ -92,33 +91,44 @@ def smart_stats(rs):
     c3 = [r for r in rs if ((r.get('smart') or {}).get('res3') or {}).get('state') in done]
     out['stop_close_confirm'] = {'n': len(c3), 'usd': round(sum(((r['smart']['res3'].get('usd') or 0)) for r in c3), 2)}
     return out
-rule_ok = [r for r in rows if (r.get('mkt') or {}).get('ok')]
-rule_no = [r for r in rows if r.get('mkt') and not (r.get('mkt') or {}).get('ok')]
-summary = {
-    'last_signal_at': rows[-1]['at'] if rows else None,
-    'total': stats(rows),
-    'by_ai': group(ai_key),
-    'sent_to_mt5': group(lambda r: 'yes' if r.get('mt5') else 'no'),
-    'limit_usd': lusd(rows),
-    # v1.8.0: 🔒 Trail niyam ($0.50 pe $0.25 lock, har $0.10) — usi LIMIT trade pe alag hisaab
-    'trail_vs_tp1': {'tp1': stats([r for r in rows if r.get('trail')]), 'tp1_usd': lusd([r for r in rows if r.get('trail')]), 'trail': tstats(rows)},
-    'smart': smart_stats(rows),
-    'pfx': pfx_stats(rows),
-    'council': {
-        'all': cstats(crows),
-        'by_order': {k: cstats([r for r in crows if (r['council'].get('order') or 'LIMIT') == k]) for k in ('LIMIT', 'MARKET')},
-        'agree': cstats([r for r in crows if r['council'].get('dir') == r.get('dir')]),
-        'disagree': cstats([r for r in crows if r['council'].get('dir') != r.get('dir')]),
-        # hamara LIMIT signal ka nateeja, Council ke aakhri faisle ke hisaab se (yes/weak/wait/no)
-        'our_signal_by_verdict': {k: dict(stats([r for r in crows if verdict(r) == k]), usd=lusd([r for r in crows if verdict(r) == k])) for k in ('yes', 'weak', 'wait', 'no')},
-    },
-    # v1.7.0: LIMIT banaam MARKET (paper hisaab). rule_ok = niyam ne MARKET kaha tha
-    'limit_vs_market': {
-        'all': {'limit': stats([r for r in rows if r.get('mkt')]), 'limit_usd': lusd([r for r in rows if r.get('mkt')]), 'market': mstats(rows)},
-        'rule_ok': {'limit': stats(rule_ok), 'limit_usd': lusd(rule_ok), 'market': mstats(rule_ok)},
-        'rule_no': {'limit': stats(rule_no), 'limit_usd': lusd(rule_no), 'market': mstats(rule_no)},
-    },
-}
+# v1.19 (app): 🤖 Scan auto (r.auto='scan') alag — user ka "100 trade" faisla sirf ✋ MERE (haath se / 🚀) par.
+# Upar ke saare keys = ✋ mere; 'scan_auto' me wahi dhaancha 🤖 auto ka; 'counts' me teeno ginti.
+def build(rows):
+    crows = [r for r in rows if r.get('council')]
+    rule_ok = [r for r in rows if (r.get('mkt') or {}).get('ok')]
+    rule_no = [r for r in rows if r.get('mkt') and not (r.get('mkt') or {}).get('ok')]
+    S = {
+        'last_signal_at': rows[-1]['at'] if rows else None,
+        'total': stats(rows),
+        'by_ai': group(ai_key, rows),
+        'sent_to_mt5': group(lambda r: 'yes' if r.get('mt5') else 'no', rows),
+        'limit_usd': lusd(rows),
+        # v1.8.0: 🔒 Trail niyam ($0.50 pe $0.25 lock, har $0.10) — usi LIMIT trade pe alag hisaab
+        'trail_vs_tp1': {'tp1': stats([r for r in rows if r.get('trail')]), 'tp1_usd': lusd([r for r in rows if r.get('trail')]), 'trail': tstats(rows)},
+        'smart': smart_stats(rows),
+        'pfx': pfx_stats(rows),
+        'council': {
+            'all': cstats(crows),
+            'by_order': {k: cstats([r for r in crows if (r['council'].get('order') or 'LIMIT') == k]) for k in ('LIMIT', 'MARKET')},
+            'agree': cstats([r for r in crows if r['council'].get('dir') == r.get('dir')]),
+            'disagree': cstats([r for r in crows if r['council'].get('dir') != r.get('dir')]),
+            # hamara LIMIT signal ka nateeja, Council ke aakhri faisle ke hisaab se (yes/weak/wait/no)
+            'our_signal_by_verdict': {k: dict(stats([r for r in crows if verdict(r) == k]), usd=lusd([r for r in crows if verdict(r) == k])) for k in ('yes', 'weak', 'wait', 'no')},
+        },
+        # v1.7.0: LIMIT banaam MARKET (paper hisaab). rule_ok = niyam ne MARKET kaha tha
+        'limit_vs_market': {
+            'all': {'limit': stats([r for r in rows if r.get('mkt')]), 'limit_usd': lusd([r for r in rows if r.get('mkt')]), 'market': mstats(rows)},
+            'rule_ok': {'limit': stats(rule_ok), 'limit_usd': lusd(rule_ok), 'market': mstats(rule_ok)},
+            'rule_no': {'limit': stats(rule_no), 'limit_usd': lusd(rule_no), 'market': mstats(rule_no)},
+        },
+    }
+    return S
+all_rows = rows
+mine = [r for r in all_rows if not r.get('auto')]
+auto = [r for r in all_rows if r.get('auto')]
+summary = build(mine)
+summary['scan_auto'] = build(auto)
+summary['counts'] = {'all': len(all_rows), 'mine': len(mine), 'scan_auto': len(auto)}
 json.dump(rows, open(os.path.join(out, 'paper.json'), 'w'), ensure_ascii=False, indent=1)
 json.dump(summary, open(os.path.join(out, 'summary.json'), 'w'), ensure_ascii=False, indent=1)
-print(f"{len(rows)} paper trades, win rate {summary['total']['win_rate']}")
+print(f"{len(rows)} paper trades (mine {len(mine)}, scan auto {len(auto)}), mine win rate {summary['total']['win_rate']}")
