@@ -90,7 +90,7 @@
    "state": "TP1",
    "usd": 0.84
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 19.4,
@@ -184,7 +184,7 @@
    "state": "TP1",
    "usd": 0.74
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 28.8,
@@ -911,7 +911,7 @@
    "state": "TP1",
    "usd": 0.52
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 16.1,
@@ -1005,7 +1005,7 @@
    "state": "TP1",
    "usd": 0.38
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 20.6,
@@ -1099,7 +1099,7 @@
    "state": "SL",
    "usd": -0.54
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 26.5,
@@ -1273,7 +1273,7 @@
    "state": "TP1",
    "usd": 0.69
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 27.7,
@@ -1526,7 +1526,7 @@
    "state": "TP1",
    "usd": 0.6
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 22.6,
@@ -1620,7 +1620,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 32.5,
@@ -1714,7 +1714,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 25,
@@ -1976,7 +1976,7 @@
    "state": "LOCK",
    "usd": 0.55
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 38.1,
@@ -2488,7 +2488,7 @@
    "state": "TP1",
    "usd": 0.61
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 13.4,
@@ -2582,7 +2582,7 @@
    "state": "SL",
    "usd": -0.82
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 20.8,
@@ -2763,7 +2763,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 15.4,
@@ -2857,7 +2857,7 @@
    "state": "TP1",
    "usd": 1.08
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 27.4,
@@ -2995,7 +2995,7 @@
    "state": "LOCK",
    "usd": 0.55
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 18,
@@ -3850,7 +3850,7 @@
    "state": "SL",
    "usd": -0.88
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 30,
@@ -4025,7 +4025,7 @@
    "state": "SL",
    "usd": -0.88
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 24.3,
@@ -4119,7 +4119,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 16.3,
@@ -4359,7 +4359,7 @@
    "state": "SL",
    "usd": -0.54
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 39.8,
@@ -4437,7 +4437,7 @@
    "state": "LOCK",
    "usd": 0.55
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 16,
@@ -4503,7 +4503,7 @@
    "done": true,
    "state": "EXPIRED"
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 39.8,
@@ -4597,7 +4597,7 @@
    "state": "LOCK",
    "usd": 0.55
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 16,
@@ -4677,7 +4677,7 @@
    "done": true,
    "state": "EXPIRED"
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 30.3,
@@ -4753,10 +4753,10 @@
   "smart": {
    "entry": 0.79152,
    "pfx": {
-    "dd": 0.86,
+    "dd": 0.89,
     "done": false,
     "state": "OPEN",
-    "usd": -0.73
+    "usd": -0.56
    },
    "res": {
     "done": true,
@@ -4777,7 +4777,7 @@
    "state": "SL",
    "usd": -0.57
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 22.3,
@@ -4855,7 +4855,7 @@
    "state": "SL",
    "usd": -0.77
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
  },
  {
   "adx": 22.3,
@@ -4949,6 +4949,289 @@
    "state": "SL",
    "usd": -0.77
   },
-  "v": "1.19.0"
+  "v": "1.20.0"
+ },
+ {
+  "adx": 31.6,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794479926355,
+  "auto": "scan",
+  "buyPct": 13,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 109.108,
+  "expiresAt": 1794483526355,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwdf0ksza0",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 109.08,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": 4.8,
+    "state": "TP1",
+    "usd": 0.31
+   },
+   "sl": 109.128,
+   "tp": 109.032
+  },
+  "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 109.269,
+  "smart": {
+   "entry": 109.108,
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 109.269,
+   "tp": 108.946,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "AUD/JPY",
+  "tp": 108.946,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.20.0"
+ },
+ {
+  "adx": 38.2,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794479926355,
+  "auto": "scan",
+  "buyPct": 20,
+  "danger": "medium",
+  "dir": "SELL",
+  "entry": 0.68368,
+  "expiresAt": 1794483526355,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwdf0ksza1",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 0.68331,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -2.9,
+    "state": "SL",
+    "usd": -0.29
+   },
+   "sl": 0.6836,
+   "tp": 0.68302
+  },
+  "mt5": false,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "sl": 0.68439,
+  "smart": {
+   "entry": 0.68368,
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
+   "sl": 0.68439,
+   "tp": 0.68298,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "AUD/USD",
+  "tp": 0.68298,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
+  "v": "1.20.0"
+ },
+ {
+  "adx": 18.4,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1794479926355,
+  "auto": "scan",
+  "buyPct": 70,
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 1.99361,
+  "expiresAt": 1794483526355,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwdf0ksza2",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.9945,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -7.6,
+    "state": "SL",
+    "usd": -0.42
+   },
+   "sl": 1.99374,
+   "tp": 1.99526
+  },
+  "mt5": false,
+  "pfx": {
+   "dd": 0.14,
+   "done": true,
+   "filledAt": 1794480900000,
+   "mins": 10,
+   "state": "TP",
+   "usd": 0.25
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "filledAt": 1794480900000,
+   "state": "OPEN"
+  },
+  "sl": 1.99131,
+  "smart": {
+   "entry": 1.99361,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.99131,
+   "tp": 1.9959,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "EUR/NZD",
+  "tp": 1.9959,
+  "trail": {
+   "done": false,
+   "state": "OPEN"
+  },
+  "v": "1.20.0"
+ },
+ {
+  "adx": 27.1,
+  "ai": {
+   "agree": true,
+   "conf": 82
+  },
+  "at": 1794486310756,
+  "auto": "",
+  "buyPct": 17,
+  "council": {
+   "bots": "T:S M:S L:S M:S R:S D:W",
+   "conf": 85,
+   "dir": "SELL",
+   "entry": 1.32687,
+   "fixed": false,
+   "order": "LIMIT",
+   "sl": 1.32752,
+   "tp": 1.32622
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.32687,
+  "expiresAt": 1794489910756,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwdit5qo",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.32637,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.32767,
+   "tp": 1.32507
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.32752,
+  "smart": {
+   "entry": 1.32637,
+   "pfx": {
+    "dd": 0,
+    "done": false,
+    "state": "OPEN",
+    "usd": 0
+   },
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.32767,
+   "tp": 1.32507,
+   "type": "MARKET",
+   "why": "tez trend (ADX 27); LIMIT 0.8 ATR door; bhaav zyada nahi bhaaga; candle trend ki disha"
+  },
+  "src": "mt5",
+  "sym": "GBP/USD",
+  "tp": 1.32622,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.20.0"
  }
 ]
