@@ -29,7 +29,7 @@ jobs:
           curl -sS --max-time 30 "$B/samuai/auto/state.json$A" -o astate.json || true
           curl -sS --max-time 30 "$B/samuai/auto/sig.json$Q" -o asig.json || true
           python3 - <<'PY'
-          import json, time
+          import json, time, re
           def load(p):
               try: return json.load(open(p))
               except Exception as e: return {'_err': str(e)}
@@ -87,7 +87,7 @@ jobs:
                   x = sg[k]
                   if not isinstance(x, dict): continue
                   st_ = x.get('st') or '(EA ne abhi nahi dekha)'
-                  msg = '' if st_ == 'PLACED' else str(x.get('msg') or '')[:90]
+                  msg = '' if st_ == 'PLACED' else re.sub(r'#\d+\s*', '', str(x.get('msg') or ''))[:90]
                   print('AUTO_SIG:', ist(x.get('at')), x.get('sym'), x.get('dir'), 'AI', x.get('conf'), '->', st_, msg)
           else:
               print('AUTO_SIG:', json.dumps(sg)[:200])
