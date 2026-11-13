@@ -24,8 +24,12 @@ jobs:
           curl -sS --max-time 30 "$B/feed/news/cal.json$A" -o ncal.json || true
           curl -sS --max-time 30 "$B/copytrade/vps.json$A" -o vps.json || true
           curl -sS --max-time 30 "$B/feed/news/paper.json$A" -o npaper.json || true
+          Q="?orderBy=%22%24key%22&limitToLast=40"; if [ -n "$FB_AUTH" ]; then Q="$Q&auth=$FB_AUTH"; fi
+          curl -sS --max-time 30 "$B/samuai/auto/scan.json$A" -o ascan.json || true
+          curl -sS --max-time 30 "$B/samuai/auto/state.json$A" -o astate.json || true
+          curl -sS --max-time 30 "$B/samuai/auto/sig.json$Q" -o asig.json || true
           python3 - <<'PY'
-          import json, time
+          import json, time, re
           def load(p):
               try: return json.load(open(p))
               except Exception as e: return {'_err': str(e)}
@@ -64,6 +68,29 @@ jobs:
                   print('NEWS_PAPER:', time.strftime('%d %b %H:%M', time.gmtime((p.get('t') or 0) + 19800)), 'IST', p.get('title'), p.get('act'), 'vs', p.get('fc'), 'usd', p.get('usd'), 'conf', p.get('conf'), '::', sg)
           else:
               print('NEWS_PAPER:', json.dumps(npp)[:200])
+          # SAMUSIGNAL AI AUTO (demo EA + VPS scanner): scan / halat / aakhri signal — balance / login / ticket NAHI
+          now = time.time()
+          ist = lambda t: time.strftime('%d %b %H:%M', time.gmtime((t or 0) + 19800))
+          sc = load('ascan.json')
+          if isinstance(sc, dict) and sc.get('t'):
+              print('AUTO_SCAN:', ist(sc['t']), 'IST | age_min', int((now - sc['t']) / 60), '| ok', sc.get('ok'), '| pairs', sc.get('pairs'), 'achhe', sc.get('cand'), 'AI', sc.get('ai'), 'sahmat', sc.get('agree'), 'bheje', sc.get('sent'), '| aiToday', sc.get('aiToday'), '|', sc.get('why') or '', '| top', ' '.join(f"{x.get('n')}:{x.get('dir','')[:1]}{x.get('g')}:{x.get('a')}" for x in (sc.get('top') or [])))
+          else:
+              print('AUTO_SCAN:', json.dumps(sc)[:200])
+          stt = load('astate.json')
+          if isinstance(stt, dict) and stt.get('t'):
+              print('AUTO_EA:', 'v' + str(stt.get('v')), '| age_sec', int(now - stt['t']), '| stop', stt.get('stop'), '|', stt.get('why') or '', '| open', stt.get('open'), 'pend', stt.get('pend'), '| busy', ' '.join(stt.get('busy') or []), '| news', ' '.join(stt.get('news') or []), '|', stt.get('status') or '')
+          else:
+              print('AUTO_EA:', json.dumps(stt)[:200])
+          sg = load('asig.json')
+          if isinstance(sg, dict) and '_err' not in sg:
+              for k in sorted(sg)[-40:]:
+                  x = sg[k]
+                  if not isinstance(x, dict): continue
+                  st_ = x.get('st') or '(EA ne abhi nahi dekha)'
+                  msg = '' if st_ == 'PLACED' else re.sub(r'#\d+\s*', '', str(x.get('msg') or ''))[:90]
+                  print('AUTO_SIG:', ist(x.get('at')), x.get('sym'), x.get('dir'), 'AI', x.get('conf'), '->', st_, msg)
+          else:
+              print('AUTO_SIG:', json.dumps(sg)[:200])
           # VPS Helper: sirf "News" wali compile / log lines (koi secret nahi)
           v = load('vps.json')
           def walk(o, path=''):
