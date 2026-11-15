@@ -9361,8 +9361,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "pips": 381.5,
+    "state": "TP1",
+    "usd": 3.82
    },
    "sl": 64850,
    "tp": 65613.06
@@ -9385,28 +9387,30 @@
    "entry": 65370.1,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -303.4,
+    "state": "SL",
+    "usd": -3.03
    },
    "sl": 65673.49,
    "tp": 65066.71
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "regime": "Weak trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 66427.46,
   "smart": {
    "entry": 66126.94,
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "EXPIRED"
    },
    "sl": 66427.46,
    "tp": 65826.43,
@@ -9417,8 +9421,8 @@
   "sym": "BTC/USD",
   "tp": 65826.43,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "v": "1.28.0"
  }

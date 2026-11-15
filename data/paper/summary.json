@@ -4,8 +4,8 @@
   "signals": 70,
   "win": 20,
   "loss": 11,
-  "expired": 38,
-  "open_or_pending": 1,
+  "expired": 39,
+  "open_or_pending": 0,
   "win_rate": 64.5,
   "net_pips": 101.9
  },
@@ -23,8 +23,8 @@
    "signals": 2,
    "win": 0,
    "loss": 0,
-   "expired": 1,
-   "open_or_pending": 1,
+   "expired": 2,
+   "open_or_pending": 0,
    "win_rate": null,
    "net_pips": 0
   }
@@ -43,8 +43,8 @@
    "signals": 69,
    "win": 20,
    "loss": 11,
-   "expired": 37,
-   "open_or_pending": 1,
+   "expired": 38,
+   "open_or_pending": 0,
    "win_rate": 64.5,
    "net_pips": 101.9
   }
@@ -55,8 +55,8 @@
    "signals": 70,
    "win": 20,
    "loss": 11,
-   "expired": 38,
-   "open_or_pending": 1,
+   "expired": 39,
+   "open_or_pending": 0,
    "win_rate": 64.5,
    "net_pips": 101.9
   },
@@ -121,20 +121,20 @@
  "council": {
   "all": {
    "signals": 64,
-   "win": 19,
+   "win": 20,
    "loss": 11,
-   "open_or_pending": 34,
-   "win_rate": 63.3,
-   "usd": 6.74
+   "open_or_pending": 33,
+   "win_rate": 64.5,
+   "usd": 10.56
   },
   "by_order": {
    "LIMIT": {
     "signals": 64,
-    "win": 19,
+    "win": 20,
     "loss": 11,
-    "open_or_pending": 34,
-    "win_rate": 63.3,
-    "usd": 6.74
+    "open_or_pending": 33,
+    "win_rate": 64.5,
+    "usd": 10.56
    },
    "MARKET": {
     "signals": 0,
@@ -155,11 +155,11 @@
   },
   "disagree": {
    "signals": 1,
-   "win": 0,
+   "win": 1,
    "loss": 0,
-   "open_or_pending": 1,
-   "win_rate": null,
-   "usd": 0
+   "open_or_pending": 0,
+   "win_rate": 100.0,
+   "usd": 3.82
   },
   "our_signal_by_verdict": {
    "yes": {
@@ -196,8 +196,8 @@
     "signals": 1,
     "win": 0,
     "loss": 0,
-    "expired": 0,
-    "open_or_pending": 1,
+    "expired": 1,
+    "open_or_pending": 0,
     "win_rate": null,
     "net_pips": 0,
     "usd": 0
@@ -210,8 +210,8 @@
     "signals": 70,
     "win": 20,
     "loss": 11,
-    "expired": 38,
-    "open_or_pending": 1,
+    "expired": 39,
+    "open_or_pending": 0,
     "win_rate": 64.5,
     "net_pips": 101.9
    },
@@ -219,10 +219,10 @@
    "market": {
     "signals": 70,
     "win": 43,
-    "loss": 26,
-    "open": 1,
-    "win_rate": 62.3,
-    "usd": 9.18
+    "loss": 27,
+    "open": 0,
+    "win_rate": 61.4,
+    "usd": 6.15
    }
   },
   "rule_ok": {
@@ -250,8 +250,8 @@
     "signals": 69,
     "win": 20,
     "loss": 11,
-    "expired": 37,
-    "open_or_pending": 1,
+    "expired": 38,
+    "open_or_pending": 0,
     "win_rate": 64.5,
     "net_pips": 101.9
    },
@@ -259,10 +259,10 @@
    "market": {
     "signals": 69,
     "win": 42,
-    "loss": 26,
-    "open": 1,
-    "win_rate": 61.8,
-    "usd": 8.69
+    "loss": 27,
+    "open": 0,
+    "win_rate": 60.9,
+    "usd": 5.66
    }
   }
  },
