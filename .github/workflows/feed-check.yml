@@ -1,5 +1,6 @@
 # SamuSignal Data Feed ki jaanch (sirf haath se chalao) — Firebase /feed padhkar log me haalat likhta hai.
 # Koi commit nahi, koi key log me nahi. Secrets: FIREBASE_URL, FIREBASE_AUTH (paper-sync wale hi).
+# 16 Nov: Candle (Strategy 5) VPS paper ka hisaab bhi (/candle/vps, /candle/cfg, /candle/paper) — sirf naap.
 name: Data Feed check
 on:
   workflow_dispatch:
@@ -28,6 +29,11 @@ jobs:
           curl -sS --max-time 30 "$B/samuai/auto/scan.json$A" -o ascan.json || true
           curl -sS --max-time 30 "$B/samuai/auto/state.json$A" -o astate.json || true
           curl -sS --max-time 30 "$B/samuai/auto/sig.json$Q" -o asig.json || true
+          # Candle (Strategy 5) — VPS scanner ka paper: sirf naap, koi key / balance nahi
+          C="?orderBy=%22%24key%22&limitToLast=1500"; if [ -n "$FB_AUTH" ]; then C="$C&auth=$FB_AUTH"; fi
+          curl -sS --max-time 30 "$B/candle/vps.json$A" -o cvps.json || true
+          curl -sS --max-time 30 "$B/candle/cfg.json$A" -o ccfg.json || true
+          curl -sS --max-time 60 "$B/candle/paper.json$C" -o cpaper.json || true
           python3 - <<'PY'
           import json, time, re
           def load(p):
@@ -101,4 +107,48 @@ jobs:
               elif isinstance(o, str) and ('News' in o or 'news' in o): print('VPS', path[-60:], '|', o[:220])
           if isinstance(v, dict): print('VPS_KEYS:', list(v.keys())[:12], '| at', v.get('at') or v.get('ts')); walk(v)
           else: print('VPS:', json.dumps(v)[:200])
+          # --- CANDLE (Strategy 5) VPS paper ka hisaab ---
+          cv = load('cvps.json')
+          if isinstance(cv, dict) and cv.get('t'):
+              print('CANDLE_VPS: v' + str(cv.get('v')), '| age_sec', int(now - cv['t']), '| push tf', cv.get('tf'), '| tfs', cv.get('tfs'), '| pairs', cv.get('pairs'), '| paper', cv.get('paper'), '| reset', cv.get('reset'))
+          else:
+              print('CANDLE_VPS:', json.dumps(cv)[:200])
+          cc = load('ccfg.json')
+          if isinstance(cc, dict) and '_err' not in cc:
+              print('CANDLE_CFG:', json.dumps({k: cc.get(k) for k in ('tf', 'autoPaper', 'pairs') if k in cc})[:300])
+          cp = load('cpaper.json')
+          if isinstance(cp, dict) and '_err' not in cp and 'error' not in cp:
+              P = [x for x in cp.values() if isinstance(x, dict)]
+              P.sort(key=lambda x: x.get('at') or 0)
+              num = lambda v: isinstance(v, (int, float))
+              day = lambda t: time.strftime('%d %b', time.gmtime((t or 0) / 1000 + 19800))
+              print('CANDLE_PAPER: kul', len(P), '| pehla', ist((P[0].get('at') or 0) / 1000) if P else '-', '| aakhri', ist((P[-1].get('at') or 0) / 1000) if P else '-')
+              def line(tag, L):
+                  if not L: print('  ', tag, '-'); return
+                  w = sum(1 for x in L if x['pl'] > 0); l = sum(1 for x in L if x['pl'] < 0)
+                  print('  ', tag, 'n', len(L), 'jeet', w, 'haar', l, 'sifar', len(L) - w - l, 'wr', round(100 * w / len(L), 1), 'net $', round(sum(x['pl'] for x in L), 2), 'avg $', round(sum(x['pl'] for x in L) / len(L), 3), 'sabse bura $', round(min(x['pl'] for x in L), 2))
+              for tf in (1, 5):
+                  T = [x for x in P if str(x.get('tf')) == str(tf)]
+                  D = [x for x in T if x.get('done') and num(x.get('pl'))]
+                  print('CANDLE_TF', tf, 'MIN: kul', len(T), '| band', len(D), '| chalu', sum(1 for x in T if not x.get('done')))
+                  line('SAB', D)
+                  R = {}
+                  for x in D: R.setdefault(x.get('res'), []).append(x)
+                  for k, L in sorted(R.items(), key=lambda kv: -len(kv[1])): line('RES ' + str(k), L)
+                  M = [x['mae'] for x in D if num(x.get('mae'))]
+                  if M: print('   MAE n', len(M), 'sabse gehra $', round(min(M), 2), 'avg $', round(sum(M) / len(M), 2), '| < -1:', sum(1 for v in M if v <= -1), '< -3:', sum(1 for v in M if v <= -3), '< -5:', sum(1 for v in M if v <= -5), '< -10:', sum(1 for v in M if v <= -10))
+                  for c in ('G', 'Y', 'R'): line('WX ' + c, [x for x in D if isinstance(x.get('wx'), dict) and x['wx'].get('c') == c])
+                  for i in ('1', '2', '3', '4'):
+                      for v in (True, False):
+                          line('PUSHTI ' + i + ' ' + ('haan' if v else 'nahi'), [x for x in D if isinstance(x.get('cf'), (dict, list)) and (x['cf'].get(i) if isinstance(x['cf'], dict) else (x['cf'][int(i)] if len(x['cf']) > int(i) else None)) is v])
+                  S = {}
+                  for x in D: S.setdefault(x.get('sym'), []).append(x)
+                  for k, L in sorted(S.items(), key=lambda kv: -len(kv[1])): line('PAIR ' + str(k), L)
+                  Dy = {}
+                  for x in D: Dy.setdefault(day(x.get('at')), []).append(x)
+                  for k, L in Dy.items(): line('DIN ' + k, L)
+                  for x in D[-12:]:
+                      print('   LAST', ist((x.get('at') or 0) / 1000), x.get('sym'), x.get('dir'), x.get('res'), 'pl', x.get('pl'), 'n', x.get('n'), 'mae', round(x['mae'], 2) if num(x.get('mae')) else None, 'tp', x.get('tp'), 'wx', (x.get('wx') or {}).get('c') if isinstance(x.get('wx'), dict) else None)
+          else:
+              print('CANDLE_PAPER:', json.dumps(cp)[:200])
           PY
