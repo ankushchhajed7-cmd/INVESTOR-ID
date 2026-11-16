@@ -127,7 +127,7 @@ jobs:
                   if not L: print('  ', tag, '-'); return
                   w = sum(1 for x in L if x['pl'] > 0); l = sum(1 for x in L if x['pl'] < 0)
                   print('  ', tag, 'n', len(L), 'jeet', w, 'haar', l, 'sifar', len(L) - w - l, 'wr', round(100 * w / len(L), 1), 'net $', round(sum(x['pl'] for x in L), 2), 'avg $', round(sum(x['pl'] for x in L) / len(L), 3), 'sabse bura $', round(min(x['pl'] for x in L), 2))
-              for tf in (1, 5):
+              for tf in (1,):                                   # 16 Nov: sirf 1 MIN (user)
                   T = [x for x in P if str(x.get('tf')) == str(tf)]
                   D = [x for x in T if x.get('done') and num(x.get('pl'))]
                   print('CANDLE_TF', tf, 'MIN: kul', len(T), '| band', len(D), '| chalu', sum(1 for x in T if not x.get('done')))
