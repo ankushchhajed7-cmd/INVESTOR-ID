@@ -267,71 +267,71 @@
   }
  },
  "scan_auto": {
-  "last_signal_at": 1794586350564,
+  "last_signal_at": 1794815866085,
   "total": {
-   "signals": 48,
-   "win": 9,
-   "loss": 9,
-   "expired": 28,
-   "open_or_pending": 2,
-   "win_rate": 50.0,
-   "net_pips": -1083.5
+   "signals": 55,
+   "win": 11,
+   "loss": 10,
+   "expired": 31,
+   "open_or_pending": 3,
+   "win_rate": 52.4,
+   "net_pips": -1073.3
   },
   "by_ai": {
    "agree": {
-    "signals": 48,
-    "win": 9,
-    "loss": 9,
-    "expired": 28,
-    "open_or_pending": 2,
-    "win_rate": 50.0,
-    "net_pips": -1083.5
+    "signals": 55,
+    "win": 11,
+    "loss": 10,
+    "expired": 31,
+    "open_or_pending": 3,
+    "win_rate": 52.4,
+    "net_pips": -1073.3
    }
   },
   "sent_to_mt5": {
    "no": {
-    "signals": 48,
-    "win": 9,
-    "loss": 9,
-    "expired": 28,
-    "open_or_pending": 2,
-    "win_rate": 50.0,
-    "net_pips": -1083.5
+    "signals": 55,
+    "win": 11,
+    "loss": 10,
+    "expired": 31,
+    "open_or_pending": 3,
+    "win_rate": 52.4,
+    "net_pips": -1073.3
    }
   },
-  "limit_usd": -8.75,
+  "limit_usd": -8.35,
   "trail_vs_tp1": {
    "tp1": {
-    "signals": 46,
-    "win": 9,
-    "loss": 9,
-    "expired": 28,
-    "open_or_pending": 0,
-    "win_rate": 50.0,
-    "net_pips": -1083.5
+    "signals": 53,
+    "win": 11,
+    "loss": 10,
+    "expired": 31,
+    "open_or_pending": 1,
+    "win_rate": 52.4,
+    "net_pips": -1073.3
    },
-   "tp1_usd": -8.75,
+   "tp1_usd": -8.35,
    "trail": {
-    "signals": 46,
-    "tp": 3,
-    "lock": 8,
-    "loss": 7,
-    "win_rate": 61.1,
-    "usd": -6.3
+    "signals": 53,
+    "tp": 5,
+    "lock": 9,
+    "loss": 8,
+    "win_rate": 63.6,
+    "usd": -5.65
    }
   },
   "smart": {
    "all": {
-    "n": 24,
-    "win": 13,
-    "win_rate": 54.2,
-    "usd": 1.97
+    "n": 30,
+    "win": 17,
+    "win_rate": 56.7,
+    "usd": 4.27
    },
    "MARKET": {
-    "n": 8,
-    "win": 5,
-    "win_rate": 62.5,
-    "usd": 11.94
+    "n": 11,
+    "win": 7,
+    "win_rate": 63.6,
+    "usd": 13.84
    },
    "STOP": {
     "n": 0,
@@ -340,10 +340,10 @@
     "usd": 0
    },
    "LIMIT": {
-    "n": 16,
-    "win": 8,
-    "win_rate": 50.0,
-    "usd": -9.97
+    "n": 19,
+    "win": 10,
+    "win_rate": 52.6,
+    "usd": -9.57
    },
    "stop_early": 0,
    "stop_saved_usd": 0,
@@ -353,18 +353,18 @@
    }
   },
   "pfx": {
-   "filled": 18,
-   "tp": 15,
+   "filled": 22,
+   "tp": 19,
    "sl": 3,
    "open": 0,
    "timeout": 0,
-   "tp_rate": 83.3,
-   "usd_closed": -0.75,
+   "tp_rate": 86.4,
+   "usd_closed": 0.25,
    "open_usd": 0,
-   "avg_mins_to_tp": 62,
+   "avg_mins_to_tp": 54,
    "worst_dd": 1.5,
-   "avg_dd": 0.42,
-   "dd_over_1": 4,
+   "avg_dd": 0.41,
+   "dd_over_1": 5,
    "dd_over_5": 0,
    "dd_over_10": 0
   },
@@ -457,22 +457,22 @@
   "limit_vs_market": {
    "all": {
     "limit": {
-     "signals": 48,
-     "win": 9,
-     "loss": 9,
-     "expired": 28,
-     "open_or_pending": 2,
-     "win_rate": 50.0,
-     "net_pips": -1083.5
+     "signals": 55,
+     "win": 11,
+     "loss": 10,
+     "expired": 31,
+     "open_or_pending": 3,
+     "win_rate": 52.4,
+     "net_pips": -1073.3
     },
-    "limit_usd": -8.75,
+    "limit_usd": -8.35,
     "market": {
-     "signals": 48,
-     "win": 28,
-     "loss": 18,
+     "signals": 55,
+     "win": 32,
+     "loss": 21,
      "open": 2,
-     "win_rate": 60.9,
-     "usd": 23.36
+     "win_rate": 60.4,
+     "usd": 24.63
     }
    },
    "rule_ok": {
@@ -497,29 +497,29 @@
    },
    "rule_no": {
     "limit": {
-     "signals": 48,
-     "win": 9,
-     "loss": 9,
-     "expired": 28,
-     "open_or_pending": 2,
-     "win_rate": 50.0,
-     "net_pips": -1083.5
+     "signals": 55,
+     "win": 11,
+     "loss": 10,
+     "expired": 31,
+     "open_or_pending": 3,
+     "win_rate": 52.4,
+     "net_pips": -1073.3
     },
-    "limit_usd": -8.75,
+    "limit_usd": -8.35,
     "market": {
-     "signals": 48,
-     "win": 28,
-     "loss": 18,
+     "signals": 55,
+     "win": 32,
+     "loss": 21,
      "open": 2,
-     "win_rate": 60.9,
-     "usd": 23.36
+     "win_rate": 60.4,
+     "usd": 24.63
     }
    }
   }
  },
  "counts": {
-  "all": 118,
+  "all": 125,
   "mine": 70,
-  "scan_auto": 48
+  "scan_auto": 55
  }
 }
