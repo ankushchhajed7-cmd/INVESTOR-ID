@@ -162,6 +162,12 @@ jobs:
                   for x in D: R.setdefault(x.get('res'), []).append(x)
                   for k, L in sorted(R.items(), key=lambda kv: -len(kv[1])): line('RES ' + str(k), L)
                   M = [x['mae'] for x in D if num(x.get('mae'))]
+                  TVK = ('T30', 'T50', 'T75', 'T100', 'TR', 'B25')            # 16 Nov: TP ka naap (scanner v1.10)
+                  TV = [x for x in D if isinstance(x.get('tv'), dict) and all(isinstance(x['tv'].get(v), dict) and num(x['tv'][v].get('pl')) for v in TVK)]
+                  if TV:
+                      print('   TPV n', len(TV), '|', ' | '.join(v + ' $' + str(round(sum(x['tv'][v]['pl'] for x in TV), 2)) + ' haar ' + str(sum(1 for x in TV if x['tv'][v]['pl'] < 0)) for v in TVK))
+                      F1 = [x['mfe1'] for x in TV if num(x.get('mfe1'))]
+                      if F1: print('   MFE1 avg $', round(sum(F1) / len(F1), 2), '| TP avg $', round(sum(x.get('tp') or 0 for x in TV) / len(TV), 2))
                   if M: print('   MAE n', len(M), 'sabse gehra $', round(min(M), 2), 'avg $', round(sum(M) / len(M), 2), '| < -1:', sum(1 for v in M if v <= -1), '< -3:', sum(1 for v in M if v <= -3), '< -5:', sum(1 for v in M if v <= -5), '< -10:', sum(1 for v in M if v <= -10))
                   for c in ('G', 'Y', 'R'): line('WX ' + c, [x for x in D if isinstance(x.get('wx'), dict) and x['wx'].get('c') == c])
                   for i in ('1', '2', '3', '4'):
