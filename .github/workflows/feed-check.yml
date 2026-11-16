@@ -34,6 +34,9 @@ jobs:
           curl -sS --max-time 30 "$B/candle/vps.json$A" -o cvps.json || true
           curl -sS --max-time 30 "$B/candle/cfg.json$A" -o ccfg.json || true
           curl -sS --max-time 60 "$B/candle/paper.json$C" -o cpaper.json || true
+          curl -sS --max-time 30 "$B/candle/ea/state.json$A" -o ceast.json || true
+          E="?orderBy=%22%24key%22&limitToLast=500"; if [ -n "$FB_AUTH" ]; then E="$E&auth=$FB_AUTH"; fi
+          curl -sS --max-time 30 "$B/candle/ea/trades.json$E" -o cetr.json || true
           python3 - <<'PY'
           import json, time, re
           def load(p):
@@ -107,6 +110,29 @@ jobs:
               elif isinstance(o, str) and ('News' in o or 'news' in o): print('VPS', path[-60:], '|', o[:220])
           if isinstance(v, dict): print('VPS_KEYS:', list(v.keys())[:12], '| at', v.get('at') or v.get('ts')); walk(v)
           else: print('VPS:', json.dumps(v)[:200])
+          # --- SAMUSIGNAL CANDLE EA (demo): halat + trade (balance / equity / login NAHI chhaapte) ---
+          es = load('ceast.json')
+          if isinstance(es, dict) and es.get('t'):
+              print('CANDLE_EA: v' + str(es.get('v')), '| age_sec', int(now - es['t']), '| demo', es.get('demo'), '| tf', es.get('tf'), '| pairs', es.get('pairs'), '| open', es.get('open'), '/', es.get('max'), '| aaj $', es.get('dayPl'), 'jeet', es.get('dayW'), 'haar', es.get('dayL'), '| stop', es.get('stop') or '-', '| last', es.get('last'), '| skip', es.get('skip'))
+          else:
+              print('CANDLE_EA:', json.dumps(es)[:200])
+          et = load('cetr.json')
+          if isinstance(et, dict) and '_err' not in et and 'error' not in et:
+              T = [x for x in et.values() if isinstance(x, dict)]
+              T.sort(key=lambda x: x.get('next') or 0)
+              Dn = [x for x in T if x.get('done') and isinstance(x.get('pl'), (int, float))]
+              w = sum(1 for x in Dn if x['pl'] > 0); l = sum(1 for x in Dn if x['pl'] < 0)
+              print('CANDLE_EA_TRADES: kul', len(T), '| band', len(Dn), '| chalu', len(T) - len(Dn), '| jeet', w, 'haar', l, '| net $', round(sum(x['pl'] for x in Dn), 2))
+              Dy = {}
+              for x in Dn: Dy.setdefault(time.strftime('%d %b', time.gmtime((x.get('next') or 0) / 1000 + 19800)), []).append(x)
+              for k, L in Dy.items(): print('   EA_DIN', k, 'n', len(L), 'net $', round(sum(x['pl'] for x in L), 2), 'haar', sum(1 for x in L if x['pl'] < 0))
+              R = {}
+              for x in Dn: R.setdefault(x.get('res'), []).append(x)
+              for k, L in R.items(): print('   EA_RES', k, 'n', len(L), 'net $', round(sum(x['pl'] for x in L), 2))
+              for x in T[-15:]:
+                  print('   EA_LAST', ist((x.get('next') or 0) / 1000), x.get('n'), x.get('dir'), x.get('res') or 'chalu', 'pl', x.get('pl'), 'cn', x.get('cn'), 'tp', x.get('tp'), 'spread', x.get('spread'))
+          else:
+              print('CANDLE_EA_TRADES:', json.dumps(et)[:200])
           # --- CANDLE (Strategy 5) VPS paper ka hisaab ---
           cv = load('cvps.json')
           if isinstance(cv, dict) and cv.get('t'):
