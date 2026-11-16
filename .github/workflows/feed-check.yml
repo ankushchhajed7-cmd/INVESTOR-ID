@@ -147,6 +147,10 @@ jobs:
                   Dy = {}
                   for x in D: Dy.setdefault(day(x.get('at')), []).append(x)
                   for k, L in Dy.items(): line('DIN ' + k, L)
+                  for x in [y for y in D if y['pl'] < 0]:
+                      w = x.get('wx') if isinstance(x.get('wx'), dict) else {}
+                      cf = x.get('cf') if isinstance(x.get('cf'), dict) else {}
+                      print('   LOSS', ist((x.get('at') or 0) / 1000), '| candle', ist((x.get('next') or 0) / 1000), '->', ist((x.get('exitT') or 0) / 1000), '|', x.get('sym'), x.get('dir'), x.get('res'), 'pl', x.get('pl'), '| n', x.get('n'), '| mae', round(x['mae'], 2) if num(x.get('mae')) else None, '| tp', x.get('tp'), 'sl', x.get('sl'), '| entry', x.get('entry'), 'spread', x.get('spread'), 'k', x.get('k'), '| wx', w.get('c'), ' '.join(w.get('why') or []), '| pushti', ''.join(('Y' if cf.get(i) is True else 'N' if cf.get(i) is False else '-') for i in '1234'), '| why', str(x.get('why') or '')[:80])
                   for x in D[-12:]:
                       print('   LAST', ist((x.get('at') or 0) / 1000), x.get('sym'), x.get('dir'), x.get('res'), 'pl', x.get('pl'), 'n', x.get('n'), 'mae', round(x['mae'], 2) if num(x.get('mae')) else None, 'tp', x.get('tp'), 'wx', (x.get('wx') or {}).get('c') if isinstance(x.get('wx'), dict) else None)
           else:
