@@ -1,0 +1,111 @@
+# Investor Watch v1.08 — STRATEGY SCAN (bina VPS)
+# GitHub ki free Windows machine par MT5 install -> investor login -> poori history + candles
+# -> strategy analyser -> data/<login>/strategy.json + STRATEGY.md (+ history.json/live.json agar EA nahi likhta)
+# App ke "Scan" tab se chalta hai (ya Actions > Strategy Scan > Run workflow).
+# Password sirf ENCRYPTED aata hai. Ek baar repo secret banao: IW_KEY = apni secret key (app me bhi wahi).
+name: Strategy Scan
+run-name: Scan ${{ inputs.login }}
+on:
+  workflow_dispatch:
+    inputs:
+      login:
+        description: 'MT5 account number'
+        required: true
+      server:
+        description: 'Server naam (jaise XMGlobal-MT5 12)'
+        required: true
+      enc:
+        description: 'Encrypted investor password (app banata hai)'
+        required: true
+      installer:
+        description: 'Broker ka MT5 installer link (khaali = MetaQuotes wala)'
+        required: false
+        default: ''
+      days:
+        description: 'Kitne din ki history (0 = sab)'
+        required: false
+        default: '0'
+permissions:
+  contents: write
+concurrency:
+  group: scan-${{ inputs.login }}
+  cancel-in-progress: true
+jobs:
+  scan:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python packages
+        shell: bash
+        run: python -m pip install -q MetaTrader5 cryptography
+      - name: MT5 install
+        shell: pwsh
+        env:
+          IW_INSTALLER: ${{ inputs.installer }}
+        run: |
+          $url = $env:IW_INSTALLER
+          if (-not $url) { $url = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe' }
+          Write-Host "Installer: $url"
+          Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
+          Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
+          $term = $null
+          for ($i = 0; $i -lt 60 -and -not $term; $i++) {
+            Start-Sleep -Seconds 10
+            $term = Get-ChildItem 'C:\Program Files','C:\Program Files (x86)' -Recurse -Filter terminal64.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+          }
+          if (-not $term) { Write-Host '::error::MT5 install nahi hua (terminal64.exe nahi mila)'; exit 1 }
+          Start-Sleep -Seconds 25
+          Get-Process terminal64, mt5setup -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+          Write-Host "Terminal: $($term.FullName)"
+          "IW_TERM=$($term.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: MT5 se data (investor login)
+        shell: bash
+        env:
+          IW_LOGIN: ${{ inputs.login }}
+          IW_SERVER: ${{ inputs.server }}
+          IW_ENC: ${{ inputs.enc }}
+          IW_DAYS: ${{ inputs.days }}
+          IW_KEY: ${{ secrets.IW_KEY }}
+        run: python scripts/mt5_fetch.py "$IW_TERM" scan_tmp
+      - name: Strategy nikalo
+        shell: bash
+        env:
+          IW_LOGIN: ${{ inputs.login }}
+        run: python scripts/strategy_scan.py scan_tmp/raw.json "data/$IW_LOGIN"
+      - name: Nateeja repo me (fail ho to bhi status)
+        if: always()
+        shell: bash
+        env:
+          IW_LOGIN: ${{ inputs.login }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          case "$IW_LOGIN" in ''|*[!0-9]*) echo "login galat"; exit 1;; esac
+          mkdir -p "data/$IW_LOGIN"
+          python - <<'PY'
+          import json, os, time
+          acc = os.environ['IW_LOGIN']
+          try: st = json.load(open('scan_tmp/status.json'))
+          except Exception: st = {'stage': 'setup', 'ok': False, 'msg': 'MT5 install / setup me dikkat — run log dekho'}
+          done = os.path.exists(f'data/{acc}/strategy.json') and st.get('stage') in ('fetched', 'done')
+          out = {'state': 'done' if done else 'error', 'stage': st.get('stage'), 'msg': st.get('msg', ''),
+                 'at': int(time.time()), 'run': os.environ.get('RUN_URL', '')}
+          json.dump(out, open(f'data/{acc}/scan.json', 'w'), indent=1)
+          print(out)
+          PY
+          git config user.name "strategy-scan"
+          git config user.email "strategy-scan@users.noreply.github.com"
+          git add "data/$IW_LOGIN"
+          if git diff --cached --quiet; then echo "koi badlav nahi"; exit 0; fi
+          git commit -q -m "scan $IW_LOGIN $(date -u +%d%b-%H:%M)"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin main && git push -q origin HEAD:main; then exit 0; fi
+            sleep $((i*5))
+          done
+          exit 1

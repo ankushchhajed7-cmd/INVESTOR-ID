@@ -11,6 +11,7 @@ The EA NEVER trades.
 - `Investor Account Watcher v1.00.mq5` — Reader EA for MT5 (load in MetaEditor, run on VPS). Not required in the repo to work, kept here for safekeeping.
 - `data/<account>/live.json` — current open positions + balance (auto-written by EA every ~20s)
 - `data/<account>/history.json` — closed deals, last N days (auto-written by EA, refreshed ~30 min)
+- `.github/workflows/strategy-scan.yml` + `scripts/mt5_fetch.py` + `scripts/strategy_scan.py` — **Strategy Scan (bina VPS)**: GitHub Actions Windows par MT5 → investor login → poori history + candles → `data/<account>/strategy.json`, `STRATEGY.md`, `scan.json` (+ history.json/live.json agar Reader EA nahi likhta, `src:"scan"`)
 
 ## How it connects
 Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → repo JSON → PWA (raw.githubusercontent, 30s refresh).
@@ -25,6 +26,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.08 (2026-11-17) — **🔍 Scan tab = Strategy Scan bina VPS.** App me login + server + investor password → password AES-GCM se encrypt (key = repo secret `IW_KEY`, wahi key app me) → GitHub API se `strategy-scan.yml` chalta hai (windows-latest, MT5 `/auto` install, ya broker installer link) → Python MetaTrader5 investor login → sab deals/orders/open/pending + M1/M5/M15/H1 candles → analyser: EA type (single/grid/martingale/pending/straddle/hedge), entry TF (candle open alignment), IST ghante, direction rule (EMA/candle/RSI/breakout match %), filters vs normal market, grid gap, lot × / +, basket $ target, TP/SL, trailing/BE, pending distance + expiry, risk, clone EA inputs. Har magic alag report, confidence (pakka / achha andaaza / kamzor). App: run status live (Actions API), report cards, 📋 Copy (STRATEGY.md chat ke liye). Password kahin save nahi. Test: synthetic grid-martingale (M15 EMA50, gap 300, ×1.5, $20 basket) + H1 straddle (200 pts, TP 800 SL 300, 3h expiry) — sab sahi pakda. SW iw-shell-v8.
 - ✅ FINAL (2026-10-28) — Buster trailing study band. 22 trade shadow: Buster asli +10.39 (DD −2.16) sabse sthir; C +11.07 (DD −5.51), A +7.80, B +4.96, D +2.10; E/F same trades par Buster se peeche. Faisla: Buster ka apna trailing (`UseTrailingStop=true`), Trailing Manager LIVE nahi. Account 3099 ka watcher chahe to hata do (study poori) — naye account ke liye watcher wahan lagao; ek hi token par 2 watcher ho to purane par LiveSeconds 60 rakho (GitHub ~500 commit/ghanta seema).
 - v1.07 (2026-10-24) — Trailing tab me **F (hybrid-C)** ki table (BE 5500+500 → 20000/15000), sirf v1.03 Manager ke baad wale trades par, sab sets ke saath barabar. Shadow 17–24 Oct (15 trade): Buster +4.89, C +9.29, D +11.72 (2 bade trade par tika); E 2 trade. Kai trade ~300 price par palat jaate → isliye F. Faisla: abhi LIVE nahi, 1 hafta aur. SW iw-shell-v7.
 - v1.06 (2026-10-22) — FIX + Update button. 22 Oct ke shadow-E push ne galti se purani copy se index.html/STATE.md likh diye the, jisse SAMU REPORT ka header link aur v1.05 (SAMU REPORT) ki STATE line hat gayi thi — dono wapas. Header me **⟳ Update button**: cache + service worker saaf karke naya version zabardasti load; har load + har 10 min `index.html` ka `APP_VER` check, naya ho to button hara "⬆ vX". Chhoti screen par clock chhupa. SW iw-shell-v6. (Seekh: hamesha repo ki taaza copy par hi badlav.)
@@ -44,6 +46,8 @@ GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), 
 - APK auto-updates (wraps Pages URL) — no rebuild needed for app changes.
 
 ## Pending / ideas
+- v1.08 asli account par pehla run baaki: (a) Windows runner par MT5 /auto install chalta hai ya nahi, (b) broker server MetaQuotes installer se milta hai ya broker installer link chahiye. Fail ho to Scan tab me step + run log link aata hai.
+- Setup (ek baar): fine-grained token me Actions: Read and write + Contents: Read; repo secret IW_KEY.
 - Offline service worker for the PWA (currently online-only).
 - Optional: store running max-concurrent trades over time for a better grid estimate.
 - Optional: per-symbol point size so grid gap can show pips, not raw price.

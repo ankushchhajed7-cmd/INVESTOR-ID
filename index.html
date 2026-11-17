@@ -74,7 +74,7 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.07</span></h1>
+  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.08</span></h1>
   <span style="flex:1"></span>
   <span class="tiny" id="clock"></span>
   <a href="report/" class="hlink">📊 SAMU REPORT</a>
@@ -115,6 +115,7 @@
     <button data-t="summary">Behaviour</button>
     <button data-t="trail">Trailing</button>
     <button data-t="history">History</button>
+    <button data-t="scan">🔍 Scan</button>
   </div>
 
   <div id="view"></div>
@@ -131,7 +132,7 @@ let cfg = LS.get('iw_cfg', {owner:'ankushchhajed7-cmd', repo:'INVESTOR-ID', bran
 let accounts = LS.get('iw_accts', []);
 let cur = LS.get('iw_cur', '');
 let tab = 'live';
-let cache = {live:null, hist:null, trail:null};
+let cache = {live:null, hist:null, trail:null, strat:null, scan:null};
 
 const $ = s=>document.querySelector(s);
 function rawUrl(acc,file){
@@ -559,8 +560,192 @@ function viewTrailing(){
 }
 
 
+// ================= v1.08 STRATEGY SCAN (bina VPS — GitHub Actions Windows par MT5) =================
+let scanCfg = LS.get('iw_scan', {pat:'', key:''});      // token + secret key sirf is phone me
+let scanForm = {login:'', server:'', pw:'', installer:'', days:'0'};   // password kabhi save nahi hota
+let scanRun = LS.get('iw_scanrun', null);                // {login, since}
+let scanMsg = '';
+let pollTimer = null;
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ghApi = (path, opt={}) => fetch('https://api.github.com/repos/'+cfg.owner+'/'+cfg.repo+path, Object.assign({cache:'no-store'}, opt, {
+  headers: Object.assign({'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Authorization':'Bearer '+scanCfg.pat.trim()}, opt.headers||{})}));
+async function ghFile(acc, file){            // token ho to API (bina cache), warna raw
+  if(scanCfg.pat){
+    const r = await ghApi('/contents/data/'+acc+'/'+file+'?ref='+(cfg.branch||'main')+'&t='+Date.now(), {headers:{'Accept':'application/vnd.github.raw+json'}});
+    if(r.ok) return file.endsWith('.json') ? r.json() : r.text();
+    if(r.status===404) throw new Error('404');
+  }
+  const r = await fetch(rawUrl(acc,file), {cache:'no-store'});
+  if(!r.ok) throw new Error(r.status+' '+file);
+  return file.endsWith('.json') ? r.json() : r.text();
+}
+async function encPw(pw, pass){              // AES-GCM, key = PBKDF2(secret key) — workflow me IW_KEY se khulta hai
+  const {subtle} = crypto;
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const base = await subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+  const key = await subtle.deriveKey({name:'PBKDF2', salt, iterations:150000, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, false, ['encrypt']);
+  const ct = new Uint8Array(await subtle.encrypt({name:'AES-GCM', iv}, key, new TextEncoder().encode(pw)));
+  const all = new Uint8Array(28+ct.length); all.set(salt,0); all.set(iv,16); all.set(ct,28);
+  let s=''; all.forEach(b=>s+=String.fromCharCode(b)); return btoa(s);
+}
+function sf(k, v){ scanForm[k]=v; }
+function saveScanCfg(){
+  scanCfg = {pat: $('#scPat').value.trim(), key: $('#scKey').value};
+  LS.set('iw_scan', scanCfg); scanMsg = '✓ Setup save ho gaya (sirf is phone me)'; render();
+}
+async function startScan(){
+  const f = scanForm;
+  f.login = String(f.login||'').trim(); f.server = String(f.server||'').trim();
+  if(!/^\d{3,}$/.test(f.login)){ scanMsg='⚠️ Account number sahi daalo'; return render(); }
+  if(!f.server){ scanMsg='⚠️ Server naam daalo (MT5 app me login ke time dikhta hai, jaise XMGlobal-MT5 12)'; return render(); }
+  if(!f.pw){ scanMsg='⚠️ Investor password daalo'; return render(); }
+  if(!scanCfg.pat || !scanCfg.key){ scanMsg='⚠️ Pehle neeche "Ek baar setup" me GitHub token + Secret key bharo'; return render(); }
+  scanMsg='🔒 Password encrypt ho raha hai…'; render();
+  let enc;
+  try{ enc = await encPw(f.pw, scanCfg.key); }catch(e){ scanMsg='⚠️ Encrypt nahi hua: '+e.message; return render(); }
+  const since = Date.now();
+  let r;
+  try{
+    r = await ghApi('/actions/workflows/strategy-scan.yml/dispatches', {method:'POST', body: JSON.stringify({ref: cfg.branch||'main',
+      inputs:{login:f.login, server:f.server, enc, installer:String(f.installer||'').trim(), days:String(parseInt(f.days)||0)}})});
+  }catch(e){ scanMsg='⚠️ Internet / GitHub se baat nahi hui: '+e.message; return render(); }
+  if(r.status!==204){
+    const t = await r.text().catch(()=> '');
+    scanMsg = r.status===401 ? '⚠️ GitHub token galat / expire (401)'
+      : r.status===404 ? '⚠️ Workflow nahi mila (404) — feature branch main me merge karo, aur token me "Actions: Read and write" permission do'
+      : r.status===403 ? '⚠️ Token ko permission nahi (403) — fine-grained token me INVESTOR-ID repo par "Actions: Read and write" do'
+      : '⚠️ GitHub error '+r.status+' '+esc(t.slice(0,120));
+    return render();
+  }
+  f.pw = '';                                   // password turant bhool jao
+  if(!accounts.includes(f.login)){ accounts.push(f.login); LS.set('iw_accts',accounts); }
+  cur = f.login; LS.set('iw_cur',cur); renderAccts();
+  scanRun = {login:f.login, since}; LS.set('iw_scanrun', scanRun);
+  scanMsg = '✅ Scan shuru — GitHub par MT5 install + login + analysis (5–10 min). App band bhi kar sakte ho.';
+  render(); pollScan();
+}
+async function pollScan(){
+  clearTimeout(pollTimer);
+  if(!scanRun || !scanCfg.pat) return;
+  if(Date.now()-scanRun.since > 45*60*1000){ scanRun=null; LS.set('iw_scanrun',null); return; }
+  try{
+    const r = await ghApi('/actions/workflows/strategy-scan.yml/runs?event=workflow_dispatch&per_page=10');
+    if(r.ok){
+      const j = await r.json();
+      const run = (j.workflow_runs||[]).find(x => x.display_title==='Scan '+scanRun.login && new Date(x.created_at).getTime() >= scanRun.since-90000);
+      if(run){
+        const mins = Math.max(0, Math.round((Date.now()-new Date(run.created_at).getTime())/1000));
+        const mmss = Math.floor(mins/60)+':'+String(mins%60).padStart(2,'0');
+        if(run.status!=='completed'){
+          scanMsg = (run.status==='queued'?'⏳ Line me hai':'⚙️ Chal raha hai')+' '+mmss+' · <a href="'+run.html_url+'" target="_blank" style="color:var(--accent)">log dekho</a>';
+        } else {
+          scanMsg = run.conclusion==='success' ? '✅ Scan poora ('+mmss+') — report neeche' : '❌ Scan fail ('+run.conclusion+') · <a href="'+run.html_url+'" target="_blank" style="color:var(--accent)">log dekho</a>';
+          const acc = scanRun.login; scanRun=null; LS.set('iw_scanrun',null);
+          setTimeout(()=>{ if(cur===acc) load(); }, 4000);
+          if(tab==='scan') render();
+          return;
+        }
+      } else scanMsg = '⏳ GitHub run shuru ho raha hai…';
+    }
+  }catch(e){}
+  if(tab==='scan' && !scanFocused()) render();
+  pollTimer = setTimeout(pollScan, 12000);
+}
+function scanFocused(){ const a=document.activeElement; return a && a.closest && a.closest('#scanForm,#scanSetup'); }
+async function copyReport(){
+  try{
+    const t = await ghFile(cur, 'STRATEGY.md');
+    try{ await navigator.clipboard.writeText(t); }
+    catch(e){ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    scanMsg='📋 Report copy ho gaya — chat me paste karo'; render();
+  }catch(e){ scanMsg='⚠️ STRATEGY.md nahi mila'; render(); }
+}
+function confChip(c){
+  const col = c==='pakka'?'var(--buy)':(c==='achha andaaza'?'var(--warn)':'var(--mut)');
+  return c?`<span class="pill" style="border-color:${col};color:${col};margin:0">${esc(c)}</span>`:'';
+}
+function hourBars(h){
+  if(!h) return '';
+  const mx = Math.max(1,...Object.values(h));
+  let s='';
+  for(let i=0;i<24;i++){ const v=h[i]||h[String(i)]||0;
+    s+=`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:${Math.round(46*v/mx)}px;background:${v?'var(--accent)':'var(--chip)'};border-radius:3px 3px 0 0;min-height:2px"></div><div style="font-size:9px;color:var(--mut)">${i%3?'':i}</div></div>`; }
+  return `<div style="display:flex;align-items:flex-end;gap:2px;height:64px;margin-top:6px">${s}</div>`;
+}
+function eaCard(G){
+  const d = G.detail||{}, er = d.entry_rules||{}, tm = d.timing||{};
+  const rows = (G.summary||[]).map(([k,v,c])=>`<div class="trait"><span class="lbl">${esc(k)}</span><span class="val" style="max-width:68%">${esc(v)}<br>${confChip(c)}</span></div>`).join('');
+  const inp = Object.entries(G.inputs||{}).map(([k,v])=>`${esc(k)} = ${esc(v)}`).join('\n');
+  const dr = (er.direction_rules||[]).map(r=>`<div class="tiny" style="margin:3px 0">• [${r.tf}] ${esc(r.rule)} — <b>${r.match_pct}%</b> (${r.n})</div>`).join('');
+  const fl = (er.filters||[]).map(f=>`<div class="tiny" style="margin:3px 0">• [${f.tf}] ${f.side}: ${esc(f.cond)} — entries ${f.entries_pct}% / normal ${f.normal_pct}%</div>`).join('');
+  return `<div class="card">
+    <div class="flexsp"><b>${G.manual?'✋ Manual trades':'🤖 EA magic '+esc(G.magic)}</b><span class="tiny">${G.trades} trades</span></div>
+    ${(G.comments||[]).length?`<div class="tiny">Comment: ${G.comments.map(esc).join(' · ')}</div>`:''}
+    <div style="margin-top:6px">${rows}</div>
+    ${inp?`<h3>Clone EA inputs (andaaza)</h3><pre style="background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;white-space:pre-wrap;margin:0">${inp}</pre>`:''}
+    ${dr?`<h3>Direction rules — top match</h3>${dr}`:''}
+    ${fl?`<h3>Filters (entry vs normal market)</h3>${fl}`:''}
+    ${tm.ist_hours||tm.server_hours?`<h3>Entry ghante (${tm.ist_hours?'IST':'server time'})</h3>${hourBars(tm.ist_hours||tm.server_hours)}`:''}
+  </div>`;
+}
+function viewScan(){
+  const f = scanForm;
+  if(!f.login && cur) f.login = cur;
+  if(!f.server && cache.live && cache.live.server) f.server = cache.live.server;
+  const setupOpen = !scanCfg.pat || !scanCfg.key;
+  const st = cache.strat, sc = cache.scan;
+  let rep = '';
+  if(sc && sc.state==='error')
+    rep += `<div class="card" style="border-color:var(--sell)"><b class="neg">Pichhla scan fail</b><div class="tiny" style="margin-top:4px">Step: ${esc(sc.stage)} · ${esc(sc.msg)}</div>${sc.run?`<a class="tiny" href="${esc(sc.run)}" target="_blank" style="color:var(--accent)">Run log</a>`:''}</div>`;
+  if(st){
+    const a = st.account||{};
+    rep += `<div class="card">
+      <div class="flexsp"><b>📑 Strategy report</b><button class="sec" onclick="copyReport()" style="padding:6px 10px;font-size:13px">📋 Copy</button></div>
+      <div class="kv" style="margin-top:6px">
+        <div><span>Trades</span><b>${st.total_trades}</b></div>
+        <div><span>Account</span><b>${esc(a.type)}</b></div>
+        <div><span>Balance</span><b>${esc(a.balance)} ${esc(a.currency||'')}</b></div>
+        <div><span>Leverage</span><b>1:${esc(a.leverage)}</b></div>
+      </div>
+      <div class="tiny" style="margin-top:8px">${esc(a.company)} · ${esc(a.server)} · ${esc(a.login)}<br>History ${esc(st.period)} · scan ${esc(st.scanned)} UTC${st.server_offset_h!=null?' · server = UTC'+(st.server_offset_h>=0?'+':'')+st.server_offset_h:''}<br>Abhi khule: ${st.open_now} · pending: ${st.pending_now} · deposit $${st.deposits} · withdraw $${st.withdrawals}</div>
+      ${st.note?`<div class="tiny" style="margin-top:6px;color:var(--warn)">${esc(st.note)}</div>`:''}
+      <div class="tiny" style="margin-top:6px">⚠️ Ye trade history se nikala andaaza hai, EA ka asli code nahi. "pakka" = data me saaf dikh raha.</div>
+    </div>` + (st.eas||[]).map(eaCard).join('') +
+    (st.other_trades?`<div class="tiny" style="margin:0 2px">Baaki chhote groups / manual: ${st.other_trades} trades</div>`:'') +
+    `<div class="tiny" style="margin:8px 2px"><a href="https://github.com/${cfg.owner}/${cfg.repo}/blob/${cfg.branch}/data/${cur}/STRATEGY.md" target="_blank" style="color:var(--accent)">STRATEGY.md GitHub par</a> · Copy karke chat me bhejo — isi se clone EA banega.</div>`;
+  } else if(cur){
+    rep += `<div class="card muted">Is account (${esc(cur)}) ka strategy report abhi nahi hai. Upar se scan chalao.</div>`;
+  }
+  return `
+  <div class="card" id="scanForm">
+    <b>🔍 Strategy Scan — bina VPS</b>
+    <div class="tiny" style="margin-top:4px">Investor login do → GitHub ki free Windows machine par MT5 khulega, poori history + candles padh kar EA ki strategy nikalega. Read-only, koi trade nahi.</div>
+    <div class="add"><input inputmode="numeric" placeholder="Account number" value="${esc(f.login)}" oninput="sf('login',this.value)"></div>
+    <div class="add"><input placeholder="Server (jaise XMGlobal-MT5 12)" value="${esc(f.server)}" oninput="sf('server',this.value)"></div>
+    <div class="add"><input type="password" autocomplete="off" placeholder="Investor password" value="${esc(f.pw)}" oninput="sf('pw',this.value)"></div>
+    <details style="margin-top:6px"><summary>Aur options</summary>
+      <div class="add"><input placeholder="Broker ka MT5 installer link (server na mile tab)" value="${esc(f.installer)}" oninput="sf('installer',this.value)"></div>
+      <div class="add"><input inputmode="numeric" placeholder="Kitne din ki history (0 = sab)" value="${esc(f.days)}" oninput="sf('days',this.value)"></div>
+    </details>
+    <button style="width:100%;margin-top:10px" onclick="startScan()" ${scanRun?'disabled':''}>${scanRun?'⏳ Scan chal raha hai…':'▶ Scan shuru'}</button>
+    <div class="tiny" style="margin-top:8px">${scanMsg}</div>
+    <div class="tiny" style="margin-top:4px">🔒 Password phone me save nahi hota; encrypt hokar jaata hai aur run ke baad mit jaata hai.</div>
+  </div>
+  ${rep}
+  <details class="card" id="scanSetup" ${setupOpen?'open':''}><summary style="font-size:14px">⚙︎ Ek baar setup ${setupOpen?'(zaroori)':'✓'}</summary>
+    <div class="tiny" style="margin-top:8px;line-height:1.6">
+      1) GitHub → Settings → Developer settings → Fine-grained token → INVESTOR-ID repo → <b>Actions: Read and write</b> + <b>Contents: Read</b>. Token yahan daalo.<br>
+      2) INVESTOR-ID repo → Settings → Secrets and variables → Actions → New secret: naam <b>IW_KEY</b>, value = koi bhi lambi secret key.<br>
+      3) Wahi secret key neeche bhi daalo. (Dono jagah same honi chahiye.)
+    </div>
+    <div class="add"><input id="scPat" type="password" autocomplete="off" placeholder="GitHub token (github_pat_…)" value="${esc(scanCfg.pat)}"></div>
+    <div class="add"><input id="scKey" type="password" autocomplete="off" placeholder="Secret key (IW_KEY jaisi)" value="${esc(scanCfg.key)}"></div>
+    <button class="sec" style="width:100%;margin-top:8px" onclick="saveScanCfg()">Save (sirf is phone me)</button>
+  </details>`;
+}
+
 function render(){
-  $('#view').innerHTML = tab==='live'?viewLive():tab==='history'?viewHistory():tab==='trail'?viewTrailing():viewSummary();
+  $('#view').innerHTML = tab==='live'?viewLive():tab==='history'?viewHistory():tab==='trail'?viewTrailing():tab==='scan'?viewScan():viewSummary();
 }
 
 // ---- load ----
@@ -571,10 +756,14 @@ async function load(){
   try{ cache.live=await getJson(cur,'live.json'); ok=true; }catch(e){ cache.live=null; }
   try{ cache.hist=await getJson(cur,'history.json'); }catch(e){ cache.hist=null; }
   try{ cache.trail=await getJson(cur,'trail.json'); }catch(e){ cache.trail=null; }
+  try{ cache.strat=await ghFile(cur,'strategy.json'); }catch(e){ cache.strat=null; }
+  try{ cache.scan=await ghFile(cur,'scan.json'); }catch(e){ cache.scan=null; }
+  if(!ok && cache.strat) ok=true;
   $('#dot').classList.toggle('ok',ok);
   $('#status').textContent = ok
-    ? 'Live data OK · account updated '+(cache.live.updatedAt||'')+' · refreshed '+new Date().toLocaleTimeString()
-    : 'No data for '+cur+' yet (EA running? repo public? name correct?)';
+    ? (cache.live?'Live data OK · account updated '+(cache.live.updatedAt||''):'Strategy report mila')+' · refreshed '+new Date().toLocaleTimeString()
+    : 'No data for '+cur+' yet — 🔍 Scan tab se scan chalao (ya Reader EA lagao)';
+  if(tab==='scan' && scanFocused()) return;
   render();
 }
 
@@ -583,7 +772,7 @@ document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); tab=b.dataset.t; render();
 });
-$('#acct').onchange=e=>{ cur=e.target.value; LS.set('iw_cur',cur); load(); };
+$('#acct').onchange=e=>{ cur=e.target.value; LS.set('iw_cur',cur); scanForm.login=cur; scanForm.server=''; load(); };
 $('#refreshBtn').onclick=load;
 $('#addBtn').onclick=()=>{
   const v=$('#newAcct').value.trim(); if(!v) return;
@@ -600,13 +789,13 @@ $('#saveCfg').onclick=()=>{
 setInterval(()=>{$('#clock').textContent=new Date().toLocaleTimeString();},1000);
 setInterval(load, 30000); // auto-refresh every 30s
 
-renderAccts(); render(); load();
+renderAccts(); render(); load(); pollScan();
 
 // PWA service worker (same-origin app shell only; data fetches bypass it)
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.07';
+const APP_VER='1.08';
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
   try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
