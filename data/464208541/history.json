@@ -1,1 +1,1 @@
-{"days":60,"deals":[],"orders":[]}
+{"days":60,"deals":[],"orders":[{"ticket":2866119537,"symbol":"USDCADm","type":"BUY_LIMIT","state":"CANCELED","volume":0.02,"price":1.43023,"sl":1.42808,"tp":1.43059,"magic":7310001,"comment":"SSAamwk3vjid0","setup":"2026.11.17 03:01:21","done":"2026.11.17 03:15:01"},{"ticket":2866119542,"symbol":"AUDCHFm","type":"SELL_LIMIT","state":"CANCELED","volume":0.02,"price":0.56646,"sl":0.56772,"tp":0.56625,"magic":7310001,"comment":"SSAamwk3vjj31","setup":"2026.11.17 03:01:21","done":"2026.11.17 03:15:01"}]}
