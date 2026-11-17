@@ -1,1 +1,1 @@
-{"updatedAt":"2026.11.16 17:06:49","open":[],"events":[],"closes":[],"shadow":[]}
+{"updatedAt":"2026.11.17 06:03:48","open":[],"events":[],"closes":[{"t":"2026.11.17 05:18:14","ct":"2026.11.17 06:03:48","ticket":2866723779,"sym":"AUDUSDm","side":"SELL","vol":0.02,"open":0.67415,"close":0.67390,"move":0.00025,"peak":0.00024,"giveBack":-0.00001,"profit":0.50,"peakProfit":0.48,"trails":0,"first":null,"firstLock":null,"reason":"TP","magic":7310001,"cm":"SSAamwk8r41x0","sl":0.67565,"tp":0.67390,"worst":-1.34,"pre":false}],"shadow":[]}
