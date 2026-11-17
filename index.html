@@ -74,7 +74,7 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.08</span></h1>
+  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.09</span></h1>
   <span style="flex:1"></span>
   <span class="tiny" id="clock"></span>
   <a href="report/" class="hlink">📊 SAMU REPORT</a>
@@ -562,7 +562,7 @@ function viewTrailing(){
 
 // ================= v1.08 STRATEGY SCAN (bina VPS — GitHub Actions Windows par MT5) =================
 let scanCfg = LS.get('iw_scan', {pat:'', key:''});      // token + secret key sirf is phone me
-let scanForm = {login:'', server:'', pw:'', installer:'', days:'0'};   // password kabhi save nahi hota
+let scanForm = {platform:'MT5', login:'', server:'', pw:'', installer:'', days:'0'};   // password kabhi save nahi hota
 let scanRun = LS.get('iw_scanrun', null);                // {login, since}
 let scanMsg = '';
 let pollTimer = null;
@@ -599,6 +599,7 @@ async function startScan(){
   if(!/^\d{3,}$/.test(f.login)){ scanMsg='⚠️ Account number sahi daalo'; return render(); }
   if(!f.server){ scanMsg='⚠️ Server naam daalo (MT5 app me login ke time dikhta hai, jaise XMGlobal-MT5 12)'; return render(); }
   if(!f.pw){ scanMsg='⚠️ Investor password daalo'; return render(); }
+  if(f.platform==='MT4' && !String(f.installer||'').trim()){ scanMsg='⚠️ MT4 ke liye broker ka MT4 installer link zaroori hai (Aur options me)'; return render(); }
   if(!scanCfg.pat || !scanCfg.key){ scanMsg='⚠️ Pehle neeche "Ek baar setup" me GitHub token + Secret key bharo'; return render(); }
   scanMsg='🔒 Password encrypt ho raha hai…'; render();
   let enc;
@@ -607,7 +608,7 @@ async function startScan(){
   let r;
   try{
     r = await ghApi('/actions/workflows/strategy-scan.yml/dispatches', {method:'POST', body: JSON.stringify({ref: cfg.branch||'main',
-      inputs:{login:f.login, server:f.server, enc, installer:String(f.installer||'').trim(), days:String(parseInt(f.days)||0)}})});
+      inputs:{platform:f.platform, login:f.login, server:f.server, enc, installer:String(f.installer||'').trim(), days:String(parseInt(f.days)||0)}})});
   }catch(e){ scanMsg='⚠️ Internet / GitHub se baat nahi hui: '+e.message; return render(); }
   if(r.status!==204){
     const t = await r.text().catch(()=> '');
@@ -700,7 +701,7 @@ function viewScan(){
   if(st){
     const a = st.account||{};
     rep += `<div class="card">
-      <div class="flexsp"><b>📑 Strategy report</b><button class="sec" onclick="copyReport()" style="padding:6px 10px;font-size:13px">📋 Copy</button></div>
+      <div class="flexsp"><b>📑 Strategy report ${esc(st.platform||'MT5')}</b><button class="sec" onclick="copyReport()" style="padding:6px 10px;font-size:13px">📋 Copy</button></div>
       <div class="kv" style="margin-top:6px">
         <div><span>Trades</span><b>${st.total_trades}</b></div>
         <div><span>Account</span><b>${esc(a.type)}</b></div>
@@ -718,13 +719,18 @@ function viewScan(){
   }
   return `
   <div class="card" id="scanForm">
-    <b>🔍 Strategy Scan — bina VPS</b>
-    <div class="tiny" style="margin-top:4px">Investor login do → GitHub ki free Windows machine par MT5 khulega, poori history + candles padh kar EA ki strategy nikalega. Read-only, koi trade nahi.</div>
+    <b>🔍 Strategy Scan — bina VPS (MT5 / MT4)</b>
+    <div class="tiny" style="margin-top:4px">Investor login do → GitHub ki free Windows machine par MT5/MT4 khulega, poori history + candles padh kar EA ki strategy nikalega. Read-only, koi trade nahi.</div>
+    <div class="seg" style="margin:10px 0 0">
+      <button class="${f.platform==='MT5'?'on':''}" onclick="sf('platform','MT5');render()">MT5</button>
+      <button class="${f.platform==='MT4'?'on':''}" onclick="sf('platform','MT4');render()">MT4</button>
+    </div>
     <div class="add"><input inputmode="numeric" placeholder="Account number" value="${esc(f.login)}" oninput="sf('login',this.value)"></div>
     <div class="add"><input placeholder="Server (jaise XMGlobal-MT5 12)" value="${esc(f.server)}" oninput="sf('server',this.value)"></div>
     <div class="add"><input type="password" autocomplete="off" placeholder="Investor password" value="${esc(f.pw)}" oninput="sf('pw',this.value)"></div>
-    <details style="margin-top:6px"><summary>Aur options</summary>
-      <div class="add"><input placeholder="Broker ka MT5 installer link (server na mile tab)" value="${esc(f.installer)}" oninput="sf('installer',this.value)"></div>
+    <details style="margin-top:6px" ${f.platform==='MT4'?'open':''}><summary>Aur options${f.platform==='MT4'?' (MT4 installer zaroori)':''}</summary>
+      <div class="add"><input placeholder="${f.platform==='MT4'?'Broker ka MT4 installer link (.exe)':'Broker ka MT5 installer link (server na mile tab)'}" value="${esc(f.installer)}" oninput="sf('installer',this.value)"></div>
+      ${f.platform==='MT4'?`<div class="tiny" style="margin-top:4px">InstaForex: <a href="#" onclick="sf('installer','https://instaforex.org/downloads/itc4setup.exe');render();return false" style="color:var(--accent)">itc4setup.exe link bharo</a> · baaki broker: unki site par "Download MT4" button ka link copy karo</div>`:''}
       <div class="add"><input inputmode="numeric" placeholder="Kitne din ki history (0 = sab)" value="${esc(f.days)}" oninput="sf('days',this.value)"></div>
     </details>
     <button style="width:100%;margin-top:10px" onclick="startScan()" ${scanRun?'disabled':''}>${scanRun?'⏳ Scan chal raha hai…':'▶ Scan shuru'}</button>
@@ -795,7 +801,7 @@ renderAccts(); render(); load(); pollScan();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.08';
+const APP_VER='1.09';
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
   try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}

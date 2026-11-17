@@ -1,4 +1,4 @@
-# Investor Watch v1.08 — STRATEGY SCAN (bina VPS)
+# Investor Watch v1.09 — STRATEGY SCAN (bina VPS) — MT5 + MT4
 # GitHub ki free Windows machine par MT5 install -> investor login -> poori history + candles
 # -> strategy analyser -> data/<login>/strategy.json + STRATEGY.md (+ history.json/live.json agar EA nahi likhta)
 # App ke "Scan" tab se chalta hai (ya Actions > Strategy Scan > Run workflow).
@@ -8,8 +8,12 @@ run-name: Scan ${{ inputs.login }}
 on:
   workflow_dispatch:
     inputs:
+      platform:
+        description: 'MT5 ya MT4'
+        required: false
+        default: 'MT5'
       login:
-        description: 'MT5 account number'
+        description: 'MT4/MT5 account number'
         required: true
       server:
         description: 'Server naam (jaise XMGlobal-MT5 12)'
@@ -18,7 +22,7 @@ on:
         description: 'Encrypted investor password (app banata hai)'
         required: true
       installer:
-        description: 'Broker ka MT5 installer link (khaali = MetaQuotes wala)'
+        description: 'Broker ka MT4/MT5 installer link (MT5 me khaali = MetaQuotes wala; MT4 me zaroori)'
         required: false
         default: ''
       days:
@@ -49,31 +53,40 @@ jobs:
         shell: pwsh
         env:
           IW_INSTALLER: ${{ inputs.installer }}
+          IW_PLATFORM: ${{ inputs.platform }}
         run: |
           $url = $env:IW_INSTALLER
-          if (-not $url) { $url = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe' }
+          $mt4 = ($env:IW_PLATFORM -eq 'MT4')
+          $exe = if ($mt4) { 'terminal.exe' } else { 'terminal64.exe' }
+          if (-not $url) {
+            if ($mt4) { Write-Host '::error::MT4 ke liye broker ka MT4 installer link zaroori hai'; exit 1 }
+            $url = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
+          }
           Write-Host "Installer: $url"
           Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
           Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
           $term = $null
           for ($i = 0; $i -lt 60 -and -not $term; $i++) {
             Start-Sleep -Seconds 10
-            $term = Get-ChildItem 'C:\Program Files','C:\Program Files (x86)' -Recurse -Filter terminal64.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+            $term = Get-ChildItem 'C:\Program Files','C:\Program Files (x86)' -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1
           }
-          if (-not $term) { Write-Host '::error::MT5 install nahi hua (terminal64.exe nahi mila)'; exit 1 }
+          if (-not $term) { Write-Host "::error::Install nahi hua ($exe nahi mila) — installer link sahi hai?"; exit 1 }
           Start-Sleep -Seconds 25
-          Get-Process terminal64, mt5setup -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+          Get-Process terminal64, terminal, mt5setup, mt4setup -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
           Write-Host "Terminal: $($term.FullName)"
           "IW_TERM=$($term.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-      - name: MT5 se data (investor login)
+      - name: MT4/MT5 se data (investor login)
         shell: bash
         env:
+          IW_PLATFORM: ${{ inputs.platform }}
           IW_LOGIN: ${{ inputs.login }}
           IW_SERVER: ${{ inputs.server }}
           IW_ENC: ${{ inputs.enc }}
           IW_DAYS: ${{ inputs.days }}
           IW_KEY: ${{ secrets.IW_KEY }}
-        run: python scripts/mt5_fetch.py "$IW_TERM" scan_tmp
+        run: |
+          if [ "$IW_PLATFORM" = "MT4" ]; then python scripts/mt4_run.py "$IW_TERM" scan_tmp
+          else python scripts/mt5_fetch.py "$IW_TERM" scan_tmp; fi
       - name: Strategy nikalo
         shell: bash
         env:

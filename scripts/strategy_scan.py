@@ -752,7 +752,7 @@ def summarize(g, raw, magic):
             t += f"; {v['tf']} pichhli candle high/low se {v['beyond_high_low_pts_median']} points aage"
         if pdg.get('life_hours_median'):
             t += f"; na lage to ~{pdg['life_hours_median']} ghante me cancel/expire"
-        S.append(['Pending order', t + f" (fill {pdg['fill_pct']}%)", conf(pdg['count'], max(strength(pdg.get('dist_cv')), strength((pdg.get('vs_prev_candle') or {}).get('cv'))))])
+        S.append(['Pending order', t + ('' if raw.get('platform') == 'MT4' else f" (fill {pdg['fill_pct']}%)"), conf(pdg['count'], max(strength(pdg.get('dist_cv')), strength((pdg.get('vs_prev_candle') or {}).get('cv'))))])
         inputs['PendingDistancePoints'] = pdg['dist_from_market_pts_median']
         if pdg.get('life_hours_median'):
             inputs['PendingExpiryHours'] = pdg['life_hours_median']
@@ -762,7 +762,7 @@ def summarize(g, raw, magic):
 
 
 def md_report(st):
-    L = [f"# Strategy Scan — {st['account']['login']} ({st['account'].get('server', '')})",
+    L = [f"# Strategy Scan ({st.get('platform', 'MT5')}) — {st['account']['login']} ({st['account'].get('server', '')})",
          f"Scan: {st['scanned']} UTC · history {st['period']} · {st['total_trades']} trades · balance {st['account'].get('balance')} {st['account'].get('currency', '')}",
          '', '> Ye sab trade history se nikala andaaza hai (EA ka asli code nahi). "pakka" = data se saaf dikh raha, "kamzor" = kam data.', '']
     for G in st['eas']:
@@ -859,7 +859,7 @@ def main():
             bars[s] = {tf: Bars(rows, tf) for tf, rows in d.items() if rows and len(rows) > 30}
         P = build_positions(raw)
         a = raw['acct']
-        st = {'src': 'scan', 'ver': '1.08', 'scanned': ts(time.time()),
+        st = {'src': 'scan', 'ver': '1.09', 'platform': raw.get('platform', 'MT5'), 'scanned': ts(time.time()),
               'account': {'login': masked, 'server': a.get('server'), 'company': a.get('company'), 'currency': a.get('currency'),
                           'balance': a.get('balance'), 'equity': a.get('equity'), 'leverage': a.get('leverage'),
                           'type': {0: 'DEMO', 1: 'CONTEST', 2: 'REAL'}.get(a.get('trade_mode'), '?'),
@@ -872,6 +872,8 @@ def main():
               'eas': []}
         if not P:
             st['note'] = 'Is account me koi trade history nahi mili'
+        elif st['platform'] == 'MT4':
+            st['note'] = 'MT4: lage hue pending orders history me BUY/SELL ban jaate hain (pending setup time nahi milta) — pending analysis sirf cancel/expire wale orders se.'
         mg = Counter(p['magic'] for p in P)
         other = 0
         for magic, n in mg.most_common():
