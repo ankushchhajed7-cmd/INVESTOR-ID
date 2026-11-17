@@ -9975,6 +9975,12 @@
    "entry": 1.42922,
    "fixed": false,
    "order": "LIMIT",
+   "res": {
+    "done": true,
+    "pips": 11.7,
+    "state": "TP1",
+    "usd": 0.82
+   },
    "sl": 1.42804,
    "tp": 1.43039
   },
@@ -9995,14 +10001,42 @@
    },
    "entry": 1.42998,
    "ok": false,
+   "res": {
+    "done": true,
+    "pips": -8.4,
+    "state": "SL",
+    "usd": -0.59
+   },
    "sl": 1.42914,
    "tp": 1.43082
   },
   "mt5": true,
+  "pfx": {
+   "dd": 0.2,
+   "done": true,
+   "filledAt": 1794857100000,
+   "mins": 65,
+   "state": "TP",
+   "usd": 0.25
+  },
   "regime": "Trend",
+  "res": {
+   "done": true,
+   "exitAt": 1794877200000,
+   "filledAt": 1794857100000,
+   "lot": 0.01,
+   "pips": 11.7,
+   "state": "TP1",
+   "usd": 0.82
+  },
   "sl": 1.42804,
   "smart": {
    "entry": 1.42922,
+   "res": {
+    "done": true,
+    "state": "TP1",
+    "usd": 0.82
+   },
    "sl": 1.42804,
    "tp": 1.43039,
    "type": "LIMIT",
@@ -10011,6 +10045,12 @@
   "src": "mt5",
   "sym": "USD/CAD",
   "tp": 1.43039,
+  "trail": {
+   "done": true,
+   "pips": 6.4,
+   "state": "LOCK",
+   "usd": 0.45
+  },
   "v": "1.34.0"
  }
 ]
