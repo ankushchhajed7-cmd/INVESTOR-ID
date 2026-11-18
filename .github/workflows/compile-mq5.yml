@@ -1,0 +1,62 @@
+# EA compile check (bina VPS): GitHub Windows machine par MT5 MetaEditor se .mq5 compile karke errors/warnings dikhata hai.
+# Claude naye EA ko VPS par bhejne se pehle yahan compile karke check karta hai.
+name: Compile MQ5
+run-name: Compile ${{ inputs.path }}
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: 'Repo (owner/name)'
+        required: true
+        default: 'ankushchhajed7-cmd/Samusignal'
+      ref:
+        description: 'Branch'
+        required: true
+        default: 'main'
+      path:
+        description: '.mq5 file path repo me'
+        required: true
+permissions:
+  contents: read
+jobs:
+  compile:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repo }}
+          ref: ${{ inputs.ref }}
+          path: src
+          fetch-depth: 1
+      - name: MT5 install + compile
+        shell: pwsh
+        env:
+          SRC_PATH: ${{ inputs.path }}
+        run: |
+          Invoke-WebRequest -Uri 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe' -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
+          Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
+          $me = $null
+          for ($i = 0; $i -lt 60 -and -not $me; $i++) { Start-Sleep 10; $me = Get-ChildItem 'C:\Program Files' -Recurse -Filter metaeditor64.exe -ErrorAction SilentlyContinue | Select-Object -First 1 }
+          if (-not $me) { Write-Host '::error::metaeditor64.exe nahi mila'; exit 1 }
+          Start-Sleep 40
+          Get-Process terminal64, mt5setup -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+          $inc = Get-ChildItem 'C:\Program Files',"$env:APPDATA\MetaQuotes" -Recurse -Filter Trade.mqh -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like '*Include\Trade\Trade.mqh' } | Select-Object -First 1
+          if (-not $inc) { Write-Host '::error::Trade.mqh nahi mila'; exit 1 }
+          $mql5 = $inc.Directory.Parent.Parent.FullName
+          Write-Host "MetaEditor: $($me.FullName)  MQL5: $mql5"
+          $dst = Join-Path $mql5 'Experts\IWCompile'
+          New-Item -ItemType Directory -Force -Path $dst | Out-Null
+          $src = Join-Path "$env:GITHUB_WORKSPACE\src" $env:SRC_PATH
+          if (-not (Test-Path -LiteralPath $src)) { Write-Host "::error::File nahi mili: $src"; exit 1 }
+          $file = Join-Path $dst 'ea.mq5'
+          Copy-Item -LiteralPath $src -Destination $file -Force
+          $log = Join-Path $dst 'ea.log'
+          & $me.FullName "/compile:$file" "/log:$log" "/include:$mql5" | Out-Null
+          Start-Sleep 3
+          $txt = Get-Content -LiteralPath $log -Encoding Unicode -ErrorAction SilentlyContinue
+          if (-not $txt) { $txt = Get-Content -LiteralPath $log -ErrorAction SilentlyContinue }
+          $txt | ForEach-Object { Write-Host $_ }
+          $ex5 = Test-Path (Join-Path $dst 'ea.ex5')
+          Write-Host "EX5 bana: $ex5"
+          if (-not $ex5 -or ($txt -match ' error ')) { Write-Host '::error::Compile FAIL'; exit 1 }
