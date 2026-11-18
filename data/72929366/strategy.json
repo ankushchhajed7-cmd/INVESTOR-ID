@@ -2,22 +2,22 @@
  "src": "scan",
  "ver": "1.09.3",
  "platform": "MT4",
- "scanned": "2026.11.18 06:33:16",
+ "scanned": "2026.11.18 07:16:17",
  "account": {
   "login": "***366",
   "server": "InstaFinance-Singapore.com",
   "company": "InstaFinance Ltd",
   "currency": "USD",
-  "balance": 20161.46,
-  "equity": 20079.59,
+  "balance": 20204.49,
+  "equity": 20182.4,
   "leverage": 1000,
   "type": "REAL",
   "investor": true
  },
  "server_offset_h": 2.0,
- "total_trades": 2283,
+ "total_trades": 2289,
  "period": "2026.06.15 → 2026.11.18",
- "open_now": 10,
+ "open_now": 7,
  "pending_now": 0,
  "deposits": 5000.0,
  "withdrawals": 0,
@@ -25,7 +25,7 @@
   {
    "magic": 666888,
    "manual": false,
-   "trades": 2258,
+   "trades": 2264,
    "comments": [
     "GOLD KILLER @superforexbot",
     "GOLD KILLER @superforexbot[sl]",
@@ -44,7 +44,7 @@
     ],
     [
      "Direction",
-     "BUY 1210 / SELL 1048",
+     "BUY 1216 / SELL 1048",
      "pakka"
     ],
     [
@@ -59,7 +59,7 @@
     ],
     [
      "Direction rule (andaaza)",
-     "Close > EMA50 → SELL, warna BUY [M5] — 67.7% entries se match",
+     "EMA9 > EMA20 → SELL, warna BUY [M5] — 67.5% entries se match",
      "achha andaaza"
     ],
     [
@@ -84,12 +84,12 @@
     ],
     [
      "Basket exit",
-     "Basket ek saath band (96.2%) — basket profit ≈ $19.47 hote hi band (median $31.62)",
+     "Basket ek saath band (96.2%) — basket profit ≈ $19.47 hote hi band (median $31.63)",
      "pakka"
     ],
     [
      "SL",
-     "≈ 239.0 points (8.5% trades par SL)",
+     "≈ 235.0 points (8.5% trades par SL)",
      "kamzor (kam data)"
     ],
     [
@@ -104,7 +104,7 @@
     ],
     [
      "Result",
-     "Net $15141.31 · jeet 55.6% · PF 1.71 · 143.7 trade/din",
+     "Net $15184.34 · jeet 55.6% · PF 1.71 · 143.9 trade/din",
      "pakka"
     ]
    ],
@@ -116,31 +116,31 @@
     "LotStep": 0.01,
     "MaxLevels": 22,
     "BasketTargetUSD": 19.47,
-    "SLPoints": 239.0
+    "SLPoints": 235.0
    },
    "detail": {
-    "trades": 2258,
+    "trades": 2264,
     "symbols": {
-     "GOLD": 2258
+     "GOLD": 2264
     },
-    "buy": 1210,
+    "buy": 1216,
     "sell": 1048,
-    "net": 15141.31,
+    "net": 15184.34,
     "win_pct": 55.6,
     "pf": 1.71,
-    "avg_win": 29.22,
-    "avg_loss": -21.52,
+    "avg_win": 29.19,
+    "avg_loss": -21.45,
     "first": "2026.11.02 15:25:30",
-    "last": "2026.11.18 08:25:14",
-    "trades_per_day": 143.7,
-    "hold_min_median": 22.4,
+    "last": "2026.11.18 09:05:43",
+    "trades_per_day": 143.9,
+    "hold_min_median": 22.5,
     "lots": {
      "min": 0.01,
      "max": 2.47,
      "common": 0.01,
      "distinct": 20
     },
-    "baskets": 404,
+    "baskets": 405,
     "basket_pct": 91.1,
     "levels_max": 22,
     "levels_avg": 5.6,
@@ -150,7 +150,7 @@
      "3": 49,
      "4": 49,
      "5": 59,
-     "6": 44,
+     "6": 45,
      "7": 32,
      "8": 22,
      "9": 18,
@@ -167,7 +167,7 @@
      "22": 1
     },
     "grid": {
-     "adds": 1854,
+     "adds": 1859,
      "adverse_pct": 100.0,
      "gap_points_median": 167.0,
      "gap_cv": 0.69,
@@ -181,33 +181,33 @@
      "lot_add_pct": 50.5
     },
     "basket_close": {
-     "multi_baskets": 367,
+     "multi_baskets": 368,
      "closed_together_pct": 96.2,
      "win_pct": 99.7,
-     "profit_usd_median": 31.62,
-     "profit_usd_cv": 1.19,
+     "profit_usd_median": 31.63,
+     "profit_usd_cv": 1.18,
      "profit_usd_p10": 19.47,
-     "profit_per_001_first_lot_median": 31.62,
-     "profit_per_001_cv": 1.19,
+     "profit_per_001_first_lot_median": 31.63,
+     "profit_per_001_cv": 1.18,
      "profit_per_001_total_lot_median": 2.64,
      "profit_per_001_total_lot_cv": 1.31,
-     "avg_price_to_close_pts_median": 264.0,
+     "avg_price_to_close_pts_median": 263.0,
      "avg_price_to_close_cv": 1.31,
      "worst_basket_usd": -29.29,
      "close_reasons": {
-      "EA": 2105,
+      "EA": 2114,
       "SL": 108
      }
     },
     "exit": {
      "tp_set_pct": 0.0,
      "sl_set_pct": 8.5,
-     "sl_points_median": 239.0,
+     "sl_points_median": 235.0,
      "sl_points_cv": 1.33,
      "sl_close_in_profit_pct": 76.2,
      "sl_close_profit_pts_median": 247.0,
      "close_reasons": {
-      "EA": 2122,
+      "EA": 2131,
       "SL": 126
      },
      "ea_close_profit_per_001_median": 4.35,
@@ -222,7 +222,7 @@
       "5": 15,
       "6": 17,
       "7": 20,
-      "8": 19,
+      "8": 20,
       "9": 14,
       "10": 14,
       "11": 16,
@@ -252,7 +252,7 @@
       "9": 17,
       "10": 11,
       "11": 28,
-      "12": 17,
+      "12": 18,
       "13": 11,
       "14": 17,
       "15": 7,
@@ -268,7 +268,7 @@
      "weekdays": {
       "Som": 86,
       "Mangal": 99,
-      "Budh": 68,
+      "Budh": 69,
       "Guru": 104,
       "Shukra": 62
      },
@@ -314,15 +314,15 @@
     "worst_trade_usd": -242.64,
     "closed_dd_usd": -1934.31,
     "entry_rules": {
-     "samples": 419,
+     "samples": 420,
      "direction_rules": [
       {
        "tf": "M5",
-       "cond": "Close > EMA50",
+       "cond": "EMA9 > EMA20",
        "mode": "ulta (reversal)",
-       "rule": "Close > EMA50 → SELL, warna BUY",
-       "match_pct": 67.7,
-       "n": 227
+       "rule": "EMA9 > EMA20 → SELL, warna BUY",
+       "match_pct": 67.5,
+       "n": 235
       },
       {
        "tf": "M15",
@@ -330,15 +330,15 @@
        "mode": "ulta (reversal)",
        "rule": "Close > EMA20 → SELL, warna BUY",
        "match_pct": 67.4,
-       "n": 419
+       "n": 420
       },
       {
        "tf": "M5",
-       "cond": "EMA9 > EMA20",
+       "cond": "Close > EMA50",
        "mode": "ulta (reversal)",
-       "rule": "EMA9 > EMA20 → SELL, warna BUY",
-       "match_pct": 67.4,
-       "n": 234
+       "rule": "Close > EMA50 → SELL, warna BUY",
+       "match_pct": 66.2,
+       "n": 222
       },
       {
        "tf": "M15",
@@ -346,7 +346,15 @@
        "mode": "ulta (reversal)",
        "rule": "RSI14 > 50 → SELL, warna BUY",
        "match_pct": 66.0,
-       "n": 419
+       "n": 420
+      },
+      {
+       "tf": "M5",
+       "cond": "RSI14 > 50",
+       "mode": "ulta (reversal)",
+       "rule": "RSI14 > 50 → SELL, warna BUY",
+       "match_pct": 65.2,
+       "n": 235
       },
       {
        "tf": "M5",
@@ -354,22 +362,14 @@
        "mode": "ulta (reversal)",
        "rule": "Close > EMA100 → SELL, warna BUY",
        "match_pct": 65.2,
-       "n": 217
-      },
-      {
-       "tf": "M5",
-       "cond": "RSI14 > 50",
-       "mode": "ulta (reversal)",
-       "rule": "RSI14 > 50 → SELL, warna BUY",
-       "match_pct": 65.1,
-       "n": 234
+       "n": 218
       }
      ],
      "filters": [],
      "rsi": {
       "M5": {
        "BUY": {
-        "median": 42.0,
+        "median": 41.9,
         "min": 17.9,
         "max": 80.6
        },
