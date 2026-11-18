@@ -808,7 +808,7 @@ def compat_files(raw, outdir, masked):
         if not os.path.exists(path):
             return True
         try:
-            return json.load(open(path)).get('src') == 'scan'
+            return json.load(open(path, encoding='utf-8')).get('src') == 'scan'
         except Exception:
             return False
     a = raw['acct']
@@ -822,7 +822,7 @@ def compat_files(raw, outdir, masked):
                 'orders': [{'ticket': x['ticket'], 'symbol': x['symbol'], 'type': TYPES.get(x['type'], str(x['type'])), 'volume': x['volume_current'],
                             'price': x['price_open'], 'sl': x['sl'], 'tp': x['tp'], 'market': x['price_current'], 'magic': x['magic'],
                             'comment': x['comment'], 'time': ts(x['time_setup'])} for x in raw['pending']]}
-        json.dump(live, open(os.path.join(outdir, 'live.json'), 'w'), separators=(',', ':'))
+        json.dump(live, open(os.path.join(outdir, 'live.json'), 'w', encoding='utf-8'), separators=(',', ':'))
     if own(os.path.join(outdir, 'history.json')):
         dl = [d for d in raw['deals'] if d.get('type') in (0, 1) and d.get('symbol')][-3000:]
         ol = [o for o in raw['orders'] if o.get('symbol')][-3000:]
@@ -837,7 +837,7 @@ def compat_files(raw, outdir, masked):
                             'state': OSTATE.get(o.get('state'), str(o.get('state'))), 'volume': o.get('volume_initial'), 'price': o.get('price_open'),
                             'sl': o.get('sl'), 'tp': o.get('tp'), 'magic': o.get('magic', 0), 'comment': o.get('comment', ''),
                             'setup': ts(o['time_setup']), 'done': ts(o['time_done']) if o.get('time_done') else ''} for o in ol]}
-        json.dump(hist, open(os.path.join(outdir, 'history.json'), 'w'), separators=(',', ':'))
+        json.dump(hist, open(os.path.join(outdir, 'history.json'), 'w', encoding='utf-8'), separators=(',', ':'))
 
 
 def main():
@@ -848,7 +848,7 @@ def main():
         json.dump({'stage': stage, 'ok': ok, 'msg': msg, 'at': int(time.time())}, open(stp, 'w'))
         print(('OK ' if ok else 'ERROR ') + stage, msg)
     try:
-        raw = json.load(open(rawp))
+        raw = json.load(open(rawp, encoding='utf-8'))
         os.makedirs(outdir, exist_ok=True)
         login = str(raw['acct'].get('login', ''))
         masked = '***' + login[-3:]
@@ -887,7 +887,7 @@ def main():
             st['eas'].append({'magic': magic, 'manual': magic == 0, 'trades': n, 'comments': [c for c, _ in cms if c],
                               'summary': summ, 'inputs': inputs, 'detail': det})
         st['other_trades'] = other
-        json.dump(st, open(os.path.join(outdir, 'strategy.json'), 'w'), indent=1, ensure_ascii=False)
+        json.dump(st, open(os.path.join(outdir, 'strategy.json'), 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
         open(os.path.join(outdir, 'STRATEGY.md'), 'w', encoding='utf-8').write(md_report(st))
         status('done', True, f"{len(P)} trades, {len(st['eas'])} EA group")
     except Exception as e:
