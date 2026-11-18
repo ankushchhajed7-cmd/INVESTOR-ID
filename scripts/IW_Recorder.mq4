@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//| IW_Recorder.mq4 — Investor Watch v1.11 (Live Record, MT4)         |
+//| IW_Recorder.mq4 — Investor Watch v1.11.1 (Live Record, MT4)         |
 //| GitHub Actions par investor login ke saath chart par chalta hai.  |
 //| Har tick (bid/ask) + har second sab orders ka snapshot (SL/TP/lot |
 //| badle to) MQL4\Files\IW_rec.csv me likhta hai. Kabhi trade NAHI.  |
@@ -39,7 +39,8 @@ int OnInit()
    int h = FileOpen("IW_rec_cfg.txt", FILE_READ | FILE_TXT | FILE_ANSI);
    if(h != INVALID_HANDLE) { minutes = (int)StringToInteger(FileReadString(h)); FileClose(h); }
    if(minutes <= 0) minutes = 180;
-   fh = FileOpen("IW_rec.csv", FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+   fh = FileOpen("IW_rec.csv", FILE_READ | FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+   if(fh != INVALID_HANDLE) FileSeek(fh, 0, SEEK_END);
    if(fh == INVALID_HANDLE) { Done("error: file"); return INIT_FAILED; }
    t_end = TimeLocal() + minutes * 60;
    FileWriteString(fh, "I," + IntegerToString((long)TimeCurrent()) + "," + IntegerToString((long)TimeGMT()) + "," + Symbol() + "," +
@@ -86,6 +87,8 @@ void Check()
 
 void OnDeinit(const int reason)
 {
+   // login / account badalne par MT4 EA ko dobara load karta hai (reason 6) — isliye yahan "done" NAHI likhte
    EventKillTimer();
-   if(fh != INVALID_HANDLE) { FileClose(fh); Done("stopped " + IntegerToString(reason)); }
+   if(fh != INVALID_HANDLE) { FileFlush(fh); FileClose(fh); fh = INVALID_HANDLE; }
+   Print("IW_Recorder: deinit ", reason);
 }
