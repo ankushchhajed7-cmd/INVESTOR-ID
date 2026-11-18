@@ -375,6 +375,9 @@ def analyse_group(raw, P, bars, offset):
         per01 = [x['profit'] / x['first_vol'] * 0.01 for x in wins_b if x['first_vol']]
         bc['profit_per_001_first_lot_median'] = r2(med(per01))
         bc['profit_per_001_cv'] = r2(cv(per01))
+        pv = [x['profit'] / x['vol'] * 0.01 for x in wins_b if x['vol']]
+        bc['profit_per_001_total_lot_median'] = r2(med(pv))
+        bc['profit_per_001_total_lot_cv'] = r2(cv(pv))
         mv = [x['move_pts'] for x in wins_b]
         bc['avg_price_to_close_pts_median'] = r2(med(mv), 0)
         bc['avg_price_to_close_cv'] = r2(cv(mv))
@@ -647,7 +650,9 @@ def summarize(g, raw, magic):
     regular = (gr.get('gap_cv') is not None and gr['gap_cv'] < 0.5) or gr.get('gap_common_pct', 0) >= 50
     is_grid = g['basket_pct'] >= 20 and gr.get('adverse_pct', 0) >= 60 and (regular or not is_pend)
     is_pyr = g['basket_pct'] >= 20 and gr.get('adverse_pct', 100) <= 40 and regular
-    is_marti = bool(gr.get('lot_ratio_median') and gr['lot_ratio_median'] >= 1.1)
+    lot_step = gr.get('lot_add_pct', 0) >= 40 and (gr.get('lot_add_common') or 0) > 0
+    is_marti = bool(gr.get('lot_ratio_median') and gr['lot_ratio_median'] >= 1.1) and \
+        ((gr.get('lot_ratio_common') or 1) >= 1.1 or not lot_step)
     straddle = pdg.get('straddle_pct', 0) >= 50
     kind = []
     if is_pend:
@@ -661,7 +666,7 @@ def summarize(g, raw, magic):
     if is_marti:
         kind.append('Martingale (lot × %s)' % gr['lot_ratio_median'])
     if g['hedge_overlap_pct'] >= 30 and not straddle:
-        kind.append('Hedge (buy + sell ek saath)')
+        kind.append('Hedge (buy + sell ek saath)' if g['hedge_overlap_pct'] < 80 else 'Dono side alag grid (BUY basket + SELL basket saath chalte)')
     if not kind:
         kind.append('Single trade (ek signal = ek trade)')
     S.append(['EA type', ' + '.join(kind), conf(g['trades'], 0.9)])
@@ -703,7 +708,7 @@ def summarize(g, raw, magic):
     else:
         S.append(['Lot', f"Shuru {lots['common']} (min {lots['min']}, max {lots['max']})", 'pakka'])
         inputs['StartLot'] = lots['common']
-    if gr and (is_grid or is_pyr or is_marti):
+    if gr and (is_grid or is_pyr or is_marti or lot_step):
         if is_grid or is_pyr:
             gap = gr['gap_common'] if gr.get('gap_common_pct', 0) >= 40 else gr['gap_points_median']
             S.append(['Grid gap', f"≈ {gap} points ({'ghaate me' if is_grid else 'profit me'} add, {gr['adverse_pct']}% adverse) — har add ~{gr['add_minutes_median']} min baad",
@@ -712,8 +717,8 @@ def summarize(g, raw, magic):
         if is_marti:
             S.append(['Lot badhna', f"× {gr['lot_ratio_common'] or gr['lot_ratio_median']} har level", conf(gr['adds'], 0.8)])
             inputs['LotMultiplier'] = gr['lot_ratio_common'] or gr['lot_ratio_median']
-        elif gr.get('lot_add_pct', 0) >= 60 and gr.get('lot_add_common'):
-            S.append(['Lot badhna', f"+{gr['lot_add_common']} har level", conf(gr['adds'], 0.8)])
+        elif lot_step:
+            S.append(['Lot badhna', f"+{gr['lot_add_common']} har level ({gr['lot_add_pct']}% adds), kabhi same lot ({gr.get('lot_fixed_pct', 0)}%)", conf(gr['adds'], gr['lot_add_pct'] / 100)])
             inputs['LotStep'] = gr['lot_add_common']
         S.append(['Max levels', f"{g['levels_max']} (avg {g['levels_avg']})", 'pakka'])
         inputs['MaxLevels'] = g['levels_max']
@@ -721,7 +726,11 @@ def summarize(g, raw, magic):
     if bc:
         if bc['closed_together_pct'] >= 70:
             t = f"Basket ek saath band ({bc['closed_together_pct']}%)"
-            if (bc.get('profit_per_001_cv') or 9) < (bc.get('avg_price_to_close_cv') or 9) and (bc.get('profit_per_001_cv') or 9) < 0.35:
+            tl = bc.get('profit_per_001_total_lot_cv')
+            if tl is not None and tl < 0.35 and tl < (bc.get('profit_per_001_cv') or 9) and tl < (bc.get('avg_price_to_close_cv') or 9):
+                t += f" — target ≈ ${bc['profit_per_001_total_lot_median']} har 0.01 total lot par (basket jitna bada, target utna bada)"
+                inputs['BasketTargetUSD_perTotal001'] = bc['profit_per_001_total_lot_median']
+            elif (bc.get('profit_per_001_cv') or 9) < (bc.get('avg_price_to_close_cv') or 9) and (bc.get('profit_per_001_cv') or 9) < 0.35:
                 t += f" — target ≈ ${bc['profit_per_001_first_lot_median']} per 0.01 first lot (median ${bc['profit_usd_median']})"
                 inputs['BasketTargetUSD_per001'] = bc['profit_per_001_first_lot_median']
             elif (bc.get('avg_price_to_close_cv') or 9) < 0.35:
@@ -859,7 +868,7 @@ def main():
             bars[s] = {tf: Bars(rows, tf) for tf, rows in d.items() if rows and len(rows) > 30}
         P = build_positions(raw)
         a = raw['acct']
-        st = {'src': 'scan', 'ver': '1.09', 'platform': raw.get('platform', 'MT5'), 'scanned': ts(time.time()),
+        st = {'src': 'scan', 'ver': '1.09.3', 'platform': raw.get('platform', 'MT5'), 'scanned': ts(time.time()),
               'account': {'login': masked, 'server': a.get('server'), 'company': a.get('company'), 'currency': a.get('currency'),
                           'balance': a.get('balance'), 'equity': a.get('equity'), 'leverage': a.get('leverage'),
                           'type': {0: 'DEMO', 1: 'CONTEST', 2: 'REAL'}.get(a.get('trade_mode'), '?'),
