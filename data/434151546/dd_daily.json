@@ -1,0 +1,8 @@
+{
+  "note": "SAMU GOLD KILLER (magic 20261118) daily drawdown. maxDD = max(balance - lowest equity) in IST day. Source: report.json eq (server GMT, IST = +5:30).",
+  "start": "2026-11-18",
+  "days": {
+    "2026-11-18": {"maxDD": 31.21, "pct": 0.31, "eqLow": 9970.72, "closedPL": 34.03, "baskets": 1, "manualCloses": 2, "dataTillIST": "17:56", "stale": true}
+  },
+  "total": {"maxDD": 31.21, "pct": 0.31, "day": "2026-11-18", "peakToLow": 43.58}
+}
