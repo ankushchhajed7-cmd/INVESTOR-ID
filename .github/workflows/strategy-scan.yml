@@ -1,4 +1,4 @@
-# Investor Watch v1.09 — STRATEGY SCAN (bina VPS) — MT5 + MT4
+# Investor Watch v1.11 — STRATEGY SCAN (bina VPS) — MT5 + MT4 + MT4 Live Record
 # GitHub ki free Windows machine par MT5 install -> investor login -> poori history + candles
 # -> strategy analyser -> data/<login>/strategy.json + STRATEGY.md (+ history.json/live.json agar EA nahi likhta)
 # App ke "Scan" tab se chalta hai (ya Actions > Strategy Scan > Run workflow).
@@ -29,6 +29,14 @@ on:
         description: 'Kitne din ki history (0 = sab)'
         required: false
         default: '0'
+      record:
+        description: 'MT4 Live Record minute (0 = sirf scan)'
+        required: false
+        default: '0'
+      rec_symbol:
+        description: 'Record kis symbol par (jaise GOLD)'
+        required: false
+        default: ''
 permissions:
   contents: write
 concurrency:
@@ -37,7 +45,7 @@ concurrency:
 jobs:
   scan:
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 330
     env:
       PYTHONIOENCODING: utf-8
       PYTHONUTF8: '1'
@@ -86,6 +94,8 @@ jobs:
           IW_SERVER: ${{ inputs.server }}
           IW_ENC: ${{ inputs.enc }}
           IW_DAYS: ${{ inputs.days }}
+          IW_RECORD: ${{ inputs.record }}
+          IW_RECSYM: ${{ inputs.rec_symbol }}
           IW_KEY: ${{ secrets.IW_KEY }}
         run: |
           if [ "$IW_PLATFORM" = "MT4" ]; then python scripts/mt4_run.py "$IW_TERM" scan_tmp

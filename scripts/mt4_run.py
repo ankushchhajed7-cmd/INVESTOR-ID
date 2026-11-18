@@ -96,6 +96,8 @@ def main():
     enc = os.environ.get('IW_ENC', '').strip()
     key = os.environ.get('IW_KEY', '')
     days = int(os.environ.get('IW_DAYS', '0') or 0)
+    rec_min = int(os.environ.get('IW_RECORD', '0') or 0)
+    rec_sym = (os.environ.get('IW_RECSYM', '') or '').strip()
     if not login.isdigit():
         fail('input', 'Login sirf number hona chahiye')
     if not server:
@@ -142,6 +144,64 @@ def main():
         print(name, 'ex4:', os.path.exists(p[:-4] + '.ex4'), flush=True)
 
     files = os.path.join(work, 'MQL4', 'Files')
+    os.makedirs(os.path.join(work, 'MQL4', 'Experts'), exist_ok=True)
+
+    def ini_write(extra):
+        ini = os.path.join(work, 'config', 'iw_start.ini')
+        lines = [f'Login={login}', f'Password={pw}', f'Server={server}', 'AutoConfiguration=false', 'EnableNews=false',
+                 'ExpertsEnable=true', 'ExpertsDllImport=true', 'ExpertsExpImport=false', 'ExpertsTrades=false',
+                 'ExpertsConfirm=false'] + extra
+        # newline='' zaroori: warna Windows par \r\r\n banta hai aur har value ke end me \r chipak jata hai
+        open(ini, 'w', encoding='ascii', errors='ignore', newline='').write('\r\n'.join(lines) + '\r\n')
+        return ini
+
+    # ---- LIVE RECORD mode: EA chart par N minute tick + orders record karta hai ----
+    if rec_min > 0:
+        status('mt4-record', True, f'{rec_min} min record')
+        ep = os.path.join(work, 'MQL4', 'Experts', 'IW_Recorder.mq4')
+        shutil.copy(os.path.join(HERE, 'IW_Recorder.mq4'), ep)
+        if os.path.exists(me):
+            try:
+                subprocess.run([me, '/portable', '/compile:' + ep, '/log:' + ep[:-4] + '.log'], timeout=180)
+            except Exception as e:
+                print('compile recorder', e)
+        print('IW_Recorder ex4:', os.path.exists(ep[:-4] + '.ex4'), flush=True)
+        open(os.path.join(files, 'IW_rec_cfg.txt'), 'w').write(str(rec_min))
+        rd = os.path.join(files, 'IW_rec_done.txt')
+        for sym_try in [x for x in (rec_sym, 'GOLD', 'XAUUSD') if x]:
+            if os.path.exists(rd):
+                os.remove(rd)
+            ini = ini_write([f'Expert=IW_Recorder', f'Symbol={sym_try}', 'Period=M1'])
+            print('record start:', sym_try, rec_min, 'min', flush=True)
+            proc = subprocess.Popen([exe, '/portable', os.path.join('config', 'iw_start.ini')], cwd=work)
+            t0 = time.time(); gone = False; started = False
+            recp = os.path.join(files, 'IW_rec.csv')
+            while time.time() - t0 < rec_min * 60 + 300:
+                time.sleep(10)
+                if not gone and time.time() - t0 > 45:
+                    try:
+                        os.remove(ini); gone = True
+                    except Exception:
+                        pass
+                if os.path.exists(recp) and os.path.getsize(recp) > 200:
+                    started = True
+                if not started and time.time() - t0 > 240:
+                    print('recorder 4 min me shuru nahi hua', flush=True)
+                    break
+                if os.path.exists(rd) or proc.poll() is not None:
+                    break
+            subprocess.run(['taskkill', '/F', '/IM', os.path.basename(exe)], capture_output=True)
+            try:
+                os.remove(ini)
+            except Exception:
+                pass
+            tail_logs(work)
+            if started:
+                shutil.copy(recp, os.path.join(OUT, 'rec.csv'))
+                print('record saved', os.path.getsize(recp), 'bytes', open(rd).read() if os.path.exists(rd) else '(timeout)', flush=True)
+                break
+        else:
+            print('record nahi hua — sirf normal scan', flush=True)
     done_p = os.path.join(files, 'IW_done.txt')
     exp_p = os.path.join(files, 'IW_export.json')
     msg = None
@@ -151,14 +211,7 @@ def main():
         for p in (done_p, exp_p):
             if os.path.exists(p):
                 os.remove(p)
-        ini = os.path.join(work, 'config', 'iw_start.ini')
-        lines = [f'Login={login}', f'Password={pw}', f'Server={server}', 'AutoConfiguration=false', 'EnableNews=false',
-                 'ExpertsEnable=true', 'ExpertsDllImport=true', 'ExpertsExpImport=false', 'ExpertsTrades=false',
-                 'ExpertsConfirm=false', f'Script={script}']
-        if sym:
-            lines += [f'Symbol={sym}', 'Period=H1']
-        # newline='' zaroori: warna Windows par \r\r\n banta hai aur har value ke end me \r chipak jata hai
-        open(ini, 'w', encoding='ascii', errors='ignore', newline='').write('\r\n'.join(lines) + '\r\n')
+        ini = ini_write([f'Script={script}'] + ([f'Symbol={sym}', 'Period=H1'] if sym else []))
         print('start terminal:', script, sym or '(default chart)', flush=True)
         proc = subprocess.Popen([exe, '/portable', os.path.join('config', 'iw_start.ini')], cwd=work)
         t0 = time.time()

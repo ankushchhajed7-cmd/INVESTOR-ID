@@ -898,6 +898,11 @@ def main():
         st['other_trades'] = other
         json.dump(st, open(os.path.join(outdir, 'strategy.json'), 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
         open(os.path.join(outdir, 'STRATEGY.md'), 'w', encoding='utf-8').write(md_report(st))
+        recp = os.path.join(os.path.dirname(rawp), 'rec.csv')
+        if os.path.exists(recp):                                   # Live Record ka data (ticks + orders)
+            import gzip
+            with open(recp, 'rb') as fi, gzip.open(os.path.join(outdir, 'rec.csv.gz'), 'wb') as fo:
+                fo.write(fi.read())
         if os.path.exists(os.path.join(outdir, 'KEEP_RAW')):     # sirf jab Claude ko deep analysis chahiye (baad me hata dete hain)
             import gzip
             with gzip.open(os.path.join(outdir, 'raw.json.gz'), 'wt', encoding='utf-8') as gz:
