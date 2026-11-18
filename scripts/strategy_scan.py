@@ -898,6 +898,10 @@ def main():
         st['other_trades'] = other
         json.dump(st, open(os.path.join(outdir, 'strategy.json'), 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
         open(os.path.join(outdir, 'STRATEGY.md'), 'w', encoding='utf-8').write(md_report(st))
+        if os.path.exists(os.path.join(outdir, 'KEEP_RAW')):     # sirf jab Claude ko deep analysis chahiye (baad me hata dete hain)
+            import gzip
+            with gzip.open(os.path.join(outdir, 'raw.json.gz'), 'wt', encoding='utf-8') as gz:
+                json.dump(raw, gz, separators=(',', ':'))
         status('done', True, f"{len(P)} trades, {len(st['eas'])} EA group")
     except Exception as e:
         import traceback
