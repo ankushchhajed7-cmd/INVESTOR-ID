@@ -26,6 +26,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- tooling (2026-11-18) — `.github/workflows/compile-mq5.yml`: kisi bhi repo/branch ki .mq5 ko GitHub Windows par MT5 MetaEditor se compile karke errors dikhata hai (EA VPS par bhejne se pehle check). Live Record + simulator se GOLD KILLER (magic 666888) ke rules pakke: BUY/SELL STOP market se $0.80, 5pt step trail, naya level pichhle se ≥$0.80, lot 0.01×1.3, basket $30 — clone "SAMU GOLD KILLER" Samusignal/vps-ea me.
 - v1.11.2 (2026-11-18) — Live Record ab SCRIPT hai (EA runner par "loaded" ke baad init hi nahi hua). EURUSD H1 chart par script, symbol cfg se (GOLD), har 200 ms bid/ask + orders snapshot.
 - v1.11.1 (2026-11-18) — Live Record fix: login ke baad MT4 EA ko reload karta hai (deinit reason 6) → OnDeinit "done" likh deta tha → record 10 sec me band. Ab OnDeinit done nahi likhta, re-init par file append, python sirf "ok" done par rukta hai.
 - v1.11 (2026-11-18) — **MT4 Live Record.** Scan form (MT4) me "Record kitne minute" + Symbol. Runner par MT4 chart (Symbol M1) par `IW_Recorder.mq4` EA chalta hai: har tick bid/ask + har second sab open orders ka snapshot (lot/open/SL/TP) jab bhi badle → `IW_rec.csv` → repo me `data/<login>/rec.csv.gz`. Phir normal export + analysis. Job timeout 330 min, record max 300 min. Maksad: EA 666888 (GOLD KILLER) ka exact add trigger + trailing SL nikalna.
