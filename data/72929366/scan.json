@@ -1,7 +1,7 @@
 {
  "state": "error",
- "stage": "mt4-script",
- "msg": "MT4 me export script nahi chala (login ya chart ki dikkat) \u2014 run log dekho",
- "at": 1794973028,
+ "stage": "analyse",
+ "msg": "UnicodeEncodeError: 'charmap' codec can't encode character '\\u2192' in position 12: character maps to <undefined>",
+ "at": 1794973393,
  "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44229506815"
 }
