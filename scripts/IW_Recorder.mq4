@@ -1,22 +1,20 @@
 //+------------------------------------------------------------------+
-//| IW_Recorder.mq4 — Investor Watch v1.11.1 (Live Record, MT4)         |
-//| GitHub Actions par investor login ke saath chart par chalta hai.  |
-//| Har tick (bid/ask) + har second sab orders ka snapshot (SL/TP/lot |
-//| badle to) MQL4\Files\IW_rec.csv me likhta hai. Kabhi trade NAHI.  |
-//| Minutes: MQL4\Files\IW_rec_cfg.txt se (default 180).              |
+//| IW_Recorder.mq4 — Investor Watch v1.11.2 (Live Record, MT4)       |
+//| SCRIPT (EA nahi — EA runner par init nahi hota tha).               |
+//| Investor login ke saath har 200 ms: symbol ka bid/ask (badle to)   |
+//| + sab open orders ka snapshot (lot/open/SL/TP badle to)            |
+//| -> MQL4\Files\IW_rec.csv.  Kabhi trade NAHI karta.                 |
+//| Config: MQL4\Files\IW_rec_cfg.txt = "minute,SYMBOL"                |
 //+------------------------------------------------------------------+
 #property strict
 
-int    fh = INVALID_HANDLE;
-int    minutes = 180;
-datetime t_end = 0;
-string last_snap = "";
-long   n_ticks = 0;
+int fh = INVALID_HANDLE;
 
 void Done(string msg)
 {
    int h = FileOpen("IW_rec_done.txt", FILE_WRITE | FILE_TXT | FILE_ANSI);
    if(h != INVALID_HANDLE) { FileWriteString(h, msg); FileClose(h); }
+   Print("IW_Recorder: ", msg);
 }
 
 string Snap()
@@ -33,62 +31,62 @@ string Snap()
    return s;
 }
 
-int OnInit()
+void OnStart()
 {
    FileDelete("IW_rec_done.txt");
+   int minutes = 180;
+   string sym = "GOLD";
    int h = FileOpen("IW_rec_cfg.txt", FILE_READ | FILE_TXT | FILE_ANSI);
-   if(h != INVALID_HANDLE) { minutes = (int)StringToInteger(FileReadString(h)); FileClose(h); }
+   if(h != INVALID_HANDLE)
+   {
+      string c = FileReadString(h); FileClose(h);
+      string p[];
+      int n = StringSplit(c, ',', p);
+      if(n >= 1) minutes = (int)StringToInteger(p[0]);
+      if(n >= 2 && StringLen(p[1]) > 0) sym = p[1];
+   }
    if(minutes <= 0) minutes = 180;
-   fh = FileOpen("IW_rec.csv", FILE_READ | FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
-   if(fh != INVALID_HANDLE) FileSeek(fh, 0, SEEK_END);
-   if(fh == INVALID_HANDLE) { Done("error: file"); return INIT_FAILED; }
-   t_end = TimeLocal() + minutes * 60;
-   FileWriteString(fh, "I," + IntegerToString((long)TimeCurrent()) + "," + IntegerToString((long)TimeGMT()) + "," + Symbol() + "," +
+
+   int w = 0;
+   while(!IsStopped() && (!IsConnected() || AccountNumber() == 0) && w < 150) { Sleep(1000); w++; }
+   if(!IsConnected() || AccountNumber() == 0) { Done("error: login nahi hua"); return; }
+   SymbolSelect(sym, true);
+   Sleep(2000);
+   int dg = (int)MarketInfo(sym, MODE_DIGITS);
+
+   fh = FileOpen("IW_rec.csv", FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+   if(fh == INVALID_HANDLE) { Done("error: file " + IntegerToString(GetLastError())); return; }
+   FileWriteString(fh, "I," + IntegerToString((long)TimeCurrent()) + "," + IntegerToString((long)TimeGMT()) + "," + sym + "," +
                    IntegerToString(AccountNumber()) + "," + IntegerToString(minutes) + "\n");
-   EventSetTimer(1);
-   Print("IW_Recorder: start ", minutes, " min on ", Symbol());
-   return INIT_SUCCEEDED;
-}
+   FileFlush(fh);
+   Print("IW_Recorder: start ", minutes, " min, symbol ", sym);
 
-void OnTick()
-{
-   if(fh == INVALID_HANDLE) return;
-   n_ticks++;
-   FileWriteString(fh, "T," + IntegerToString(GetTickCount()) + "," + IntegerToString((long)TimeCurrent()) + "," +
-                   DoubleToString(Bid, Digits) + "," + DoubleToString(Ask, Digits) + "\n");
-   Check();
-}
-
-void OnTimer()
-{
-   Check();
-   if(TimeLocal() >= t_end)
+   datetime t_end = TimeLocal() + minutes * 60;
+   double lb = 0, la = 0;
+   string last = "";
+   long nt = 0;
+   uint lastflush = GetTickCount();
+   while(!IsStopped() && TimeLocal() < t_end)
    {
-      FileFlush(fh);
-      FileClose(fh); fh = INVALID_HANDLE;
-      Done("ok " + IntegerToString((int)n_ticks) + " ticks");
-      EventKillTimer();
+      RefreshRates();
+      double b = MarketInfo(sym, MODE_BID), a = MarketInfo(sym, MODE_ASK);
+      if(b != lb || a != la)
+      {
+         FileWriteString(fh, "T," + IntegerToString(GetTickCount()) + "," + IntegerToString((long)TimeCurrent()) + "," +
+                         DoubleToString(b, dg) + "," + DoubleToString(a, dg) + "\n");
+         lb = b; la = a; nt++;
+      }
+      string s = Snap();
+      if(s != last)
+      {
+         FileWriteString(fh, "S," + IntegerToString(GetTickCount()) + "," + IntegerToString((long)TimeCurrent()) + "," +
+                         DoubleToString(b, dg) + "," + DoubleToString(a, dg) + "," + s + "\n");
+         last = s;
+         FileFlush(fh);
+      }
+      if(GetTickCount() - lastflush > 10000) { FileFlush(fh); lastflush = GetTickCount(); }
+      Sleep(200);
    }
-}
-
-void Check()
-{
-   if(fh == INVALID_HANDLE) return;
-   if(!IsConnected()) return;
-   string s = Snap();
-   if(s != last_snap)
-   {
-      FileWriteString(fh, "S," + IntegerToString(GetTickCount()) + "," + IntegerToString((long)TimeCurrent()) + "," +
-                      DoubleToString(MarketInfo(Symbol(), MODE_BID), Digits) + "," + DoubleToString(MarketInfo(Symbol(), MODE_ASK), Digits) + "," + s + "\n");
-      last_snap = s;
-      FileFlush(fh);
-   }
-}
-
-void OnDeinit(const int reason)
-{
-   // login / account badalne par MT4 EA ko dobara load karta hai (reason 6) — isliye yahan "done" NAHI likhte
-   EventKillTimer();
-   if(fh != INVALID_HANDLE) { FileFlush(fh); FileClose(fh); fh = INVALID_HANDLE; }
-   Print("IW_Recorder: deinit ", reason);
+   FileClose(fh);
+   Done("ok " + IntegerToString((int)nt) + " ticks");
 }
