@@ -1,23 +1,23 @@
 {
  "src": "scan",
- "ver": "1.09",
+ "ver": "1.09.3",
  "platform": "MT4",
- "scanned": "2026.11.18 04:23:53",
+ "scanned": "2026.11.18 04:31:24",
  "account": {
   "login": "***366",
   "server": "InstaFinance-Singapore.com",
   "company": "InstaFinance Ltd",
   "currency": "USD",
-  "balance": 20041.07,
-  "equity": 20057.99,
+  "balance": 20072.56,
+  "equity": 20067.43,
   "leverage": 1000,
   "type": "REAL",
   "investor": true
  },
  "server_offset_h": 2.0,
- "total_trades": 2262,
+ "total_trades": 2264,
  "period": "2026.06.15 → 2026.11.18",
- "open_now": 4,
+ "open_now": 3,
  "pending_now": 0,
  "deposits": 5000.0,
  "withdrawals": 0,
@@ -25,7 +25,7 @@
   {
    "magic": 666888,
    "manual": false,
-   "trades": 2237,
+   "trades": 2239,
    "comments": [
     "GOLD KILLER @superforexbot",
     "GOLD KILLER @superforexbot[sl]",
@@ -34,7 +34,7 @@
    "summary": [
     [
      "EA type",
-     "Grid / averaging + Martingale (lot × 1.29) + Hedge (buy + sell ek saath)",
+     "Grid / averaging + Dono side alag grid (BUY basket + SELL basket saath chalte)",
      "pakka"
     ],
     [
@@ -44,7 +44,7 @@
     ],
     [
      "Direction",
-     "BUY 1197 / SELL 1040",
+     "BUY 1198 / SELL 1041",
      "pakka"
     ],
     [
@@ -59,17 +59,12 @@
     ],
     [
      "Direction rule (andaaza)",
-     "Close > EMA50 → SELL, warna BUY [M5] — 68.5% entries se match",
+     "Close > EMA50 → SELL, warna BUY [M5] — 68.3% entries se match",
      "achha andaaza"
     ],
     [
      "Filter (andaaza)",
-     "BUY entries me 'Close > EMA50' 15.3% (normal 35.9%) [M5]",
-     "achha andaaza"
-    ],
-    [
-     "Filter (andaaza)",
-     "SELL entries me 'Pichhli candle badi (avg se 1.5x)' 35.1% (normal 15.0%) [H1]",
+     "BUY entries me 'Close > EMA50' 15.3% (normal 35.8%) [M5]",
      "achha andaaza"
     ],
     [
@@ -84,8 +79,8 @@
     ],
     [
      "Lot badhna",
-     "× 1.0 har level",
-     "pakka"
+     "+0.01 har level (50.4% adds), kabhi same lot (34.8%)",
+     "kamzor (kam data)"
     ],
     [
      "Max levels",
@@ -94,7 +89,7 @@
     ],
     [
      "Basket exit",
-     "Basket ek saath band (96.2%) — basket profit ≈ $19.47 hote hi band (median $31.62)",
+     "Basket ek saath band (96.2%) — basket profit ≈ $19.47 hote hi band (median $31.61)",
      "pakka"
     ],
     [
@@ -114,7 +109,7 @@
     ],
     [
      "Result",
-     "Net $15020.92 · jeet 55.5% · PF 1.7 · 143.2 trade/din",
+     "Net $15052.41 · jeet 55.6% · PF 1.7 · 143.3 trade/din",
      "pakka"
     ]
    ],
@@ -123,26 +118,26 @@
     "Magic": 666888,
     "StartLot": 0.01,
     "GridGapPoints": 167.0,
-    "LotMultiplier": 1.0,
+    "LotStep": 0.01,
     "MaxLevels": 22,
     "BasketTargetUSD": 19.47,
     "SLPoints": 235.0
    },
    "detail": {
-    "trades": 2237,
+    "trades": 2239,
     "symbols": {
-     "GOLD": 2237
+     "GOLD": 2239
     },
-    "buy": 1197,
-    "sell": 1040,
-    "net": 15020.92,
-    "win_pct": 55.5,
+    "buy": 1198,
+    "sell": 1041,
+    "net": 15052.41,
+    "win_pct": 55.6,
     "pf": 1.7,
-    "avg_win": 29.37,
+    "avg_win": 29.32,
     "avg_loss": -21.59,
     "first": "2026.11.02 15:25:30",
-    "last": "2026.11.18 06:17:05",
-    "trades_per_day": 143.2,
+    "last": "2026.11.18 06:31:03",
+    "trades_per_day": 143.3,
     "hold_min_median": 22.4,
     "lots": {
      "min": 0.01,
@@ -150,13 +145,13 @@
      "common": 0.01,
      "distinct": 20
     },
-    "baskets": 401,
+    "baskets": 402,
     "basket_pct": 91.0,
     "levels_max": 22,
     "levels_avg": 5.6,
     "levels_dist": {
      "1": 36,
-     "2": 43,
+     "2": 44,
      "3": 49,
      "4": 49,
      "5": 58,
@@ -177,7 +172,7 @@
      "22": 1
     },
     "grid": {
-     "adds": 1836,
+     "adds": 1837,
      "adverse_pct": 100.0,
      "gap_points_median": 167.0,
      "gap_cv": 0.7,
@@ -186,24 +181,26 @@
      "add_minutes_median": 2.5,
      "lot_ratio_median": 1.29,
      "lot_ratio_common": 1.0,
-     "lot_fixed_pct": 34.7,
+     "lot_fixed_pct": 34.8,
      "lot_add_common": 0.01,
      "lot_add_pct": 50.4
     },
     "basket_close": {
-     "multi_baskets": 364,
+     "multi_baskets": 365,
      "closed_together_pct": 96.2,
      "win_pct": 99.7,
-     "profit_usd_median": 31.62,
+     "profit_usd_median": 31.61,
      "profit_usd_cv": 1.19,
      "profit_usd_p10": 19.47,
-     "profit_per_001_first_lot_median": 31.62,
+     "profit_per_001_first_lot_median": 31.61,
      "profit_per_001_cv": 1.19,
-     "avg_price_to_close_pts_median": 263.0,
+     "profit_per_001_total_lot_median": 2.64,
+     "profit_per_001_total_lot_cv": 1.31,
+     "avg_price_to_close_pts_median": 264.0,
      "avg_price_to_close_cv": 1.31,
      "worst_basket_usd": -29.29,
      "close_reasons": {
-      "EA": 2090,
+      "EA": 2093,
       "SL": 108
      }
     },
@@ -215,11 +212,11 @@
      "sl_close_in_profit_pct": 76.2,
      "sl_close_profit_pts_median": 247.0,
      "close_reasons": {
-      "EA": 2107,
+      "EA": 2110,
       "SL": 126
      },
      "ea_close_profit_per_001_median": 4.35,
-     "ea_close_profit_cv": 1.13
+     "ea_close_profit_cv": 1.12
     },
     "timing": {
      "server_hours": {
@@ -228,7 +225,7 @@
       "3": 41,
       "4": 20,
       "5": 15,
-      "6": 16,
+      "6": 17,
       "7": 18,
       "8": 19,
       "9": 14,
@@ -258,7 +255,7 @@
       "7": 24,
       "8": 20,
       "9": 17,
-      "10": 9,
+      "10": 10,
       "11": 27,
       "12": 17,
       "13": 11,
@@ -276,7 +273,7 @@
      "weekdays": {
       "Som": 86,
       "Mangal": 99,
-      "Budh": 65,
+      "Budh": 66,
       "Guru": 104,
       "Shukra": 62
      },
@@ -290,7 +287,7 @@
      },
      "entry_tf": null,
      "top_minutes": {
-      "30": 16,
+      "30": 17,
       "35": 14,
       "54": 14,
       "31": 12
@@ -322,55 +319,55 @@
     "worst_trade_usd": -242.64,
     "closed_dd_usd": -1934.31,
     "entry_rules": {
-     "samples": 416,
+     "samples": 417,
      "direction_rules": [
       {
        "tf": "M5",
        "cond": "Close > EMA50",
        "mode": "ulta (reversal)",
        "rule": "Close > EMA50 → SELL, warna BUY",
-       "match_pct": 68.5,
-       "n": 231
+       "match_pct": 68.3,
+       "n": 232
       },
       {
        "tf": "M5",
        "cond": "EMA9 > EMA20",
        "mode": "ulta (reversal)",
        "rule": "EMA9 > EMA20 → SELL, warna BUY",
-       "match_pct": 67.8,
-       "n": 231
+       "match_pct": 67.6,
+       "n": 232
       },
       {
        "tf": "M15",
        "cond": "Close > EMA20",
        "mode": "ulta (reversal)",
        "rule": "Close > EMA20 → SELL, warna BUY",
-       "match_pct": 67.6,
-       "n": 416
+       "match_pct": 67.4,
+       "n": 417
       },
       {
        "tf": "M15",
        "cond": "RSI14 > 50",
        "mode": "ulta (reversal)",
        "rule": "RSI14 > 50 → SELL, warna BUY",
-       "match_pct": 66.2,
-       "n": 416
+       "match_pct": 66.0,
+       "n": 417
       },
       {
        "tf": "M5",
        "cond": "EMA20 > EMA50",
        "mode": "ulta (reversal)",
        "rule": "EMA20 > EMA50 → SELL, warna BUY",
-       "match_pct": 66.0,
-       "n": 231
+       "match_pct": 65.7,
+       "n": 232
       },
       {
        "tf": "M5",
        "cond": "Close > EMA100",
        "mode": "ulta (reversal)",
        "rule": "Close > EMA100 → SELL, warna BUY",
-       "match_pct": 65.5,
-       "n": 216
+       "match_pct": 65.3,
+       "n": 217
       }
      ],
      "filters": [
@@ -379,16 +376,8 @@
        "side": "BUY",
        "cond": "Close > EMA50",
        "entries_pct": 15.3,
-       "normal_pct": 35.9,
+       "normal_pct": 35.8,
        "n": 124
-      },
-      {
-       "tf": "H1",
-       "side": "SELL",
-       "cond": "Pichhli candle badi (avg se 1.5x)",
-       "entries_pct": 35.1,
-       "normal_pct": 15.0,
-       "n": 202
       }
      ],
      "rsi": {
@@ -399,7 +388,7 @@
         "max": 80.6
        },
        "SELL": {
-        "median": 50.6,
+        "median": 50.5,
         "min": 17.9,
         "max": 76.5
        }
@@ -423,7 +412,7 @@
         "max": 84.1
        },
        "SELL": {
-        "median": 49.0,
+        "median": 48.7,
         "min": 18.7,
         "max": 84.1
        }
