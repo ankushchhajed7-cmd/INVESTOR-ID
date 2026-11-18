@@ -169,8 +169,9 @@ def main():
         open(os.path.join(files, 'IW_rec_cfg.txt'), 'w').write(str(rec_min))
         rd = os.path.join(files, 'IW_rec_done.txt')
         for sym_try in [x for x in (rec_sym, 'GOLD', 'XAUUSD') if x]:
-            if os.path.exists(rd):
-                os.remove(rd)
+            for f_ in (rd, os.path.join(files, 'IW_rec.csv')):
+                if os.path.exists(f_):
+                    os.remove(f_)
             ini = ini_write([f'Expert=IW_Recorder', f'Symbol={sym_try}', 'Period=M1'])
             print('record start:', sym_try, rec_min, 'min', flush=True)
             proc = subprocess.Popen([exe, '/portable', os.path.join('config', 'iw_start.ini')], cwd=work)
@@ -188,7 +189,14 @@ def main():
                 if not started and time.time() - t0 > 240:
                     print('recorder 4 min me shuru nahi hua', flush=True)
                     break
-                if os.path.exists(rd) or proc.poll() is not None:
+                if os.path.exists(rd):
+                    try:
+                        if open(rd, encoding='latin-1').read().startswith('ok'):
+                            break
+                    except Exception:
+                        pass
+                if proc.poll() is not None:
+                    print('terminal band ho gaya, code', proc.returncode, flush=True)
                     break
             subprocess.run(['taskkill', '/F', '/IM', os.path.basename(exe)], capture_output=True)
             try:
