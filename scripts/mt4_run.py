@@ -158,7 +158,7 @@ def main():
     # ---- LIVE RECORD mode: EA chart par N minute tick + orders record karta hai ----
     if rec_min > 0:
         status('mt4-record', True, f'{rec_min} min record')
-        ep = os.path.join(work, 'MQL4', 'Experts', 'IW_Recorder.mq4')
+        ep = os.path.join(work, 'MQL4', 'Scripts', 'IW_Recorder.mq4')     # script (EA runner par init nahi hota)
         shutil.copy(os.path.join(HERE, 'IW_Recorder.mq4'), ep)
         if os.path.exists(me):
             try:
@@ -166,14 +166,14 @@ def main():
             except Exception as e:
                 print('compile recorder', e)
         print('IW_Recorder ex4:', os.path.exists(ep[:-4] + '.ex4'), flush=True)
-        open(os.path.join(files, 'IW_rec_cfg.txt'), 'w').write(str(rec_min))
+        open(os.path.join(files, 'IW_rec_cfg.txt'), 'w').write(f'{rec_min},{rec_sym or "GOLD"}')
         rd = os.path.join(files, 'IW_rec_done.txt')
-        for sym_try in [x for x in (rec_sym, 'GOLD', 'XAUUSD') if x]:
+        for sym_try in ('EURUSD', None):                     # chart (script ke liye); record symbol cfg se
             for f_ in (rd, os.path.join(files, 'IW_rec.csv')):
                 if os.path.exists(f_):
                     os.remove(f_)
-            ini = ini_write([f'Expert=IW_Recorder', f'Symbol={sym_try}', 'Period=M1'])
-            print('record start:', sym_try, rec_min, 'min', flush=True)
+            ini = ini_write(['Script=IW_Recorder'] + ([f'Symbol={sym_try}', 'Period=H1'] if sym_try else []))
+            print('record start:', rec_sym or 'GOLD', rec_min, 'min (chart', sym_try, ')', flush=True)
             proc = subprocess.Popen([exe, '/portable', os.path.join('config', 'iw_start.ini')], cwd=work)
             t0 = time.time(); gone = False; started = False
             recp = os.path.join(files, 'IW_rec.csv')
@@ -184,15 +184,16 @@ def main():
                         os.remove(ini); gone = True
                     except Exception:
                         pass
-                if os.path.exists(recp) and os.path.getsize(recp) > 200:
+                if os.path.exists(recp) and os.path.getsize(recp) > 60:
                     started = True
-                if not started and time.time() - t0 > 240:
-                    print('recorder 4 min me shuru nahi hua', flush=True)
+                if not started and time.time() - t0 > 330:
+                    print('recorder 5.5 min me shuru nahi hua', flush=True)
                     break
                 if os.path.exists(rd):
                     try:
-                        if open(rd, encoding='latin-1').read().startswith('ok'):
-                            break
+                        m_ = open(rd, encoding='latin-1').read()
+                        print('recorder:', m_, flush=True)
+                        break
                     except Exception:
                         pass
                 if proc.poll() is not None:
