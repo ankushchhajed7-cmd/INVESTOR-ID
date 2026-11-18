@@ -1,7 +1,7 @@
 {
  "state": "error",
- "stage": "login",
- "msg": "MT5 login nahi hua (-10005, 'IPC timeout') \u2014 password galat/badal gaya, ya server naam galat. Agar server sahi hai to broker ka apna MT5 installer link do.",
- "at": 1795027394,
- "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44369264795"
+ "stage": "setup",
+ "msg": "MT5 install / setup me dikkat \u2014 run log dekho",
+ "at": 1795027745,
+ "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44373720475"
 }
