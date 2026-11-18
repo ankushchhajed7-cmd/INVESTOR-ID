@@ -74,7 +74,7 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.09</span></h1>
+  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.11</span></h1>
   <span style="flex:1"></span>
   <span class="tiny" id="clock"></span>
   <a href="report/" class="hlink">📊 SAMU REPORT</a>
@@ -562,7 +562,7 @@ function viewTrailing(){
 
 // ================= v1.08 STRATEGY SCAN (bina VPS — GitHub Actions Windows par MT5) =================
 let scanCfg = LS.get('iw_scan', {pat:'', key:''});      // token + secret key sirf is phone me
-let scanForm = {platform:'MT5', login:'', server:'', pw:'', installer:'', days:'0'};   // password kabhi save nahi hota
+let scanForm = {platform:'MT5', login:'', server:'', pw:'', installer:'', days:'0', record:'0', recsym:''};   // password kabhi save nahi hota
 let scanRun = LS.get('iw_scanrun', null);                // {login, since}
 let scanMsg = '';
 let pollTimer = null;
@@ -604,11 +604,13 @@ async function startScan(){
   scanMsg='🔒 Password encrypt ho raha hai…'; render();
   let enc;
   try{ enc = await encPw(f.pw, scanCfg.key); }catch(e){ scanMsg='⚠️ Encrypt nahi hua: '+e.message; return render(); }
+  if(f.platform==='MT4' && !f.recsym && cache.strat && cache.strat.eas && cache.strat.eas[0]) f.recsym = Object.keys(cache.strat.eas[0].detail.symbols||{})[0]||'';
   const since = Date.now();
   let r;
   try{
     r = await ghApi('/actions/workflows/strategy-scan.yml/dispatches', {method:'POST', body: JSON.stringify({ref: cfg.branch||'main',
-      inputs:{platform:f.platform, login:f.login, server:f.server, enc, installer:String(f.installer||'').trim(), days:String(parseInt(f.days)||0)}})});
+      inputs:{platform:f.platform, login:f.login, server:f.server, enc, installer:String(f.installer||'').trim(), days:String(parseInt(f.days)||0),
+      record:String(f.platform==='MT4'?Math.min(300,Math.max(0,parseInt(f.record)||0)):0), rec_symbol:String(f.recsym||'').trim()}})});
   }catch(e){ scanMsg='⚠️ Internet / GitHub se baat nahi hui: '+e.message; return render(); }
   if(r.status!==204){
     const t = await r.text().catch(()=> '');
@@ -732,6 +734,8 @@ function viewScan(){
       <div class="add"><input placeholder="${f.platform==='MT4'?'Broker ka MT4 installer link (.exe)':'Broker ka MT5 installer link (server na mile tab)'}" value="${esc(f.installer)}" oninput="sf('installer',this.value)"></div>
       ${f.platform==='MT4'?`<div class="tiny" style="margin-top:4px">InstaForex: <a href="#" onclick="sf('installer','https://instaforex.org/downloads/itc4setup.exe');render();return false" style="color:var(--accent)">itc4setup.exe link bharo</a> · baaki broker: unki site par "Download MT4" button ka link copy karo</div>`:''}
       <div class="add"><input inputmode="numeric" placeholder="Kitne din ki history (0 = sab)" value="${esc(f.days)}" oninput="sf('days',this.value)"></div>
+      ${f.platform==='MT4'?`<div class="tiny" style="margin-top:8px"><b>🔴 Live Record</b> (MT4): EA ke har tick, har naye order aur SL badlaav ko record karta hai — add ka exact trigger + trailing nikalne ke liye. 0 = sirf scan. Max 300 min.</div>
+      <div class="add"><input inputmode="numeric" placeholder="Record kitne minute (jaise 180)" value="${esc(f.record)}" oninput="sf('record',this.value)"><input style="max-width:38%" placeholder="Symbol (jaise GOLD)" value="${esc(f.recsym || ((cache.strat&&cache.strat.eas&&cache.strat.eas[0])?Object.keys(cache.strat.eas[0].detail.symbols||{})[0]||'':''))}" oninput="sf('recsym',this.value)"></div>`:''}
     </details>
     <button style="width:100%;margin-top:10px" onclick="startScan()" ${scanRun?'disabled':''}>${scanRun?'⏳ Scan chal raha hai…':'▶ Scan shuru'}</button>
     <div class="tiny" style="margin-top:8px">${scanMsg}</div>
@@ -801,7 +805,7 @@ renderAccts(); render(); load(); pollScan();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.09';
+const APP_VER='1.11';
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
   try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
