@@ -95,6 +95,14 @@ jobs:
         env:
           IW_LOGIN: ${{ inputs.login }}
         run: python scripts/strategy_scan.py scan_tmp/raw.json "data/$IW_LOGIN"
+      - name: Raw data artifact (deep analysis ke liye, 7 din)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-${{ inputs.login }}
+          path: scan_tmp/raw.json
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Nateeja repo me (fail ho to bhi status)
         if: always()
         shell: bash
