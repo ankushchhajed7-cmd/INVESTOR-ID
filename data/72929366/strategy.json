@@ -2,14 +2,14 @@
  "src": "scan",
  "ver": "1.09.3",
  "platform": "MT4",
- "scanned": "2026.11.18 04:48:54",
+ "scanned": "2026.11.18 04:54:28",
  "account": {
   "login": "***366",
   "server": "InstaFinance-Singapore.com",
   "company": "InstaFinance Ltd",
   "currency": "USD",
   "balance": 20072.56,
-  "equity": 20066.4,
+  "equity": 20069.36,
   "leverage": 1000,
   "type": "REAL",
   "investor": true

@@ -1,5 +1,5 @@
 # Strategy Scan (MT4) — ***366 (InstaFinance-Singapore.com)
-Scan: 2026.11.18 04:48:54 UTC · history 2026.06.15 → 2026.11.18 · 2267 trades · balance 20072.56 USD
+Scan: 2026.11.18 04:54:28 UTC · history 2026.06.15 → 2026.11.18 · 2267 trades · balance 20072.56 USD
 
 > Ye sab trade history se nikala andaaza hai (EA ka asli code nahi). "pakka" = data se saaf dikh raha, "kamzor" = kam data.
 
