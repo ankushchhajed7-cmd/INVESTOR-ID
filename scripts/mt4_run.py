@@ -79,12 +79,12 @@ def tail_logs(work):
     for d in (os.path.join(work, 'logs'), os.path.join(work, 'MQL4', 'Logs')):
         if not os.path.isdir(d):
             continue
-        for f in sorted(os.listdir(d))[-1:]:
+        for f in sorted(x for x in os.listdir(d) if x.endswith('.log') and 'metaeditor' not in x)[-2:]:
             try:
                 raw = open(os.path.join(d, f), 'rb').read()
                 txt = raw.decode('utf-16', errors='ignore') if raw[:2] in (b'\xff\xfe', b'\xfe\xff') else raw.decode('latin-1')
                 print('---', d, f, '---')
-                print('\n'.join(txt.splitlines()[-25:]), flush=True)
+                print('\n'.join(l for l in txt.splitlines()[-40:] if 'Compiling' not in l), flush=True)
             except Exception:
                 pass
 
@@ -157,7 +157,8 @@ def main():
                  'ExpertsConfirm=false', f'Script={script}']
         if sym:
             lines += [f'Symbol={sym}', 'Period=H1']
-        open(ini, 'w', encoding='ascii', errors='ignore').write('\r\n'.join(lines) + '\r\n')
+        # newline='' zaroori: warna Windows par \r\r\n banta hai aur har value ke end me \r chipak jata hai
+        open(ini, 'w', encoding='ascii', errors='ignore', newline='').write('\r\n'.join(lines) + '\r\n')
         print('start terminal:', script, sym or '(default chart)', flush=True)
         proc = subprocess.Popen([exe, '/portable', os.path.join('config', 'iw_start.ini')], cwd=work)
         t0 = time.time()
