@@ -2,18 +2,595 @@
  "src": "scan",
  "ver": "1.09",
  "platform": "MT4",
- "scanned": "2026.11.18 03:43:13",
+ "scanned": "2026.11.18 04:23:53",
  "account": {
   "login": "***366",
   "server": "InstaFinance-Singapore.com",
   "company": "InstaFinance Ltd",
   "currency": "USD",
-  "balance": 20004.0,
-  "equity": 19998.72,
+  "balance": 20041.07,
+  "equity": 20057.99,
   "leverage": 1000,
   "type": "REAL",
   "investor": true
  },
  "server_offset_h": 2.0,
- "total_trades": 2254,
- "period": 
+ "total_trades": 2262,
+ "period": "2026.06.15 → 2026.11.18",
+ "open_now": 4,
+ "pending_now": 0,
+ "deposits": 5000.0,
+ "withdrawals": 0,
+ "eas": [
+  {
+   "magic": 666888,
+   "manual": false,
+   "trades": 2237,
+   "comments": [
+    "GOLD KILLER @superforexbot",
+    "GOLD KILLER @superforexbot[sl]",
+    "GOLD KILLER @superforexbot[gap]"
+   ],
+   "summary": [
+    [
+     "EA type",
+     "Grid / averaging + Martingale (lot × 1.29) + Hedge (buy + sell ek saath)",
+     "pakka"
+    ],
+    [
+     "Symbol",
+     "GOLD (100% trades)",
+     "pakka"
+    ],
+    [
+     "Direction",
+     "BUY 1197 / SELL 1040",
+     "pakka"
+    ],
+    [
+     "Entry kab",
+     "Candle open se nahi — tick par / beech me (price level ya condition par)",
+     "achha andaaza"
+    ],
+    [
+     "Trading time",
+     "Lagbhag poore din (koi time filter nahi dikhta)",
+     "kamzor (kam data)"
+    ],
+    [
+     "Direction rule (andaaza)",
+     "Close > EMA50 → SELL, warna BUY [M5] — 68.5% entries se match",
+     "achha andaaza"
+    ],
+    [
+     "Filter (andaaza)",
+     "BUY entries me 'Close > EMA50' 15.3% (normal 35.9%) [M5]",
+     "achha andaaza"
+    ],
+    [
+     "Filter (andaaza)",
+     "SELL entries me 'Pichhli candle badi (avg se 1.5x)' 35.1% (normal 15.0%) [H1]",
+     "achha andaaza"
+    ],
+    [
+     "Lot",
+     "Shuru 0.01 (min 0.01, max 2.47)",
+     "pakka"
+    ],
+    [
+     "Grid gap",
+     "≈ 167.0 points (ghaate me add, 100.0% adverse) — har add ~2.5 min baad",
+     "kamzor (kam data)"
+    ],
+    [
+     "Lot badhna",
+     "× 1.0 har level",
+     "pakka"
+    ],
+    [
+     "Max levels",
+     "22 (avg 5.6)",
+     "pakka"
+    ],
+    [
+     "Basket exit",
+     "Basket ek saath band (96.2%) — basket profit ≈ $19.47 hote hi band (median $31.62)",
+     "pakka"
+    ],
+    [
+     "SL",
+     "≈ 235.0 points (8.2% trades par SL)",
+     "kamzor (kam data)"
+    ],
+    [
+     "Trailing / BE",
+     "76.2% SL-close profit me — trailing/breakeven lagta hai (median 247.0 pts lock)",
+     "achha andaaza"
+    ],
+    [
+     "Risk",
+     "Max 26 trade ek saath · sabse bada loss $-242.64 · closed DD $-1934.31",
+     "pakka"
+    ],
+    [
+     "Result",
+     "Net $15020.92 · jeet 55.5% · PF 1.7 · 143.2 trade/din",
+     "pakka"
+    ]
+   ],
+   "inputs": {
+    "Symbol": "GOLD",
+    "Magic": 666888,
+    "StartLot": 0.01,
+    "GridGapPoints": 167.0,
+    "LotMultiplier": 1.0,
+    "MaxLevels": 22,
+    "BasketTargetUSD": 19.47,
+    "SLPoints": 235.0
+   },
+   "detail": {
+    "trades": 2237,
+    "symbols": {
+     "GOLD": 2237
+    },
+    "buy": 1197,
+    "sell": 1040,
+    "net": 15020.92,
+    "win_pct": 55.5,
+    "pf": 1.7,
+    "avg_win": 29.37,
+    "avg_loss": -21.59,
+    "first": "2026.11.02 15:25:30",
+    "last": "2026.11.18 06:17:05",
+    "trades_per_day": 143.2,
+    "hold_min_median": 22.4,
+    "lots": {
+     "min": 0.01,
+     "max": 2.47,
+     "common": 0.01,
+     "distinct": 20
+    },
+    "baskets": 401,
+    "basket_pct": 91.0,
+    "levels_max": 22,
+    "levels_avg": 5.6,
+    "levels_dist": {
+     "1": 36,
+     "2": 43,
+     "3": 49,
+     "4": 49,
+     "5": 58,
+     "6": 44,
+     "7": 31,
+     "8": 22,
+     "9": 17,
+     "10": 13,
+     "11": 10,
+     "12": 6,
+     "13": 4,
+     "14": 4,
+     "15": 5,
+     "16": 5,
+     "17": 2,
+     "20": 1,
+     "21": 1,
+     "22": 1
+    },
+    "grid": {
+     "adds": 1836,
+     "adverse_pct": 100.0,
+     "gap_points_median": 167.0,
+     "gap_cv": 0.7,
+     "gap_common": 96,
+     "gap_common_pct": 6.0,
+     "add_minutes_median": 2.5,
+     "lot_ratio_median": 1.29,
+     "lot_ratio_common": 1.0,
+     "lot_fixed_pct": 34.7,
+     "lot_add_common": 0.01,
+     "lot_add_pct": 50.4
+    },
+    "basket_close": {
+     "multi_baskets": 364,
+     "closed_together_pct": 96.2,
+     "win_pct": 99.7,
+     "profit_usd_median": 31.62,
+     "profit_usd_cv": 1.19,
+     "profit_usd_p10": 19.47,
+     "profit_per_001_first_lot_median": 31.62,
+     "profit_per_001_cv": 1.19,
+     "avg_price_to_close_pts_median": 263.0,
+     "avg_price_to_close_cv": 1.31,
+     "worst_basket_usd": -29.29,
+     "close_reasons": {
+      "EA": 2090,
+      "SL": 108
+     }
+    },
+    "exit": {
+     "tp_set_pct": 0.0,
+     "sl_set_pct": 8.2,
+     "sl_points_median": 235.0,
+     "sl_points_cv": 1.34,
+     "sl_close_in_profit_pct": 76.2,
+     "sl_close_profit_pts_median": 247.0,
+     "close_reasons": {
+      "EA": 2107,
+      "SL": 126
+     },
+     "ea_close_profit_per_001_median": 4.35,
+     "ea_close_profit_cv": 1.13
+    },
+    "timing": {
+     "server_hours": {
+      "1": 12,
+      "2": 16,
+      "3": 41,
+      "4": 20,
+      "5": 15,
+      "6": 16,
+      "7": 18,
+      "8": 19,
+      "9": 14,
+      "10": 14,
+      "11": 16,
+      "12": 4,
+      "13": 5,
+      "14": 13,
+      "15": 41,
+      "16": 37,
+      "17": 32,
+      "18": 28,
+      "19": 14,
+      "20": 12,
+      "21": 9,
+      "22": 12,
+      "23": 8
+     },
+     "ist_hours": {
+      "0": 11,
+      "1": 8,
+      "2": 12,
+      "3": 4,
+      "4": 6,
+      "5": 14,
+      "6": 33,
+      "7": 24,
+      "8": 20,
+      "9": 17,
+      "10": 9,
+      "11": 27,
+      "12": 17,
+      "13": 11,
+      "14": 17,
+      "15": 7,
+      "16": 4,
+      "17": 12,
+      "18": 15,
+      "19": 43,
+      "20": 38,
+      "21": 26,
+      "22": 32,
+      "23": 9
+     },
+     "weekdays": {
+      "Som": 86,
+      "Mangal": 99,
+      "Budh": 65,
+      "Guru": 104,
+      "Shukra": 62
+     },
+     "bar_open_pct": {
+      "M5": 5.0,
+      "M15": 1.4,
+      "M30": 0.7,
+      "H1": 0.5,
+      "H4": 0.2,
+      "D1": 0.0
+     },
+     "entry_tf": null,
+     "top_minutes": {
+      "30": 16,
+      "35": 14,
+      "54": 14,
+      "31": 12
+     },
+     "active_hours_server": "01:00–23:59",
+     "min_gap_between_entries_min": 0.0
+    },
+    "pending": {
+     "count": 15,
+     "types": {
+      "SELL_STOP": 14,
+      "BUY_STOP": 1
+     },
+     "states": {
+      "CANCELED": 15
+     },
+     "fill_pct": 0.0,
+     "life_hours_median": 0.0,
+     "straddle_pct": 0.0,
+     "vs_prev_candle": {
+      "tf": "M15",
+      "beyond_high_low_pts_median": -1807.0,
+      "cv": 0.06
+     }
+    },
+    "hedge_overlap_pct": 100.0,
+    "buy_sell_same_time": 7,
+    "max_open_together": 26,
+    "worst_trade_usd": -242.64,
+    "closed_dd_usd": -1934.31,
+    "entry_rules": {
+     "samples": 416,
+     "direction_rules": [
+      {
+       "tf": "M5",
+       "cond": "Close > EMA50",
+       "mode": "ulta (reversal)",
+       "rule": "Close > EMA50 → SELL, warna BUY",
+       "match_pct": 68.5,
+       "n": 231
+      },
+      {
+       "tf": "M5",
+       "cond": "EMA9 > EMA20",
+       "mode": "ulta (reversal)",
+       "rule": "EMA9 > EMA20 → SELL, warna BUY",
+       "match_pct": 67.8,
+       "n": 231
+      },
+      {
+       "tf": "M15",
+       "cond": "Close > EMA20",
+       "mode": "ulta (reversal)",
+       "rule": "Close > EMA20 → SELL, warna BUY",
+       "match_pct": 67.6,
+       "n": 416
+      },
+      {
+       "tf": "M15",
+       "cond": "RSI14 > 50",
+       "mode": "ulta (reversal)",
+       "rule": "RSI14 > 50 → SELL, warna BUY",
+       "match_pct": 66.2,
+       "n": 416
+      },
+      {
+       "tf": "M5",
+       "cond": "EMA20 > EMA50",
+       "mode": "ulta (reversal)",
+       "rule": "EMA20 > EMA50 → SELL, warna BUY",
+       "match_pct": 66.0,
+       "n": 231
+      },
+      {
+       "tf": "M5",
+       "cond": "Close > EMA100",
+       "mode": "ulta (reversal)",
+       "rule": "Close > EMA100 → SELL, warna BUY",
+       "match_pct": 65.5,
+       "n": 216
+      }
+     ],
+     "filters": [
+      {
+       "tf": "M5",
+       "side": "BUY",
+       "cond": "Close > EMA50",
+       "entries_pct": 15.3,
+       "normal_pct": 35.9,
+       "n": 124
+      },
+      {
+       "tf": "H1",
+       "side": "SELL",
+       "cond": "Pichhli candle badi (avg se 1.5x)",
+       "entries_pct": 35.1,
+       "normal_pct": 15.0,
+       "n": 202
+      }
+     ],
+     "rsi": {
+      "M5": {
+       "BUY": {
+        "median": 41.9,
+        "min": 17.9,
+        "max": 80.6
+       },
+       "SELL": {
+        "median": 50.6,
+        "min": 17.9,
+        "max": 76.5
+       }
+      },
+      "M15": {
+       "BUY": {
+        "median": 42.8,
+        "min": 15.5,
+        "max": 82.3
+       },
+       "SELL": {
+        "median": 52.5,
+        "min": 15.6,
+        "max": 82.3
+       }
+      },
+      "H1": {
+       "BUY": {
+        "median": 43.3,
+        "min": 18.5,
+        "max": 84.1
+       },
+       "SELL": {
+        "median": 49.0,
+        "min": 18.7,
+        "max": 84.1
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "magic": 9569,
+   "manual": false,
+   "trades": 25,
+   "comments": [
+    "Gold Hunt Ea"
+   ],
+   "summary": [
+    [
+     "EA type",
+     "Single trade (ek signal = ek trade)",
+     "pakka"
+    ],
+    [
+     "Symbol",
+     "XAUUSD (100% trades)",
+     "pakka"
+    ],
+    [
+     "Direction",
+     "BUY 24 / SELL 1",
+     "pakka"
+    ],
+    [
+     "Entry kab",
+     "Candle open se nahi — tick par / beech me (price level ya condition par)",
+     "achha andaaza"
+    ],
+    [
+     "Trading time (IST)",
+     "14:00–23:59 (entry wale ghante: 14, 15, 17, 19, 20, 23)",
+     "achha andaaza"
+    ],
+    [
+     "Note",
+     "Lagbhag ek hi side (BUY 24 / SELL 1) — direction rule nahi, filters dekho",
+     ""
+    ],
+    [
+     "Lot",
+     "Shuru 0.01 (min 0.01, max 0.01)",
+     "pakka"
+    ],
+    [
+     "SL",
+     "SL nahi lagta (0%) — risk zyada",
+     "pakka"
+    ],
+    [
+     "Risk",
+     "Max 2 trade ek saath · sabse bada loss $-467.05 · closed DD $-478.7",
+     "pakka"
+    ],
+    [
+     "Result",
+     "Net $20.15 · jeet 88.0% · PF 1.04 · 13.3 trade/din",
+     "pakka"
+    ]
+   ],
+   "inputs": {
+    "Symbol": "XAUUSD",
+    "Magic": 9569,
+    "StartLot": 0.01
+   },
+   "detail": {
+    "trades": 25,
+    "symbols": {
+     "XAUUSD": 25
+    },
+    "buy": 24,
+    "sell": 1,
+    "net": 20.15,
+    "win_pct": 88.0,
+    "pf": 1.04,
+    "avg_win": 22.67,
+    "avg_loss": -159.57,
+    "first": "2026.06.15 20:12:29",
+    "last": "2026.06.17 17:25:24",
+    "trades_per_day": 13.3,
+    "hold_min_median": 2.6,
+    "lots": {
+     "min": 0.01,
+     "max": 0.01,
+     "common": 0.01,
+     "distinct": 1
+    },
+    "baskets": 25,
+    "basket_pct": 0.0,
+    "levels_max": 1,
+    "levels_avg": 1.0,
+    "levels_dist": {
+     "1": 25
+    },
+    "grid": {},
+    "basket_close": {},
+    "exit": {
+     "tp_set_pct": 0.0,
+     "sl_set_pct": 0.0,
+     "close_reasons": {
+      "EA": 25
+     },
+     "ea_close_profit_per_001_median": 1.05,
+     "ea_close_profit_cv": 4.18
+    },
+    "timing": {
+     "server_hours": {
+      "11": 12,
+      "13": 1,
+      "15": 5,
+      "17": 5,
+      "20": 2
+     },
+     "ist_hours": {
+      "14": 8,
+      "15": 4,
+      "17": 1,
+      "19": 5,
+      "20": 5,
+      "23": 2
+     },
+     "weekdays": {
+      "Som": 2,
+      "Mangal": 18,
+      "Budh": 5
+     },
+     "bar_open_pct": {
+      "M5": 0.0,
+      "M15": 0.0,
+      "M30": 0.0,
+      "H1": 0.0,
+      "H4": 0.0,
+      "D1": 0.0
+     },
+     "entry_tf": null,
+     "top_minutes": {
+      "09": 3,
+      "24": 3,
+      "12": 2,
+      "50": 2
+     },
+     "active_hours_server": "11:00–20:59",
+     "min_gap_between_entries_min": 0.1
+    },
+    "pending": {},
+    "hedge_overlap_pct": 8.0,
+    "buy_sell_same_time": 0,
+    "max_open_together": 2,
+    "worst_trade_usd": -467.05,
+    "closed_dd_usd": -478.7,
+    "entry_rules": {
+     "samples": 25,
+     "direction_rules": [],
+     "filters": [],
+     "rsi": {},
+     "note": "Lagbhag ek hi side (BUY 24 / SELL 1) — direction rule nahi, filters dekho"
+    }
+   }
+  }
+ ],
+ "note": "MT4: lage hue pending orders history me BUY/SELL ban jaate hain (pending setup time nahi milta) — pending analysis sirf cancel/expire wale orders se.",
+ "other_trades": 0
+}

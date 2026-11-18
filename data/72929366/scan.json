@@ -1,7 +1,7 @@
 {
- "state": "error",
- "stage": "analyse",
- "msg": "UnicodeEncodeError: 'charmap' codec can't encode character '\\u2192' in position 12: character maps to <undefined>",
- "at": 1794973393,
+ "state": "done",
+ "stage": "done",
+ "msg": "2262 trades, 2 EA group",
+ "at": 1794975834,
  "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44229506815"
 }
