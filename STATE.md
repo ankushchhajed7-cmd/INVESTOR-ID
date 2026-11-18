@@ -26,6 +26,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.10 (2026-11-18) — workflow ab `scan_tmp/raw.json` (poori history + candles, password nahi) ko Actions artifact `raw-<login>` me 7 din rakhta hai — Claude deep analysis / clone simulation ke liye download karta hai.
 - v1.09.3 (2026-11-18) — PEHLA ASLI REPORT bana (MT4 InstaForex 72929366, magic 666888 GOLD grid). Analyser sudhar: lot +0.01 step ko galti se "Martingale ×1.29" bol raha tha → ab additive step alag pehchana jata hai; basket target "per 0.01 total lot" bhi check; dono side 100% saath = "Dono side alag grid".
 - v1.09.2 (2026-11-18) — MT4 asli run CHAL GAYA (InstaForex 72929366: 2266 history, 4 open, login + script ok ~1 min). Analyser Windows par file likhte waqt cp1252 encoding se '→' par fail hua → ab sab file writes utf-8 + workflow env PYTHONUTF8=1.
 - v1.09.1 (2026-11-18) — MT4 fix: pehle asli run (InstaForex 72929366) me MT4 install + compile + terminal start sab chala, lekin `iw_start.ini` Windows par `\r\r\n` se likhi gayi → har value ke end me `\r` (Script naam galat "IW_Export\r.ex4" [123], password bhi). Ab `newline=''`. Run log me terminal journal bhi dikhega.
