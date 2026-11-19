@@ -1,0 +1,16 @@
+{
+ "symbol": "XAUUSDm",
+ "requested": "XAUUSDm",
+ "server": "Exness-MT5Trial17",
+ "bars": 100000,
+ "from": "2026-08-10 20:26",
+ "to": "2026-11-19 14:24",
+ "days": 100.7,
+ "months_requested": 6,
+ "server_offset_h": 0.0,
+ "point": 0.001,
+ "digits": 3,
+ "contract": 100.0,
+ "file": "XAUUSDm_M1.csv.gz",
+ "fetched_at": 1795098285
+}
