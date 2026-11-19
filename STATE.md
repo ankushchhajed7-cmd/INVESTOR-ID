@@ -62,3 +62,8 @@ GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), 
 - Offline service worker for the PWA (currently online-only).
 - Optional: store running max-concurrent trades over time for a better grid estimate.
 - Optional: per-symbol point size so grid gap can show pips, not raw price.
+
+## v1.12 — MT5 Live Record (19 Nov 2026)
+- `scripts/mt5_fetch.py`: `IW_RECORD` > 0 ho to login ke baad pehle N minute MT5 Live Record (Python MetaTrader5 se har 200 ms tick + positions/pending snapshot), phir normal history scan. Format MT4 IW_Recorder jaisa hi `rec.csv` (I / T / S lines; type 0-5 MT4 jaise) → `data/<login>/rec.csv.gz`.
+- `IW_RECSYM` khaali = sabse zyada trade wala symbol.
+- Pehla use: Capital Nine ***829 (Titan Wave + GOLD SOULMATE), 290 min.

@@ -1,4 +1,4 @@
-# Investor Watch v1.11 — STRATEGY SCAN (bina VPS) — MT5 + MT4 + MT4 Live Record
+# Investor Watch v1.12 — STRATEGY SCAN (bina VPS) — MT5 + MT4 + Live Record (MT4 + MT5)
 # GitHub ki free Windows machine par MT5 install -> investor login -> poori history + candles
 # -> strategy analyser -> data/<login>/strategy.json + STRATEGY.md (+ history.json/live.json agar EA nahi likhta)
 # App ke "Scan" tab se chalta hai (ya Actions > Strategy Scan > Run workflow).
@@ -30,11 +30,11 @@ on:
         required: false
         default: '0'
       record:
-        description: 'MT4 Live Record minute (0 = sirf scan)'
+        description: 'Live Record minute, MT4 + MT5 (0 = sirf scan, max ~300)'
         required: false
         default: '0'
       rec_symbol:
-        description: 'Record kis symbol par (jaise GOLD)'
+        description: 'Record kis symbol par (khaali = sabse zyada trade wala)'
         required: false
         default: ''
 permissions:
