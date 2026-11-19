@@ -2,7 +2,30 @@
   "note": "SAMU GOLD KILLER (magic 20261118) daily drawdown. maxDD = max(pichhle snapshot ka balance - is beech ka sabse neecha equity) in IST day. Source: report.json eq (server GMT, IST = +5:30).",
   "start": "2026-11-18",
   "days": {
-    "2026-11-18": {"maxDD": 1496.14, "pct": 14.45, "eqLow": 8857.51, "closedPL": 478.59, "baskets": 14, "manualCloses": 4, "dataTillIST": "22:22", "stale": false}
+    "2026-11-18": {
+      "maxDD": 1496.14,
+      "pct": 14.45,
+      "eqLow": 8857.51,
+      "closedPL": 478.59,
+      "baskets": 14,
+      "manualCloses": 4,
+      "dataTillIST": "22:22",
+      "stale": false
+    },
+    "2026-11-19": {
+      "maxDD": 376.19,
+      "pct": 3.54,
+      "eqLow": 10180.75,
+      "closedPL": 172.45,
+      "baskets": 5,
+      "manualCloses": 0,
+      "dataTillIST": "21:39",
+      "stale": false
+    }
   },
-  "total": {"maxDD": 1496.14, "pct": 14.45, "day": "2026-11-18"}
+  "total": {
+    "maxDD": 1496.14,
+    "pct": 14.45,
+    "day": "2026-11-18"
+  }
 }
