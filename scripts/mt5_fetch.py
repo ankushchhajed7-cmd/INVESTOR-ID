@@ -93,11 +93,24 @@ def main():
     rec_min = int(os.environ.get('IW_RECORD', '0') or 0)
     if rec_min > 0:
         rs = (os.environ.get('IW_RECSYM', '') or '').strip()
-        if not rs:
-            from collections import Counter
+        # v1.12.1: login ke turant baad history khaali aati hai -> 'XAUUSD' (broker par .e) = 0 tick. Ab intezaar + asli symbol khojo
+        from collections import Counter
+        cnt = Counter()
+        for _ in range(8):
             d0 = mt5.history_deals_get(datetime(2010, 1, 1, tzinfo=timezone.utc), datetime.now(timezone.utc) + timedelta(days=2)) or []
             cnt = Counter(x.symbol for x in d0 if x.symbol)
-            rs = cnt.most_common(1)[0][0] if cnt else 'XAUUSD'
+            if cnt:
+                break
+            time.sleep(10)
+        if not rs and cnt:
+            rs = cnt.most_common(1)[0][0]
+        if not rs or mt5.symbol_info(rs) is None:                  # naam broker par nahi mila -> milta-julta khojo
+            base = (rs or 'XAUUSD').upper().split('.')[0][:6]
+            cands = [x.name for x in (mt5.symbols_get('*' + base[:3] + '*') or []) if x.name.upper().startswith(base)]
+            print('record symbol khoj:', rs, '->', cands[:5], flush=True)
+            if cands:
+                rs = sorted(cands, key=len)[0]
+        print('record symbol:', rs, 'deals mile:', sum(cnt.values()), flush=True)
         try:
             mt5_record(mt5, rec_min, rs)
         except Exception as e:
@@ -212,6 +225,10 @@ def mt5_record(mt5, minutes, sym):
         if time.time() - lastflush > 10:
             f.flush()
             lastflush = time.time()
+        if nt == 0 and time.time() - (t_end - minutes * 60) > 120 and not getattr(mt5_record, 'warned', False):
+            mt5_record.warned = True
+            print('CHETAVNI: 2 min me 0 tick - symbol', sym, 'galat ho sakta hai', flush=True)
+            status('mt5-record', True, f'0 tick - symbol {sym} check')
         if time.time() - lastping > 600:
             left = int((t_end - time.time()) / 60)
             print(f'record chalu: {nt} ticks, {left} min baaki', flush=True)
