@@ -731,13 +731,13 @@ async function startM1(){
   }
   f.pw = '';
   m1Run = {symbol:g.symbol, since}; LS.set('iw_m1run', m1Run);
-  m1Msg = '✅ M1 data shuru — MT5 install + login + download (10–20 min). App band bhi kar sakte ho.';
+  m1Msg = '✅ M1 data shuru — MT5 install + login + download (1 symbol 10–20 min, FX28 30–60 min). App band bhi kar sakte ho.';
   render(); pollM1();
 }
 async function pollM1(){
   clearTimeout(m1Timer);
   if(!m1Run || !scanCfg.pat) return;
-  if(Date.now()-m1Run.since > 75*60*1000){ m1Run=null; LS.set('iw_m1run',null); return; }
+  if(Date.now()-m1Run.since > 160*60*1000){ m1Run=null; LS.set('iw_m1run',null); return; }
   try{
     const r = await ghApi('/actions/workflows/m1-export.yml/runs?event=workflow_dispatch&per_page=10');
     if(r.ok){
@@ -770,6 +770,8 @@ function m1Card(){
     <b>📥 M1 Data → SAMU Backtest Lab</b>
     <div class="tiny" style="margin-top:4px">Upar wale <b>Account + Server + Investor password</b> (Exness ho to installer apne aap; dusre broker ke liye "Aur options" me MT5 installer link) se is symbol ka M1 history (MT5 Export jaisa CSV) repo me aata hai. Backtest Lab use ek tap me load karta hai. Read-only, koi trade nahi.</div>
     <div class="add"><input placeholder="Symbol (jaise XAUUSDm)" value="${esc(g.symbol)}" oninput="m1Form.symbol=this.value"><input style="max-width:34%" inputmode="numeric" placeholder="Mahine" value="${esc(g.months)}" oninput="m1Form.months=this.value"></div>
+    <div class="tiny" style="margin-top:6px">Kai symbol: comma se (<b>EURUSDm,GBPUSDm</b>) · <b>FX28</b> = saare 28 forex pair (30–60 min)</div>
+    <button class="sec" style="width:100%;margin-top:8px" onclick="m1Form.symbol='FX28';m1Form.months='6';render()" ${m1Run?'disabled':''}>🌍 Saare Forex (28 pair) chuno</button>
     <button style="width:100%;margin-top:10px" onclick="startM1()" ${m1Run?'disabled':''}>${m1Run?'⏳ M1 data aa raha hai…':'▶ M1 Data lao'}</button>
     <div class="tiny" style="margin-top:8px">${m1Msg}</div>
     ${last}
@@ -890,7 +892,7 @@ renderAccts(); render(); load(); pollScan(); pollM1(); loadM1Status();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.13.3';
+const APP_VER='1.14.0';
 try{ const vt=document.getElementById('verTag'); if(vt) vt.textContent='v'+APP_VER; }catch(e){}   // header hamesha APP_VER se (pehle hardcoded v1.11 tha)
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }

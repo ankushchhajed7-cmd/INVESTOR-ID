@@ -65,20 +65,53 @@ def raise_maxbars(n=5000000, extra=None):
         print('MaxBars: terminal.ini nahi mili (default limit lagegi)', flush=True)
 
 
+MAX_SYMBOLS = 30
+FX28 = ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'NZDUSD',
+        'EURJPY', 'EURGBP', 'EURCHF', 'EURCAD', 'EURAUD', 'EURNZD',
+        'GBPJPY', 'GBPCHF', 'GBPCAD', 'GBPAUD', 'GBPNZD',
+        'AUDJPY', 'AUDCHF', 'AUDCAD', 'AUDNZD',
+        'NZDJPY', 'NZDCHF', 'NZDCAD', 'CADCHF', 'CADJPY', 'CHFJPY']
+
+
+class ExportError(Exception):
+    pass
+
+
+def parse_symbols(text):
+    """'XAUUSDm' / 'EURUSDm,GBPUSDm' / 'FX28' (28 forex pair, broker suffix apne aap) -> list; galat naam ho to []"""
+    out = []
+    for x in re.split(r'[\s,;]+', text.strip()):
+        if not x:
+            continue
+        if x.upper() == 'FX28':
+            out += FX28
+            continue
+        if not re.fullmatch(r'[A-Za-z0-9._#\-]{2,30}', x):
+            return []
+        out.append(x)
+    seen = []
+    for x in out:
+        if x not in seen:
+            seen.append(x)
+    return seen
+
+
 def main():
     term = sys.argv[1]
     login = os.environ.get('IW_LOGIN', '').strip()
     server = os.environ.get('IW_SERVER', '').strip()
     enc = os.environ.get('IW_ENC', '').strip()
     key = os.environ.get('IW_KEY', '')
-    want = (os.environ.get('IW_SYMBOL', '') or 'XAUUSDm').strip()
+    wants = parse_symbols(os.environ.get('IW_SYMBOL', '') or 'XAUUSDm')
     months = max(1, min(24, int(os.environ.get('IW_MONTHS', '6') or 6)))
     if not login.isdigit():
         fail('input', 'Login sirf number hona chahiye')
     if not server:
         fail('input', 'Server naam khaali hai')
-    if not re.fullmatch(r'[A-Za-z0-9._#\-]{2,30}', want):
+    if not wants:
         fail('input', 'Symbol naam galat')
+    if len(wants) > MAX_SYMBOLS:
+        fail('input', 'Ek run me max %d symbol' % MAX_SYMBOLS)
     if not key:
         fail('input', 'Repo secret IW_KEY set nahi hai (Settings > Secrets > Actions)')
     try:
@@ -126,6 +159,36 @@ def main():
         print('terminal maxbars (naya):', getattr(ti, 'maxbars', '?') if ti else '?', flush=True)
     pw = None
 
+    done, bad = [], []
+    for n, want in enumerate(wants, 1):
+        status('download', True, '%d/%d: %s' % (n, len(wants), want))
+        try:
+            meta = export_symbol(mt5, want, months, server)
+            done.append(meta)
+            print('OK', meta['symbol'], meta['bars'], 'bars', flush=True)
+        except ExportError as e:
+            bad.append(str(e))
+            print('SKIP', want, e, flush=True)
+        except Exception as e:
+            bad.append(want + ': ' + type(e).__name__ + ' ' + str(e)[:120])
+            print('ERROR', want, e, flush=True)
+    mt5.shutdown()
+    if not done:
+        fail('download', '; '.join(bad)[:400] or 'koi data nahi mila')
+    m = done[0]
+    if len(wants) == 1:
+        days_got = m['days']
+        short = days_got < months * 30 * 0.8
+        msg = '%s: %d M1 bars, %s → %s (%.0f din)%s' % (m['symbol'], m['bars'], m['from'][:10], m['to'][:10], days_got,
+              ' — broker ne kam history di' if short else '')
+    else:
+        msg = '%d/%d symbol taiyaar (%s se, ~%.0f din har ek)%s' % (len(done), len(wants), m['from'][:10], m['days'],
+              (' · nahi mile: ' + '; '.join(bad))[:300] if bad else '')
+    status('done', True, msg, symbol=m['symbol'] if len(done) == 1 else ','.join(x['symbol'] for x in done),
+           file=m['file'], files=[x['file'] for x in done], failed=bad)
+
+
+def export_symbol(mt5, want, months, server):
     # symbol (broker par naam alag ho sakta hai: XAUUSD / XAUUSDm / XAUUSD.e)
     sym = want
     if mt5.symbol_info(sym) is None:
@@ -133,7 +196,7 @@ def main():
         cands = [x.name for x in (mt5.symbols_get('*' + base[:3] + '*') or []) if x.name.upper().startswith(base)]
         print('symbol khoj:', want, '->', cands[:6], flush=True)
         if not cands:
-            fail('symbol', want + ' is account par nahi mila')
+            raise ExportError(want + ' is account par nahi mila')
         sym = sorted(cands, key=len)[0]
     mt5.symbol_select(sym, True)
     si = mt5.symbol_info(sym)
@@ -147,7 +210,6 @@ def main():
         if -12.5 <= off <= 14.5 and abs(off * 2 - round(off * 2)) < 0.15:
             offset = round(off * 2) / 2
 
-    status('download')
     now = datetime.now(timezone.utc) + timedelta(days=2)       # server time UTC se aage ho sakta hai
     start = now - timedelta(days=months * 31 + 2)
     rows = {}
@@ -168,9 +230,8 @@ def main():
                                         int(r['tick_volume']), int(r['real_volume']), int(r['spread']))
         print('chunk', f.strftime('%Y-%m-%d'), '->', t.strftime('%Y-%m-%d'), n, 'bars', flush=True)
         f = t
-    mt5.shutdown()
     if not rows:
-        fail('download', sym + ' ka M1 data nahi mila (' + str(mt5.last_error()) + ')')
+        raise ExportError(sym + ' ka M1 data nahi mila (' + str(mt5.last_error()) + ')')
 
     ts = sorted(rows)
     digits = si.digits if si else 3
@@ -197,9 +258,7 @@ def main():
         'file': safe + '_M1.csv.gz', 'fetched_at': int(time.time())
     }
     json.dump(meta, open(os.path.join(dest, safe + '_M1.json'), 'w', encoding='utf-8'), indent=1)
-    short = days_got < months * 30 * 0.8
-    status('done', True, '%s: %d M1 bars, %s → %s (%.0f din)%s' % (sym, len(ts), meta['from'][:10], meta['to'][:10], days_got,
-           ' — broker ne kam history di' if short else ''), symbol=sym, file=meta['file'])
+    return meta
 
 
 if __name__ == '__main__':
