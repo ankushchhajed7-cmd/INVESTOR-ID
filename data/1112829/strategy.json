@@ -2,21 +2,21 @@
  "src": "scan",
  "ver": "1.09.3",
  "platform": "MT5",
- "scanned": "2026.11.18 19:44:16",
+ "scanned": "2026.11.19 07:44:28",
  "account": {
   "login": "***829",
   "server": "CapitalNineGlobal-Server",
   "company": "Capital Nine Global Limited",
   "currency": "USD",
-  "balance": 2075.44,
-  "equity": 2075.44,
+  "balance": 2086.99,
+  "equity": 2086.99,
   "leverage": 100,
   "type": "REAL",
   "investor": true
  },
- "server_offset_h": null,
- "total_trades": 1655,
- "period": "2026.09.21 → 2026.11.18",
+ "server_offset_h": 0.0,
+ "total_trades": 1663,
+ "period": "2026.09.21 → 2026.11.19",
  "open_now": 0,
  "pending_now": 0,
  "deposits": 1000.0,
@@ -52,8 +52,8 @@
      "achha andaaza"
     ],
     [
-     "Trading time (server)",
-     "23:00–21:59",
+     "Trading time",
+     "Lagbhag poore din (koi time filter nahi dikhta)",
      "kamzor (kam data)"
     ],
     [
@@ -215,6 +215,32 @@
       "20": 28,
       "21": 20,
       "23": 44
+     },
+     "ist_hours": {
+      "0": 38,
+      "1": 32,
+      "2": 20,
+      "3": 9,
+      "4": 32,
+      "5": 32,
+      "6": 49,
+      "7": 145,
+      "8": 132,
+      "9": 67,
+      "10": 43,
+      "11": 24,
+      "12": 63,
+      "13": 74,
+      "14": 44,
+      "15": 43,
+      "16": 55,
+      "17": 40,
+      "18": 66,
+      "19": 86,
+      "20": 48,
+      "21": 46,
+      "22": 68,
+      "23": 71
      },
      "weekdays": {
       "Som": 294,
@@ -378,7 +404,7 @@
   {
    "magic": 26092026,
    "manual": false,
-   "trades": 215,
+   "trades": 223,
    "comments": [
     "GOLD SOULMATE SELL",
     "GOLD SOULMATE BUY",
@@ -397,17 +423,17 @@
     ],
     [
      "Direction",
-     "BUY 78 / SELL 137",
+     "BUY 78 / SELL 145",
      "pakka"
     ],
     [
      "Entry kab",
-     "M15 candle khulte hi (97.2% entries candle ke pehle 10 sec me)",
+     "M15 candle khulte hi (97.3% entries candle ke pehle 10 sec me)",
      "pakka"
     ],
     [
-     "Trading time (server)",
-     "23:00–21:59",
+     "Trading time",
+     "Lagbhag poore din (koi time filter nahi dikhta)",
      "kamzor (kam data)"
     ],
     [
@@ -417,12 +443,12 @@
     ],
     [
      "Filter (andaaza)",
-     "BUY entries me 'Close > EMA200' 100.0% (normal 37.2%) [M5]",
+     "BUY entries me 'Close > EMA200' 100.0% (normal 36.7%) [M5]",
      "achha andaaza"
     ],
     [
      "Filter (andaaza)",
-     "BUY entries me 'Close > EMA50' 100.0% (normal 39.1%) [M15]",
+     "BUY entries me 'Close > EMA50' 100.0% (normal 38.7%) [M15]",
      "achha andaaza"
     ],
     [
@@ -432,12 +458,12 @@
     ],
     [
      "TP",
-     "≈ 835.0 points (100.0% trades par TP)",
+     "≈ 847.0 points (100.0% trades par TP)",
      "achha andaaza"
     ],
     [
      "SL",
-     "≈ 696.0 points (100.0% trades par SL)",
+     "≈ 706.0 points (100.0% trades par SL)",
      "achha andaaza"
     ],
     [
@@ -447,7 +473,7 @@
     ],
     [
      "Result",
-     "Net $551.11 · jeet 45.6% · PF 1.2 · 5.9 trade/din",
+     "Net $526.12 · jeet 45.3% · PF 1.19 · 6.1 trade/din",
      "pakka"
     ]
    ],
@@ -457,24 +483,24 @@
     "Timeframe": "M15",
     "EntryRule": "M5: Close > EMA100 → BUY, warna SELL",
     "StartLot": 0.01,
-    "TPPoints": 835.0,
-    "SLPoints": 696.0
+    "TPPoints": 847.0,
+    "SLPoints": 706.0
    },
    "detail": {
-    "trades": 215,
+    "trades": 223,
     "symbols": {
-     "XAUUSD.e": 215
+     "XAUUSD.e": 223
     },
     "buy": 78,
-    "sell": 137,
-    "net": 551.11,
-    "win_pct": 45.6,
-    "pf": 1.2,
-    "avg_win": 33.51,
-    "avg_loss": -23.36,
+    "sell": 145,
+    "net": 526.12,
+    "win_pct": 45.3,
+    "pf": 1.19,
+    "avg_win": 32.96,
+    "avg_loss": -22.98,
     "first": "2026.10.13 08:08:31",
-    "last": "2026.11.18 18:00:00",
-    "trades_per_day": 5.9,
+    "last": "2026.11.19 04:00:00",
+    "trades_per_day": 6.1,
     "hold_min_median": 23.6,
     "lots": {
      "min": 0.01,
@@ -482,27 +508,27 @@
      "common": 0.01,
      "distinct": 6
     },
-    "baskets": 215,
+    "baskets": 223,
     "basket_pct": 0.0,
     "levels_max": 1,
     "levels_avg": 1.0,
     "levels_dist": {
-     "1": 215
+     "1": 223
     },
     "grid": {},
     "basket_close": {},
     "exit": {
      "tp_set_pct": 100.0,
      "sl_set_pct": 100.0,
-     "tp_points_median": 835.0,
-     "tp_points_cv": 0.32,
-     "sl_points_median": 696.0,
+     "tp_points_median": 847.0,
+     "tp_points_cv": 0.33,
+     "sl_points_median": 706.0,
      "sl_points_cv": 0.32,
      "sl_close_in_profit_pct": 0.0,
      "sl_close_profit_pts_median": null,
      "close_reasons": {
-      "SL": 117,
-      "TP": 95,
+      "SL": 122,
+      "TP": 98,
       "MOBILE": 3
      }
     },
@@ -510,9 +536,9 @@
      "server_hours": {
       "0": 28,
       "1": 29,
-      "2": 15,
-      "3": 10,
-      "4": 11,
+      "2": 16,
+      "3": 14,
+      "4": 12,
       "5": 8,
       "6": 13,
       "7": 8,
@@ -527,33 +553,59 @@
       "16": 5,
       "17": 2,
       "18": 4,
-      "19": 2,
-      "20": 4,
+      "19": 3,
+      "20": 5,
       "21": 1,
+      "23": 4
+     },
+     "ist_hours": {
+      "0": 4,
+      "1": 4,
+      "2": 2,
+      "3": 1,
+      "4": 3,
+      "5": 17,
+      "6": 24,
+      "7": 28,
+      "8": 12,
+      "9": 14,
+      "10": 9,
+      "11": 10,
+      "12": 11,
+      "13": 8,
+      "14": 9,
+      "15": 8,
+      "16": 7,
+      "17": 7,
+      "18": 11,
+      "19": 15,
+      "20": 8,
+      "21": 5,
+      "22": 2,
       "23": 4
      },
      "weekdays": {
       "Som": 34,
       "Mangal": 44,
-      "Budh": 59,
-      "Guru": 41,
+      "Budh": 61,
+      "Guru": 47,
       "Shukra": 35,
       "Ravi": 2
      },
      "bar_open_pct": {
-      "M5": 97.2,
-      "M15": 97.2,
-      "M30": 47.4,
-      "H1": 23.7,
-      "H4": 7.4,
-      "D1": 4.7
+      "M5": 97.3,
+      "M15": 97.3,
+      "M30": 47.1,
+      "H1": 23.8,
+      "H4": 7.6,
+      "D1": 4.5
      },
      "entry_tf": "M15",
      "top_minutes": {
-      "45": 54,
-      "15": 53,
-      "30": 51,
-      "00": 51
+      "45": 58,
+      "15": 54,
+      "00": 53,
+      "30": 52
      },
      "active_hours_server": "23:00–21:59",
      "min_gap_between_entries_min": 15.0
@@ -565,7 +617,7 @@
     "worst_trade_usd": -234.88,
     "closed_dd_usd": -531.65,
     "entry_rules": {
-     "samples": 215,
+     "samples": 223,
      "direction_rules": [
       {
        "tf": "M5",
@@ -573,7 +625,7 @@
        "mode": "trend",
        "rule": "Close > EMA100 → BUY, warna SELL",
        "match_pct": 100.0,
-       "n": 215
+       "n": 223
       },
       {
        "tf": "M5",
@@ -581,15 +633,7 @@
        "mode": "trend",
        "rule": "Close > EMA200 → BUY, warna SELL",
        "match_pct": 100.0,
-       "n": 215
-      },
-      {
-       "tf": "M15",
-       "cond": "Close > EMA50",
-       "mode": "trend",
-       "rule": "Close > EMA50 → BUY, warna SELL",
-       "match_pct": 100.0,
-       "n": 215
+       "n": 223
       },
       {
        "tf": "M15",
@@ -597,7 +641,15 @@
        "mode": "trend",
        "rule": "Close > EMA20 → BUY, warna SELL",
        "match_pct": 100.0,
-       "n": 215
+       "n": 223
+      },
+      {
+       "tf": "M15",
+       "cond": "Close > EMA50",
+       "mode": "trend",
+       "rule": "Close > EMA50 → BUY, warna SELL",
+       "match_pct": 100.0,
+       "n": 223
       },
       {
        "tf": "M15",
@@ -605,7 +657,7 @@
        "mode": "trend",
        "rule": "RSI14 > 50 → BUY, warna SELL",
        "match_pct": 100.0,
-       "n": 215
+       "n": 223
       },
       {
        "tf": "M15",
@@ -613,7 +665,7 @@
        "mode": "trend",
        "rule": "EMA20 > EMA50 → BUY, warna SELL",
        "match_pct": 100.0,
-       "n": 215
+       "n": 223
       }
      ],
      "filters": [
@@ -622,7 +674,7 @@
        "side": "BUY",
        "cond": "Close > EMA200",
        "entries_pct": 100.0,
-       "normal_pct": 37.2,
+       "normal_pct": 36.7,
        "n": 78
       },
       {
@@ -630,7 +682,7 @@
        "side": "BUY",
        "cond": "Close > EMA50",
        "entries_pct": 100.0,
-       "normal_pct": 39.1,
+       "normal_pct": 38.7,
        "n": 78
       },
       {
@@ -646,7 +698,7 @@
        "side": "BUY",
        "cond": "Close > EMA200",
        "entries_pct": 79.5,
-       "normal_pct": 32.6,
+       "normal_pct": 32.1,
        "n": 78
       },
       {
@@ -655,15 +707,15 @@
        "cond": "Close > EMA50",
        "entries_pct": 0.7,
        "normal_pct": 41.4,
-       "n": 137
+       "n": 145
       },
       {
        "tf": "M15",
        "side": "SELL",
        "cond": "Close > EMA50",
        "entries_pct": 0.0,
-       "normal_pct": 39.1,
-       "n": 137
+       "normal_pct": 38.7,
+       "n": 145
       }
      ],
      "rsi": {
@@ -674,7 +726,7 @@
         "max": 86.1
        },
        "SELL": {
-        "median": 38.6,
+        "median": 38.2,
         "min": 16.3,
         "max": 56.9
        }
@@ -698,7 +750,7 @@
         "max": 81.6
        },
        "SELL": {
-        "median": 38.2,
+        "median": 37.8,
         "min": 17.4,
         "max": 53.7
        }
