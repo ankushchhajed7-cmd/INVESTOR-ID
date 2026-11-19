@@ -74,7 +74,7 @@
 <body>
 <header>
   <span class="dot" id="dot"></span>
-  <h1>Investor Watch <span class="tiny" style="font-weight:500">v1.11</span></h1>
+  <h1>Investor Watch <span class="tiny" id="verTag" style="font-weight:500">v1.13.2</span></h1>
   <span style="flex:1"></span>
   <span class="tiny" id="clock"></span>
   <a href="report/" class="hlink">📊 SAMU REPORT</a>
@@ -890,7 +890,8 @@ renderAccts(); render(); load(); pollScan(); pollM1(); loadM1Status();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.13';
+const APP_VER='1.13.2';
+try{ const vt=document.getElementById('verTag'); if(vt) vt.textContent='v'+APP_VER; }catch(e){}   // header hamesha APP_VER se (pehle hardcoded v1.11 tha)
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
   try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
