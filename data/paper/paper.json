@@ -10052,5 +10052,419 @@
    "usd": 0.45
   },
   "v": "1.35.0"
+ },
+ {
+  "adx": 29.7,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795069368440,
+  "auto": "scan",
+  "buyPct": 30,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.95952,
+  "expiresAt": 1795072968440,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwn5yd88a0",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 0.95931,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -4.6,
+    "state": "SL",
+    "usd": -0.33
+   },
+   "sl": 0.95977,
+   "tp": 0.95885
+  },
+  "mt5": false,
+  "pfx": {
+   "dd": 0.27,
+   "done": true,
+   "filledAt": 1795069860000,
+   "mins": 20,
+   "state": "TP",
+   "usd": 0.25
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "filledAt": 1795069860000,
+   "state": "OPEN"
+  },
+  "sl": 0.96107,
+  "smart": {
+   "entry": 0.95952,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.96107,
+   "tp": 0.95798,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "AUD/CAD",
+  "tp": 0.95798,
+  "trail": {
+   "done": false,
+   "state": "OPEN"
+  },
+  "v": "1.35.0"
+ },
+ {
+  "adx": 28.1,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1795069368440,
+  "auto": "scan",
+  "buyPct": 37,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 106.791,
+  "expiresAt": 1795072968440,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwn5yd88a1",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 106.744,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": -6.8,
+    "state": "SL",
+    "usd": -0.43
+   },
+   "sl": 106.812,
+   "tp": 106.676
+  },
+  "mt5": false,
+  "pfx": {
+   "dd": 0.16,
+   "done": true,
+   "filledAt": 1795069860000,
+   "mins": 8,
+   "state": "TP",
+   "usd": 0.25
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "filledAt": 1795069860000,
+   "state": "OPEN"
+  },
+  "sl": 106.969,
+  "smart": {
+   "entry": 106.791,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 106.969,
+   "tp": 106.612,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "AUD/JPY",
+  "tp": 106.612,
+  "trail": {
+   "done": false,
+   "state": "OPEN"
+  },
+  "v": "1.35.0"
+ },
+ {
+  "adx": 15.3,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1795069368440,
+  "auto": "scan",
+  "buyPct": 10,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.88369,
+  "expiresAt": 1795072968440,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwn5yd88a2",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.88342,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.8839,
+   "tp": 1.88294
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.88435,
+  "smart": {
+   "entry": 1.88369,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.88435,
+   "tp": 1.88304,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "GBP/CAD",
+  "tp": 1.88304,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.35.0"
+ },
+ {
+  "adx": 15,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1795069368440,
+  "auto": "scan",
+  "buyPct": 37,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.097,
+  "expiresAt": 1795072968440,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwn5yd88a3",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 1.09676,
+   "ok": false,
+   "res": {
+    "done": true,
+    "pips": 2.1,
+    "state": "TP1",
+    "usd": 0.21
+   },
+   "sl": 1.09697,
+   "tp": 1.09655
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.09748,
+  "smart": {
+   "entry": 1.097,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.09748,
+   "tp": 1.09653,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "EUR/USD",
+  "tp": 1.09653,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.35.0"
+ },
+ {
+  "adx": 22.6,
+  "ai": {
+   "agree": true,
+   "conf": 75
+  },
+  "at": 1795069368440,
+  "auto": "scan",
+  "buyPct": 37,
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.31428,
+  "expiresAt": 1795072968440,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwn5yd88a4",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 1.31396,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.31424,
+   "tp": 1.31368
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Weak trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.315,
+  "smart": {
+   "entry": 1.31428,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.315,
+   "tp": 1.31355,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "GBP/USD",
+  "tp": 1.31355,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.35.0"
+ },
+ {
+  "adx": 26.2,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795071587171,
+  "auto": "",
+  "buyPct": 37,
+  "council": {
+   "bots": "T:S M:S L:S M:W R:S D:S",
+   "conf": 75,
+   "dir": "SELL",
+   "entry": 0.56504,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 0.56598,
+   "tp": 0.5641
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.56504,
+  "expiresAt": 1795075187171,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwn79frr",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": false,
+    "pullback": false,
+    "sentiment": false,
+    "trend": false
+   },
+   "entry": 0.56481,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.56513,
+   "tp": 0.56449
+  },
+  "mt5": false,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.56598,
+  "smart": {
+   "entry": 0.56504,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 0.56598,
+   "tp": 0.5641,
+   "type": "LIMIT",
+   "why": "LIMIT paas hi hai"
+  },
+  "src": "mt5",
+  "sym": "AUD/CHF",
+  "tp": 0.5641,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.35.0"
  }
 ]
