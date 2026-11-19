@@ -1,0 +1,16 @@
+{
+ "symbol": "GBPJPYm",
+ "requested": "GBPJPY",
+ "server": "Exness-MT5Trial17",
+ "bars": 100000,
+ "from": "2026-08-13 17:14",
+ "to": "2026-11-19 16:47",
+ "days": 98.0,
+ "months_requested": 6,
+ "server_offset_h": 0.0,
+ "point": 0.001,
+ "digits": 3,
+ "contract": 100000.0,
+ "file": "GBPJPYm_M1.csv.gz",
+ "fetched_at": 1795106832
+}

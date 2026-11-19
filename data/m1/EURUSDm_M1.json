@@ -1,0 +1,16 @@
+{
+ "symbol": "EURUSDm",
+ "requested": "EURUSD",
+ "server": "Exness-MT5Trial17",
+ "bars": 100000,
+ "from": "2026-08-14 00:20",
+ "to": "2026-11-19 16:45",
+ "days": 97.7,
+ "months_requested": 6,
+ "server_offset_h": 0.0,
+ "point": 1e-05,
+ "digits": 5,
+ "contract": 100000.0,
+ "file": "EURUSDm_M1.csv.gz",
+ "fetched_at": 1795106732
+}

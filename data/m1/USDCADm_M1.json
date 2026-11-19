@@ -1,0 +1,16 @@
+{
+ "symbol": "USDCADm",
+ "requested": "USDCAD",
+ "server": "Exness-MT5Trial17",
+ "bars": 100000,
+ "from": "2026-08-14 01:12",
+ "to": "2026-11-19 16:46",
+ "days": 97.6,
+ "months_requested": 6,
+ "server_offset_h": 0.0,
+ "point": 1e-05,
+ "digits": 5,
+ "contract": 100000.0,
+ "file": "USDCADm_M1.csv.gz",
+ "fetched_at": 1795106765
+}
