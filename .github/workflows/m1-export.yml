@@ -1,0 +1,111 @@
+# Investor Watch v1.13 — M1 DATA EXPORT (SAMU Backtest Lab ke liye)
+# GitHub ki free Windows machine par MT5 install -> investor login -> ek symbol ka M1 history
+# -> data/m1/<SYMBOL>_M1.csv.gz (MT5 Export Bars format) + <SYMBOL>_M1.json + m1_status.json
+# App ke Scan tab ("M1 Data") se chalta hai. Password sirf ENCRYPTED aata hai (IW_KEY), kahin save nahi.
+name: M1 Export
+run-name: M1 ${{ inputs.symbol }}
+on:
+  workflow_dispatch:
+    inputs:
+      login:
+        description: 'MT5 account number'
+        required: true
+      server:
+        description: 'Server naam (jaise Exness-MT5Real8)'
+        required: true
+      enc:
+        description: 'Encrypted investor password (app banata hai)'
+        required: true
+      symbol:
+        description: 'Symbol (jaise XAUUSDm)'
+        required: false
+        default: 'XAUUSDm'
+      months:
+        description: 'Kitne mahine ka M1 (1-24)'
+        required: false
+        default: '6'
+      installer:
+        description: 'Broker ka MT5 installer link (khaali = MetaQuotes wala)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+concurrency:
+  group: m1-export
+  cancel-in-progress: true
+jobs:
+  export:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python packages
+        shell: bash
+        run: python -m pip install -q MetaTrader5 cryptography
+      - name: MT5 install
+        shell: pwsh
+        env:
+          IW_INSTALLER: ${{ inputs.installer }}
+        run: |
+          $url = $env:IW_INSTALLER
+          if (-not $url) { $url = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe' }
+          Write-Host "Installer: $url"
+          Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
+          Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
+          $term = $null
+          for ($i = 0; $i -lt 60 -and -not $term; $i++) {
+            Start-Sleep -Seconds 10
+            $term = Get-ChildItem 'C:\Program Files','C:\Program Files (x86)' -Recurse -Filter 'terminal64.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+          }
+          if (-not $term) { Write-Host '::error::MT5 install nahi hua'; exit 1 }
+          Start-Sleep -Seconds 25
+          Get-Process terminal64, mt5setup -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+          Start-Sleep -Seconds 3
+          Write-Host "Terminal: $($term.FullName)"
+          "IW_TERM=$($term.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: M1 data nikalo (investor login)
+        shell: bash
+        env:
+          IW_LOGIN: ${{ inputs.login }}
+          IW_SERVER: ${{ inputs.server }}
+          IW_ENC: ${{ inputs.enc }}
+          IW_SYMBOL: ${{ inputs.symbol }}
+          IW_MONTHS: ${{ inputs.months }}
+          IW_KEY: ${{ secrets.IW_KEY }}
+        run: python scripts/m1_export.py "$IW_TERM" m1_tmp
+      - name: Data repo me (fail ho to bhi status)
+        if: always()
+        shell: bash
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p data/m1
+          python - <<'PY'
+          import json, os, time
+          try: st = json.load(open('m1_tmp/status.json', encoding='utf-8'))
+          except Exception: st = {'stage': 'setup', 'ok': False, 'msg': 'MT5 install / setup me dikkat — run log dekho'}
+          out = {'state': 'done' if st.get('stage') == 'done' and st.get('ok') else 'error', 'stage': st.get('stage'),
+                 'msg': st.get('msg', ''), 'symbol': st.get('symbol'), 'file': st.get('file'),
+                 'at': int(time.time()), 'run': os.environ.get('RUN_URL', '')}
+          json.dump(out, open('data/m1/m1_status.json', 'w', encoding='utf-8'), indent=1)
+          print(out)
+          PY
+          git config user.name "m1-export"
+          git config user.email "m1-export@users.noreply.github.com"
+          git add data/m1
+          if git diff --cached --quiet; then echo "koi badlav nahi"; exit 0; fi
+          git commit -q -m "m1 data $(date -u +%d%b-%H:%M)"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin main && git push -q origin HEAD:main; then exit 0; fi
+            sleep $((i*5))
+          done
+          exit 1

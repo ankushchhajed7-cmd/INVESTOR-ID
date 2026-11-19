@@ -654,7 +654,7 @@ async function pollScan(){
   if(tab==='scan' && !scanFocused()) render();
   pollTimer = setTimeout(pollScan, 12000);
 }
-function scanFocused(){ const a=document.activeElement; return a && a.closest && a.closest('#scanForm,#scanSetup'); }
+function scanFocused(){ const a=document.activeElement; return a && a.closest && a.closest('#scanForm,#scanSetup,#m1Form'); }
 async function copyReport(){
   try{
     const t = await ghFile(cur, 'STRATEGY.md');
@@ -689,6 +689,90 @@ function eaCard(G){
     ${dr?`<h3>Direction rules — top match</h3>${dr}`:''}
     ${fl?`<h3>Filters (entry vs normal market)</h3>${fl}`:''}
     ${tm.ist_hours||tm.server_hours?`<h3>Entry ghante (${tm.ist_hours?'IST':'server time'})</h3>${hourBars(tm.ist_hours||tm.server_hours)}`:''}
+  </div>`;
+}
+
+// ================= v1.13 M1 DATA (SAMU Backtest Lab ke liye) =================
+let m1Form = LS.get('iw_m1form', {symbol:'XAUUSDm', months:'6'});
+let m1Run = LS.get('iw_m1run', null);                    // {symbol, since}
+let m1Msg = '', m1Timer = null, m1Last = null;
+async function loadM1Status(){
+  try{
+    let j;
+    if(scanCfg.pat){ const r = await ghApi('/contents/data/m1/m1_status.json?ref='+(cfg.branch||'main')+'&t='+Date.now(), {headers:{'Accept':'application/vnd.github.raw+json'}}); if(r.ok) j = await r.json(); }
+    if(!j){ const r = await fetch('https://raw.githubusercontent.com/'+cfg.owner+'/'+cfg.repo+'/'+(cfg.branch||'main')+'/data/m1/m1_status.json?t='+Date.now(), {cache:'no-store'}); if(r.ok) j = await r.json(); }
+    m1Last = j || null;
+  }catch(e){ m1Last = null; }
+  if(tab==='scan' && !scanFocused()) render();
+}
+async function startM1(){
+  const f = scanForm, g = m1Form;
+  f.login = String(f.login||'').trim(); f.server = String(f.server||'').trim(); g.symbol = String(g.symbol||'').trim() || 'XAUUSDm';
+  LS.set('iw_m1form', g);
+  if(!/^\d{3,}$/.test(f.login)){ m1Msg='⚠️ Upar Account number daalo'; return render(); }
+  if(!f.server){ m1Msg='⚠️ Upar Server naam daalo (jaise Exness-MT5Real8)'; return render(); }
+  if(!f.pw){ m1Msg='⚠️ Upar Investor password daalo'; return render(); }
+  if(!scanCfg.pat || !scanCfg.key){ m1Msg='⚠️ Pehle neeche "Ek baar setup" me GitHub token + Secret key bharo'; return render(); }
+  m1Msg='🔒 Password encrypt ho raha hai…'; render();
+  let enc;
+  try{ enc = await encPw(f.pw, scanCfg.key); }catch(e){ m1Msg='⚠️ Encrypt nahi hua: '+e.message; return render(); }
+  const since = Date.now(); let r;
+  try{
+    r = await ghApi('/actions/workflows/m1-export.yml/dispatches', {method:'POST', body: JSON.stringify({ref: cfg.branch||'main',
+      inputs:{login:f.login, server:f.server, enc, symbol:g.symbol, months:String(Math.min(24, Math.max(1, parseInt(g.months)||6))), installer:String(f.installer||'').trim()}})});
+  }catch(e){ m1Msg='⚠️ Internet / GitHub se baat nahi hui: '+e.message; return render(); }
+  if(r.status!==204){
+    const t = await r.text().catch(()=> '');
+    m1Msg = r.status===401 ? '⚠️ GitHub token galat / expire (401)'
+      : r.status===404 ? '⚠️ Workflow nahi mila (404) — v1.13 main me merge hua? Token me "Actions: Read and write" hai?'
+      : r.status===403 ? '⚠️ Token ko permission nahi (403) — INVESTOR-ID repo par "Actions: Read and write" do'
+      : '⚠️ GitHub error '+r.status+' '+esc(t.slice(0,120));
+    return render();
+  }
+  f.pw = '';
+  m1Run = {symbol:g.symbol, since}; LS.set('iw_m1run', m1Run);
+  m1Msg = '✅ M1 data shuru — MT5 install + login + download (10–20 min). App band bhi kar sakte ho.';
+  render(); pollM1();
+}
+async function pollM1(){
+  clearTimeout(m1Timer);
+  if(!m1Run || !scanCfg.pat) return;
+  if(Date.now()-m1Run.since > 75*60*1000){ m1Run=null; LS.set('iw_m1run',null); return; }
+  try{
+    const r = await ghApi('/actions/workflows/m1-export.yml/runs?event=workflow_dispatch&per_page=10');
+    if(r.ok){
+      const j = await r.json();
+      const run = (j.workflow_runs||[]).find(x => x.display_title==='M1 '+m1Run.symbol && new Date(x.created_at).getTime() >= m1Run.since-90000);
+      if(run){
+        const secs = Math.max(0, Math.round((Date.now()-new Date(run.created_at).getTime())/1000));
+        const mmss = Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0');
+        if(run.status!=='completed'){
+          m1Msg = (run.status==='queued'?'⏳ Line me hai':'⚙️ Chal raha hai')+' '+mmss+' · <a href="'+run.html_url+'" target="_blank" style="color:var(--accent)">log dekho</a>';
+        } else {
+          m1Msg = run.conclusion==='success' ? '✅ M1 data taiyaar ('+mmss+') — ab Backtest Lab → DATA → "GitHub se Data"' : '❌ M1 data fail ('+run.conclusion+') · <a href="'+run.html_url+'" target="_blank" style="color:var(--accent)">log dekho</a>';
+          m1Run=null; LS.set('iw_m1run',null);
+          setTimeout(loadM1Status, 5000);
+          if(tab==='scan') render();
+          return;
+        }
+      } else m1Msg = '⏳ GitHub run shuru ho raha hai…';
+    }
+  }catch(e){}
+  if(tab==='scan' && !scanFocused()) render();
+  m1Timer = setTimeout(pollM1, 15000);
+}
+function m1Card(){
+  const g = m1Form, L = m1Last;
+  const last = L ? (L.state==='done'
+    ? `<div class="tiny" style="margin-top:8px">Pichhla data: ✅ ${esc(L.msg)}</div>`
+    : `<div class="tiny" style="margin-top:8px"><span class="neg">Pichhla run fail</span> · ${esc(L.stage)}: ${esc(L.msg)} ${L.run?`· <a href="${esc(L.run)}" target="_blank" style="color:var(--accent)">log</a>`:''}</div>`) : '';
+  return `<div class="card" id="m1Form">
+    <b>📥 M1 Data → SAMU Backtest Lab</b>
+    <div class="tiny" style="margin-top:4px">Upar wale <b>Account + Server + Investor password</b> se is symbol ka M1 history (MT5 Export jaisa CSV) repo me aata hai. Backtest Lab use ek tap me load karta hai. Read-only, koi trade nahi.</div>
+    <div class="add"><input placeholder="Symbol (jaise XAUUSDm)" value="${esc(g.symbol)}" oninput="m1Form.symbol=this.value"><input style="max-width:34%" inputmode="numeric" placeholder="Mahine" value="${esc(g.months)}" oninput="m1Form.months=this.value"></div>
+    <button style="width:100%;margin-top:10px" onclick="startM1()" ${m1Run?'disabled':''}>${m1Run?'⏳ M1 data aa raha hai…':'▶ M1 Data lao'}</button>
+    <div class="tiny" style="margin-top:8px">${m1Msg}</div>
+    ${last}
   </div>`;
 }
 function viewScan(){
@@ -741,6 +825,7 @@ function viewScan(){
     <div class="tiny" style="margin-top:8px">${scanMsg}</div>
     <div class="tiny" style="margin-top:4px">🔒 Password phone me save nahi hota; encrypt hokar jaata hai aur run ke baad mit jaata hai.</div>
   </div>
+  ${m1Card()}
   ${rep}
   <details class="card" id="scanSetup" ${setupOpen?'open':''}><summary style="font-size:14px">⚙︎ Ek baar setup ${setupOpen?'(zaroori)':'✓'}</summary>
     <div class="tiny" style="margin-top:8px;line-height:1.6">
@@ -799,13 +884,13 @@ $('#saveCfg').onclick=()=>{
 setInterval(()=>{$('#clock').textContent=new Date().toLocaleTimeString();},1000);
 setInterval(load, 30000); // auto-refresh every 30s
 
-renderAccts(); render(); load(); pollScan();
+renderAccts(); render(); load(); pollScan(); pollM1(); loadM1Status();
 
 // PWA service worker (same-origin app shell only; data fetches bypass it)
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.11';
+const APP_VER='1.13';
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
   try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
