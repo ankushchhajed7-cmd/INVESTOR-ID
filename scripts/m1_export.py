@@ -1,4 +1,4 @@
-# Investor Watch v1.13 — M1 DATA EXPORT (Backtest Lab ke liye)
+# Investor Watch v1.13.3 — M1 DATA EXPORT (Backtest Lab ke liye)
 # GitHub Actions Windows runner par: investor login -> ek symbol ka M1 history (default 6 mahine)
 # -> MT5 "Export Bars" jaisi CSV (tab, <DATE> <TIME> <OPEN> <HIGH> <LOW> <CLOSE> <TICKVOL> <VOL> <SPREAD>)
 # -> data/m1/<SYMBOL>_M1.csv.gz + <SYMBOL>_M1.json (meta). Kabhi trade NAHI karta.
@@ -36,12 +36,13 @@ def decrypt(enc_b64, passphrase):
     return AESGCM(key).decrypt(iv, ct, None).decode()
 
 
-def raise_maxbars(n=5000000):
+def raise_maxbars(n=5000000, extra=None):
     """MT5 sirf 'Max bars in chart' jitne bars deta hai (default 100000 ≈ 3 mahine M1).
     Terminal ki config (terminal.ini [Charts] MaxBars) badha do — initialize se pehle."""
     roots = [os.path.join(os.environ.get('APPDATA', ''), 'MetaQuotes', 'Terminal', '*', 'config', 'terminal.ini')]
     term = sys.argv[1]
     roots.append(os.path.join(os.path.dirname(term), 'config', 'terminal.ini'))
+    roots += list(extra or [])
     done = 0
     for pat in roots:
         for p in glob.glob(pat):
@@ -89,24 +90,41 @@ def main():
     raise_maxbars()
     import MetaTrader5 as mt5
     status('login')
-    ok, err = False, None
-    for i in range(4):
-        if mt5.initialize(path=term, login=int(login), password=pw, server=server, timeout=180000):
-            ok = True
-            break
-        err = mt5.last_error()
-        print('initialize try', i + 1, 'failed:', err, flush=True)
-        mt5.shutdown()
-        time.sleep(15)
-    pw = None
+
+    def connect(tries):
+        err = None
+        for i in range(tries):
+            if mt5.initialize(path=term, login=int(login), password=pw, server=server, timeout=150000):
+                return True, None
+            err = mt5.last_error()
+            print('initialize try', i + 1, 'failed:', err, flush=True)
+            mt5.shutdown()
+            time.sleep(10)
+        return False, err
+
+    ok, err = connect(2)
     if not ok:
-        hint = ''
-        if err and err[0] in (-6, -10003, -10004, -10005):
-            hint = ' — password galat/badal gaya, ya server naam galat.'
+        if err and err[0] == -10005:
+            fail('login', 'MT5 terminal se baat nahi hui (IPC timeout) — aksar broker ka server generic MT5 me nahi milta. '
+                          'Scan form > Aur options me broker ka MT5 installer link do (Exness apne aap lagta hai).')
+        hint = ' — password galat/badal gaya, ya server naam galat.' if err and err[0] in (-6, -10003, -10004) else ''
         fail('login', 'MT5 login nahi hua ' + str(err) + hint)
+    # MaxBars: data folder ab bana hai -> config badlo aur dobara connect (ek hi baar)
     ti = mt5.terminal_info()
-    if ti is not None:
-        print('terminal maxbars:', getattr(ti, 'maxbars', '?'), flush=True)
+    mb = getattr(ti, 'maxbars', None) if ti is not None else None
+    print('terminal maxbars:', mb, flush=True)
+    if ti is not None and mb is not None and mb < 1000000 and getattr(ti, 'data_path', None):
+        mt5.shutdown()
+        if os.name == 'nt':                    # terminal band (force) — warna wo apni purani config wapas likh deta
+            os.system('taskkill /IM terminal64.exe /F >NUL 2>&1')
+        time.sleep(4)
+        raise_maxbars(extra=[os.path.join(ti.data_path, 'config', 'terminal.ini')])
+        ok, err = connect(2)
+        if not ok:
+            fail('login', 'MaxBars ke baad dobara login nahi hua ' + str(err))
+        ti = mt5.terminal_info()
+        print('terminal maxbars (naya):', getattr(ti, 'maxbars', '?') if ti else '?', flush=True)
+    pw = None
 
     # symbol (broker par naam alag ho sakta hai: XAUUSD / XAUUSDm / XAUUSD.e)
     sym = want
