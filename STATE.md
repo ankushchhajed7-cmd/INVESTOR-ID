@@ -11,6 +11,7 @@ The EA NEVER trades.
 - `Investor Account Watcher v1.00.mq5` — Reader EA for MT5 (load in MetaEditor, run on VPS). Not required in the repo to work, kept here for safekeeping.
 - `data/<account>/live.json` — current open positions + balance (auto-written by EA every ~20s)
 - `data/<account>/history.json` — closed deals, last N days (auto-written by EA, refreshed ~30 min)
+- `.github/workflows/m1-export.yml` + `scripts/m1_export.py` — **M1 Data (v1.13)** for SAMU Backtest Lab → `data/m1/`
 - `.github/workflows/strategy-scan.yml` + `scripts/mt5_fetch.py` + `scripts/strategy_scan.py` — **Strategy Scan (bina VPS)**: GitHub Actions Windows par MT5 → investor login → poori history + candles → `data/<account>/strategy.json`, `STRATEGY.md`, `scan.json` (+ history.json/live.json agar Reader EA nahi likhta, `src:"scan"`)
 
 ## How it connects
@@ -26,6 +27,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.13 (2026-11-19) — **📥 M1 Data → SAMU Backtest Lab.** Scan tab me naya card: upar wale account + server + investor password (wahi AES-GCM / IW_KEY) se `m1-export.yml` chalta hai → GitHub Windows par MT5 → symbol (default XAUUSDm) ka M1 history, 1–24 mahine (default 6), 10-din ke tukdon me; MT5 'Max bars' limit hatane ke liye `terminal.ini` [Charts] MaxBars=5000000 → `data/m1/<SYMBOL>_M1.csv.gz` (MT5 Export Bars jaisa tab CSV, spread ke saath) + `<SYMBOL>_M1.json` (bars, from/to, server offset) + `m1_status.json`. Login number save nahi hota. Backtest Lab v0.6.1 ka **GitHub se Data** button isi ko raw.githubusercontent se padhta hai. Fake-MT5 dry run se CSV + ini edit test. Asli Exness run baaki. SW iw-shell-v12.
 - tooling (2026-11-18) — `.github/workflows/compile-mq5.yml`: kisi bhi repo/branch ki .mq5 ko GitHub Windows par MT5 MetaEditor se compile karke errors dikhata hai (EA VPS par bhejne se pehle check). Live Record + simulator se GOLD KILLER (magic 666888) ke rules pakke: BUY/SELL STOP market se $0.80, 5pt step trail, naya level pichhle se ≥$0.80, lot 0.01×1.3, basket $30 — clone "SAMU GOLD KILLER" Samusignal/vps-ea me.
 - v1.11.2 (2026-11-18) — Live Record ab SCRIPT hai (EA runner par "loaded" ke baad init hi nahi hua). EURUSD H1 chart par script, symbol cfg se (GOLD), har 200 ms bid/ask + orders snapshot.
 - v1.11.1 (2026-11-18) — Live Record fix: login ke baad MT4 EA ko reload karta hai (deinit reason 6) → OnDeinit "done" likh deta tha → record 10 sec me band. Ab OnDeinit done nahi likhta, re-init par file append, python sirf "ok" done par rukta hai.
@@ -56,6 +58,7 @@ GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), 
 - APK auto-updates (wraps Pages URL) — no rebuild needed for app changes.
 
 ## Pending / ideas
+- v1.13 M1 Data ka pehla asli run (Exness): (a) MetaQuotes installer se Exness server milta hai ya nahi, (b) MaxBars badhne se 6 mahine milte hain ya sirf ~3 (status msg batata hai).
 - v1.09 MT4 asli run baaki (InstaForex account): (a) broker installer `/auto` se install, (b) ini se Script chalta hai ya nahi, (c) All History mila ya sirf default period.
 - v1.08 asli account par pehla run baaki: (a) Windows runner par MT5 /auto install chalta hai ya nahi, (b) broker server MetaQuotes installer se milta hai ya broker installer link chahiye. Fail ho to Scan tab me step + run log link aata hai.
 - Setup (ek baar): fine-grained token me Actions: Read and write + Contents: Read; repo secret IW_KEY.
