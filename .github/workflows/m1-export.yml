@@ -1,4 +1,4 @@
-# Investor Watch v1.13 — M1 DATA EXPORT (SAMU Backtest Lab ke liye)
+# Investor Watch v1.13.3 — M1 DATA EXPORT (SAMU Backtest Lab ke liye)
 # GitHub ki free Windows machine par MT5 install -> investor login -> ek symbol ka M1 history
 # -> data/m1/<SYMBOL>_M1.csv.gz (MT5 Export Bars format) + <SYMBOL>_M1.json + m1_status.json
 # App ke Scan tab ("M1 Data") se chalta hai. Password sirf ENCRYPTED aata hai (IW_KEY), kahin save nahi.
@@ -55,11 +55,21 @@ jobs:
         shell: pwsh
         env:
           IW_INSTALLER: ${{ inputs.installer }}
+          IW_SERVER: ${{ inputs.server }}
         run: |
+          # MetaQuotes ka generic installer broker ka server nahi jaanta -> initialize 'IPC timeout' (Exness + Capital Nine dono me dekha).
+          # Isliye broker ka apna installer: link diya ho to wahi, warna server naam se pehchano.
+          $generic = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
           $url = $env:IW_INSTALLER
-          if (-not $url) { $url = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe' }
+          if (-not $url) {
+            $srv = "$env:IW_SERVER".ToLower()
+            if ($srv -match 'exness') { $url = 'https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe' }
+            elseif ($srv -match 'capital') { $url = 'https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe' }
+            else { $url = $generic }
+          }
           Write-Host "Installer: $url"
-          Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
+          try { Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe" -ErrorAction Stop }
+          catch { Write-Host "::warning::Broker installer download nahi hua ($url) — generic MetaQuotes installer"; Invoke-WebRequest -Uri $generic -OutFile "$env:RUNNER_TEMP\mt5setup.exe" }
           Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
           $term = $null
           for ($i = 0; $i -lt 60 -and -not $term; $i++) {

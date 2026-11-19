@@ -768,7 +768,7 @@ function m1Card(){
     : `<div class="tiny" style="margin-top:8px"><span class="neg">Pichhla run fail</span> · ${esc(L.stage)}: ${esc(L.msg)} ${L.run?`· <a href="${esc(L.run)}" target="_blank" style="color:var(--accent)">log</a>`:''}</div>`) : '';
   return `<div class="card" id="m1Form">
     <b>📥 M1 Data → SAMU Backtest Lab</b>
-    <div class="tiny" style="margin-top:4px">Upar wale <b>Account + Server + Investor password</b> se is symbol ka M1 history (MT5 Export jaisa CSV) repo me aata hai. Backtest Lab use ek tap me load karta hai. Read-only, koi trade nahi.</div>
+    <div class="tiny" style="margin-top:4px">Upar wale <b>Account + Server + Investor password</b> (Exness ho to installer apne aap; dusre broker ke liye "Aur options" me MT5 installer link) se is symbol ka M1 history (MT5 Export jaisa CSV) repo me aata hai. Backtest Lab use ek tap me load karta hai. Read-only, koi trade nahi.</div>
     <div class="add"><input placeholder="Symbol (jaise XAUUSDm)" value="${esc(g.symbol)}" oninput="m1Form.symbol=this.value"><input style="max-width:34%" inputmode="numeric" placeholder="Mahine" value="${esc(g.months)}" oninput="m1Form.months=this.value"></div>
     <button style="width:100%;margin-top:10px" onclick="startM1()" ${m1Run?'disabled':''}>${m1Run?'⏳ M1 data aa raha hai…':'▶ M1 Data lao'}</button>
     <div class="tiny" style="margin-top:8px">${m1Msg}</div>
@@ -890,7 +890,7 @@ renderAccts(); render(); load(); pollScan(); pollM1(); loadM1Status();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.13.2';
+const APP_VER='1.13.3';
 try{ const vt=document.getElementById('verTag'); if(vt) vt.textContent='v'+APP_VER; }catch(e){}   // header hamesha APP_VER se (pehle hardcoded v1.11 tha)
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
