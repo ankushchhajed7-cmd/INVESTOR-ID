@@ -1,9 +1,9 @@
 {
  "state": "error",
  "stage": "login",
- "msg": "MT5 login nahi hua (-10005, 'IPC timeout') \u2014 password galat/badal gaya, ya server naam galat.",
+ "msg": "MT5 login nahi hua (-6, 'Terminal: Authorization failed') \u2014 password galat/badal gaya, ya server naam galat.",
  "symbol": null,
  "file": null,
- "at": 1795095699,
- "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44532661340"
+ "at": 1795097067,
+ "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44538708974"
 }
