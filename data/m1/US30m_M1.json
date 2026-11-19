@@ -1,0 +1,16 @@
+{
+ "symbol": "US30m",
+ "requested": "US30m",
+ "server": "Exness-MT5Trial17",
+ "bars": 100000,
+ "from": "2026-08-10 22:55",
+ "to": "2026-11-19 16:10",
+ "days": 100.7,
+ "months_requested": 6,
+ "server_offset_h": 0.0,
+ "point": 0.1,
+ "digits": 1,
+ "contract": 1.0,
+ "file": "US30m_M1.csv.gz",
+ "fetched_at": 1795104603
+}

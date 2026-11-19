@@ -1,9 +1,9 @@
 {
  "state": "done",
  "stage": "done",
- "msg": "XAUUSDm: 100000 M1 bars, 2026-08-10 \u2192 2026-11-19 (101 din) \u2014 broker ne kam history di",
- "symbol": "XAUUSDm",
- "file": "XAUUSDm_M1.csv.gz",
- "at": 1795098285,
- "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44542990699"
+ "msg": "US30m: 100000 M1 bars, 2026-08-10 \u2192 2026-11-19 (101 din) \u2014 broker ne kam history di",
+ "symbol": "US30m",
+ "file": "US30m_M1.csv.gz",
+ "at": 1795104603,
+ "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/44561500509"
 }
