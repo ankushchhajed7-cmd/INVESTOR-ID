@@ -1,0 +1,45 @@
+# Investor Watch v1.13.1 — App (GitHub Pages) deploy SIRF jab app ki files badlein.
+# Wajah: Reader EA har ~10 sec "live update" commit karta hai → purana "pages build and deployment"
+# har baar cancel ho jaata tha (15 Nov ke baad app ka koi naya version live nahi hua).
+# Zaroori (ek baar): repo Settings → Pages → Build and deployment → Source = "GitHub Actions".
+name: App deploy (Pages)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'sw.js'
+      - 'manifest.json'
+      - '*.png'
+      - 'report/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.dep.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Site folder (sirf app files, data raw.githubusercontent se aata hai)
+        run: |
+          mkdir -p _site
+          cp index.html sw.js manifest.json *.png .nojekyll _site/ 2>/dev/null || true
+          [ -d report ] && cp -r report _site/report || true
+          ls -la _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: dep
+        uses: actions/deploy-pages@v4
