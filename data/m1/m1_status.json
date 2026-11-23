@@ -1,11 +1,11 @@
 {
  "state": "error",
- "stage": "input",
- "msg": "Symbol naam galat",
+ "stage": "login",
+ "msg": "MT5 terminal se baat nahi hui (IPC timeout) \u2014 aksar broker ka server generic MT5 me nahi milta. Scan form > Aur options me broker ka MT5 installer link do (Exness apne aap lagta hai).",
  "symbol": null,
  "file": null,
  "files": [],
  "failed": [],
- "at": 1795399637,
- "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/45097849404"
+ "at": 1795401211,
+ "run": "https://github.com/ankushchhajed7-cmd/INVESTOR-ID/actions/runs/45099821876"
 }
