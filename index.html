@@ -902,7 +902,7 @@ renderAccts(); render(); load(); pollScan(); pollM1(); loadM1Status();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.14.1';
+const APP_VER='1.14.2';
 try{ const vt=document.getElementById('verTag'); if(vt) vt.textContent='v'+APP_VER; }catch(e){}   // header hamesha APP_VER se (pehle hardcoded v1.11 tha)
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }
