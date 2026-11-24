@@ -21,6 +21,10 @@ on:
       enc:
         description: 'Encrypted investor password (app banata hai)'
         required: true
+      runner:
+        description: 'GitHub machine (khaali = windows-2022)'
+        required: false
+        default: ''
       installer:
         description: 'Broker ka MT4/MT5 installer link (MT5 me khaali = MetaQuotes wala; MT4 me zaroori)'
         required: false
@@ -44,7 +48,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   scan:
-    runs-on: windows-latest
+    runs-on: ${{ inputs.runner || 'windows-2022' }}
     timeout-minutes: 330
     env:
       PYTHONIOENCODING: utf-8
