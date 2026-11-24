@@ -69,7 +69,7 @@ def main():
     status('login')
     ok = False
     err = None
-    for i in range(4):
+    for i in range(2):
         if mt5.initialize(path=term, login=int(login), password=pw, server=server, timeout=180000):
             ok = True
             break
@@ -77,6 +77,28 @@ def main():
         print('initialize try', i + 1, 'failed:', err, flush=True)
         mt5.shutdown()
         time.sleep(15)
+    if not ok:
+        # v1.14.6: pehle terminal bina login kholo, phir login() — saaf error milta hai, aur server naam ke dusre roop bhi
+        servers = [server]
+        lo = server.lower()
+        if 'vantagemarkets' in lo:
+            servers += [server.replace('VantageMarkets', 'VantageInternational'), 'VantageInternational-Demo', 'VantageInternational-Demo 2']
+        for i in range(2):
+            if not mt5.initialize(path=term, timeout=180000):
+                err = mt5.last_error()
+                print('initialize (bina login) try', i + 1, 'failed:', err, flush=True)
+                mt5.shutdown(); time.sleep(15)
+                continue
+            ti = mt5.terminal_info()
+            print('terminal OK bina login:', getattr(ti, 'company', ''), getattr(ti, 'name', ''), flush=True)
+            for sv in servers:
+                if mt5.login(int(login), password=pw, server=sv, timeout=120000):
+                    ok = True; server = sv
+                    print('login() OK server', sv, flush=True)
+                    break
+                err = mt5.last_error()
+                print('login() failed server', sv, err, flush=True)
+            break
     if not ok:
         hint = ''
         if err and err[0] in (-6, -10003, -10004, -10005):
