@@ -127,7 +127,17 @@ jobs:
             $term = Get-ChildItem 'C:\Program Files','C:\Program Files (x86)' -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1
           }
           if (-not $term) { Write-Host "::error::Install nahi hua ($exe nahi mila) — installer link sahi hai?"; exit 1 }
-          Start-Sleep -Seconds 25
+          # v1.14.7: installer poora hone do (web installer terminal64.exe pehle bana deta hai, baaki files baad me) — adhoora install = IPC timeout
+          for ($i = 0; $i -lt 60; $i++) {
+            $busy = Get-Process mt5setup, mt4setup -ErrorAction SilentlyContinue
+            $dir = Split-Path $term.FullName
+            $sz = (Get-ChildItem $dir -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum
+            if ($i % 3 -eq 0) { Write-Host ("install wait {0}s, setup chal raha: {1}, folder {2:N0} MB" -f ($i * 10), [bool]$busy, ($sz / 1MB)) }
+            if (-not $busy -and $i -ge 2 -and $sz -eq $prev) { break }
+            $prev = $sz
+            Start-Sleep -Seconds 10
+          }
+          Start-Sleep -Seconds 20
           Get-Process terminal64, terminal, mt5setup, mt4setup -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
           Write-Host "Terminal: $($term.FullName)"
           "IW_TERM=$($term.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
