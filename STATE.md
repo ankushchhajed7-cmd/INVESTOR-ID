@@ -27,6 +27,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.14.6 (2026-11-25) — Vantage installer (v1.14.5) se terminal install hua, phir bhi `initialize(login…)` IPC timeout. Ab: 2 try login ke saath, phir terminal **bina login** kholo aur `mt5.login()` — saaf error milta hai; VantageMarkets server ke saath VantageInternational naam bhi try.
 - v1.14.5 (2026-11-25) — v1.14.4 wala metatrader.com link 404 tha. Asli file: `https://www.vantage-mkts.com/files/download-20180830/MT5_Windows/` (4.5 MB installer, probe se). Vantage par pehle yahi. Installer download me browser UA + error message log me.
 - v1.14.4 (2026-11-25) — **Vantage MT5 installer mila** (probe se, vantage-mkts.com / vantagemarkets.co.id page): `https://download.metatrader.com/cdn/web/14111/mt5/vantageinternational5setup.exe`. Scan + M1 me Vantage server par pehle yahi; phir site-scrape, phir generic. (vantagemarkets.com runner ko 403 deta hai.)
 - v1.14.3 (2026-11-25) — `probe-url.yml` (workflow_dispatch, sirf log): broker / help-center pages se installer `.exe` link dhoondne ke liye. Wajah: vantagemarkets.com runner ko 403 deta hai, Vantage MT5 installer link chahiye.
