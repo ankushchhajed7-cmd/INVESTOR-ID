@@ -28,5 +28,6 @@ jobs:
               Write-Host "status $($r.StatusCode) len $($h.Length)"
               $m = [regex]::Matches($h, 'https?://[^"''\s<>\\]+')
               $m | ForEach-Object { $_.Value } | Where-Object { $_ -match '\.exe|mql5|download|metatrader|mt5|mt4' } | Sort-Object -Unique | Select-Object -First 60 | ForEach-Object { Write-Host "  link: $_" }
+              [regex]::Matches($h, '[^"''\s<>()]*(setup|5setup|4setup|terminal\.free|download\.mql5)[^"''\s<>()]*') | ForEach-Object { $_.Value } | Sort-Object -Unique | Select-Object -First 30 | ForEach-Object { Write-Host "  setup: $_" }
             } catch { Write-Host "  fail: $($_.Exception.Message)" }
           }
