@@ -1,0 +1,32 @@
+# Investor Watch v1.14.3 — URL PROBE: broker website / help page se MT4/MT5 installer (.exe) link dhoondna.
+# Sirf padhta hai, kuch commit nahi karta. Nateeja job log me.
+name: Probe URL
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Space se alag URLs'
+        required: true
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe
+        shell: pwsh
+        env:
+          IW_URLS: ${{ inputs.urls }}
+        run: |
+          $ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+          foreach ($u in ($env:IW_URLS -split '\s+' | Where-Object { $_ })) {
+            Write-Host "=== $u"
+            try {
+              $r = Invoke-WebRequest -Uri $u -UserAgent $ua -UseBasicParsing -TimeoutSec 30 -MaximumRedirection 5 -ErrorAction Stop
+              $h = $r.Content -replace '\\/', '/' -replace '\\u002F', '/'
+              Write-Host "status $($r.StatusCode) len $($h.Length)"
+              $m = [regex]::Matches($h, 'https?://[^"''\s<>\\]+')
+              $m | ForEach-Object { $_.Value } | Where-Object { $_ -match '\.exe|mql5|download|metatrader|mt5|mt4' } | Sort-Object -Unique | Select-Object -First 60 | ForEach-Object { Write-Host "  link: $_" }
+            } catch { Write-Host "  fail: $($_.Exception.Message)" }
+          }
