@@ -46,6 +46,25 @@ def nt(x):
     return d
 
 
+def start_logged_in(term, login, pw, server, wait=90):
+    import subprocess
+    ini = os.path.join(os.environ.get('RUNNER_TEMP') or os.getcwd(), 'iw_start.ini')
+    with open(ini, 'w', encoding='utf-16') as f:
+        f.write('[Common]\nLogin=%s\nPassword=%s\nServer=%s\nKeepPrivate=0\nNewsEnable=0\n'
+                '[Experts]\nAllowLiveTrading=0\nAllowDllImport=0\nEnabled=1\n' % (login, pw, server))
+    try:
+        subprocess.Popen([term, '/config:' + ini])
+        print('terminal /config se chalu, %d s wait' % wait, flush=True)
+        time.sleep(wait)
+    except Exception as e:
+        print('terminal /config start nahi hua:', e, flush=True)
+    finally:
+        try:
+            os.remove(ini)
+        except Exception:
+            pass
+
+
 def main():
     term = sys.argv[1]
     login = os.environ.get('IW_LOGIN', '').strip()
@@ -69,6 +88,9 @@ def main():
     status('login')
     ok = False
     err = None
+    # v1.15.0: naye MT5 build (6230+) me pehli launch par "account kholo" dialog Python IPC ko rok deta hai (-10005).
+    # Isliye terminal ko pehle /config se khud login karwao (dialog nahi aata), phir Python usi chalte terminal se jude.
+    start_logged_in(term, login, pw, server)
     for i in range(2):
         if mt5.initialize(path=term, login=int(login), password=pw, server=server, timeout=180000):
             ok = True
