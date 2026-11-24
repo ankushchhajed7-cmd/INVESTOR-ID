@@ -1,0 +1,48 @@
+# Investor Watch v1.14.10 — MT5 DIAG: kya Python MetaTrader5 package naye terminal build se baat kar pa raha hai? (koi login nahi)
+name: MT5 diag
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diag:
+    strategy:
+      fail-fast: false
+      matrix:
+        inst: [exness, vantage, generic]
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        shell: pwsh
+        run: |
+          $ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+          $u = @{ exness='https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe'; vantage='https://www.vantage-mkts.com/files/download-20180830/MT5_Windows/'; generic='https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe' }['${{ matrix.inst }}']
+          Invoke-WebRequest -Uri $u -OutFile "$env:RUNNER_TEMP\mt5setup.exe" -UserAgent $ua -UseBasicParsing
+          Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
+          $term = $null
+          for ($i = 0; $i -lt 60 -and -not $term; $i++) { Start-Sleep 10; $term = Get-ChildItem 'C:\Program Files' -Recurse -Filter terminal64.exe -ErrorAction SilentlyContinue | Select-Object -First 1 }
+          for ($i = 0; $i -lt 60; $i++) { if (-not (Get-Process mt5setup -ErrorAction SilentlyContinue)) { break }; Start-Sleep 10 }
+          Start-Sleep 30
+          Get-Process terminal64 -ErrorAction SilentlyContinue | Stop-Process -Force
+          Write-Host ("Terminal: " + $term.FullName + " build " + $term.VersionInfo.FileVersion)
+          "IW_TERM=$($term.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Python test
+        shell: bash
+        run: |
+          for v in 5.0.6231 5.0.6180; do
+            python -m pip install -q "MetaTrader5==$v"
+            python - <<'PY'
+          import MetaTrader5 as mt5, os, time, importlib.metadata as md
+          v = md.version('MetaTrader5'); term = os.environ['IW_TERM']
+          t = time.time(); ok = mt5.initialize(path=term, timeout=120000)
+          print('PKG', v, 'init(path)', ok, mt5.last_error(), round(time.time() - t), 's', flush=True)
+          if ok:
+              ti = mt5.terminal_info(); print('  terminal', ti.build if ti else None, ti.company if ti else None, flush=True)
+          mt5.shutdown(); time.sleep(5)
+          PY
+            taskkill //F //IM terminal64.exe >/dev/null 2>&1 || true
+          done
