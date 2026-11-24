@@ -59,17 +59,36 @@ jobs:
         run: |
           # MetaQuotes ka generic installer broker ka server nahi jaanta -> initialize 'IPC timeout' (Exness + Capital Nine dono me dekha).
           # Isliye broker ka apna installer: link diya ho to wahi, warna server naam se pehchano.
+          function Find-SiteInstaller([string[]]$pages) {
+            # v1.14.2: broker ki website se MT5 Windows installer (.exe) ka link dhoondo
+            $found = @()
+            $ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+            foreach ($pg in $pages) {
+              try {
+                $html = (Invoke-WebRequest -Uri $pg -UserAgent $ua -UseBasicParsing -TimeoutSec 30 -ErrorAction Stop).Content -replace '\\/', '/'
+                $m = [regex]::Matches($html, 'https?://[^"''\s<>]+?\.exe')
+                foreach ($x in $m) { $u = $x.Value; if ($u -match '5setup|mt5|metatrader5' -and $found -notcontains $u) { $found += $u } }
+                Write-Host "Site $pg -> $($m.Count) exe link"
+              } catch { Write-Host "Site nahi khuli: $pg ($($_.Exception.Message))" }
+              if ($found.Count) { break }
+            }
+            foreach ($u in $found) { Write-Host "Site se mila: $u" }
+            return $found
+          }
           function Get-BrokerInstaller([string]$srv, [string]$given) {
-            # v1.14.1: broker ka apna MT5 installer (generic MetaQuotes wala broker server nahi jaanta -> IPC timeout)
+            # v1.14.1/2: broker ka apna MT5 installer (generic MetaQuotes wala broker server nahi jaanta -> IPC timeout)
             if ($given) { return @($given) }
             $s = $srv.ToLower()
             if ($s -match 'exness')  { return @('https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe') }
             if ($s -match 'capital') { return @('https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe') }
-            if ($s -match 'vantage') { return @(
-                'https://download.mql5.com/cdn/web/vantage.international.group.limited/mt5/vantageinternational5setup.exe',
-                'https://download.mql5.com/cdn/web/vantage.international.group/mt5/vantageinternational5setup.exe',
-                'https://download.mql5.com/cdn/web/vantage.global.limited/mt5/vantageinternational5setup.exe',
-                'https://download.mql5.com/cdn/web/vantage.markets/mt5/vantagemarkets5setup.exe') }
+            if ($s -match 'vantage') { return @((Find-SiteInstaller @(
+                'https://www.vantagemarkets.com/trading-platform/metatrader-5/',
+                'https://www.vantagemarkets.com/en/trading-platform/metatrader-5/',
+                'https://www.vantagemarkets.com/trading-platforms/metatrader-5/',
+                'https://www.vantagemarkets.com/en-in/trading-platform/metatrader-5/',
+                'https://www.vantagemarkets.com/')) +
+                @('https://download.mql5.com/cdn/web/vantage.international.group.limited/mt5/vantageinternational5setup.exe',
+                  'https://download.mql5.com/cdn/web/vantage.markets/mt5/vantagemarkets5setup.exe')) }
             return @()
           }
           function Get-Installer([string]$srv, [string]$given, [string]$out) {
