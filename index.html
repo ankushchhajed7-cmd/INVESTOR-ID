@@ -593,7 +593,12 @@ function saveScanCfg(){
   scanCfg = {pat: $('#scPat').value.trim(), key: $('#scKey').value};
   LS.set('iw_scan', scanCfg); scanMsg = '✓ Setup save ho gaya (sirf is phone me)'; render();
 }
+let scanBusy=false;
 async function startScan(){
+  if(scanBusy || scanRun) return; scanBusy=true;
+  try{ await startScan_(); } finally { scanBusy=false; }
+}
+async function startScan_(){
   const f = scanForm;
   f.login = String(f.login||'').trim(); f.server = String(f.server||'').trim();
   if(!/^\d{3,}$/.test(f.login)){ scanMsg='⚠️ Account number sahi daalo'; return render(); }
@@ -705,7 +710,12 @@ async function loadM1Status(){
   }catch(e){ m1Last = null; }
   if(tab==='scan' && !scanFocused()) render();
 }
+let m1Busy=false;
 async function startM1(){
+  if(m1Busy || m1Run) return; m1Busy=true;
+  try{ await startM1_(); } finally { m1Busy=false; }
+}
+async function startM1_(){
   const f = scanForm, g = m1Form;
   f.login = String(f.login||'').trim(); f.server = String(f.server||'').trim(); g.symbol = String(g.symbol||'').trim() || 'XAUUSDm';
   LS.set('iw_m1form', g);
@@ -892,7 +902,7 @@ renderAccts(); render(); load(); pollScan(); pollM1(); loadM1Status();
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
 // ---- App update / hard refresh (v1.06) ----
-const APP_VER='1.14.0';
+const APP_VER='1.14.1';
 try{ const vt=document.getElementById('verTag'); if(vt) vt.textContent='v'+APP_VER; }catch(e){}   // header hamesha APP_VER se (pehle hardcoded v1.11 tha)
 async function hardReload(){
   const b=$('#updBtn'); if(b){ b.textContent='…'; b.disabled=true; }

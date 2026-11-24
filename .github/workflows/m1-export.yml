@@ -1,4 +1,4 @@
-# Investor Watch v1.14 — M1 DATA EXPORT (ek ya kai symbol: 'XAUUSDm' / 'EURUSDm,GBPUSDm' / 'FX28' = 28 forex pair) (SAMU Backtest Lab ke liye)
+# Investor Watch v1.14.1 — M1 DATA EXPORT (ek ya kai symbol: 'XAUUSDm' / 'EURUSDm,GBPUSDm' / 'FX28' = 28 forex pair) (SAMU Backtest Lab ke liye)
 # GitHub ki free Windows machine par MT5 install -> investor login -> ek symbol ka M1 history
 # -> data/m1/<SYMBOL>_M1.csv.gz (MT5 Export Bars format) + <SYMBOL>_M1.json + m1_status.json
 # App ke Scan tab ("M1 Data") se chalta hai. Password sirf ENCRYPTED aata hai (IW_KEY), kahin save nahi.
@@ -59,17 +59,29 @@ jobs:
         run: |
           # MetaQuotes ka generic installer broker ka server nahi jaanta -> initialize 'IPC timeout' (Exness + Capital Nine dono me dekha).
           # Isliye broker ka apna installer: link diya ho to wahi, warna server naam se pehchano.
-          $generic = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
-          $url = $env:IW_INSTALLER
-          if (-not $url) {
-            $srv = "$env:IW_SERVER".ToLower()
-            if ($srv -match 'exness') { $url = 'https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe' }
-            elseif ($srv -match 'capital') { $url = 'https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe' }
-            else { $url = $generic }
+          function Get-BrokerInstaller([string]$srv, [string]$given) {
+            # v1.14.1: broker ka apna MT5 installer (generic MetaQuotes wala broker server nahi jaanta -> IPC timeout)
+            if ($given) { return @($given) }
+            $s = $srv.ToLower()
+            if ($s -match 'exness')  { return @('https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe') }
+            if ($s -match 'capital') { return @('https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe') }
+            if ($s -match 'vantage') { return @(
+                'https://download.mql5.com/cdn/web/vantage.international.group.limited/mt5/vantageinternational5setup.exe',
+                'https://download.mql5.com/cdn/web/vantage.international.group/mt5/vantageinternational5setup.exe',
+                'https://download.mql5.com/cdn/web/vantage.global.limited/mt5/vantageinternational5setup.exe',
+                'https://download.mql5.com/cdn/web/vantage.markets/mt5/vantagemarkets5setup.exe') }
+            return @()
           }
-          Write-Host "Installer: $url"
-          try { Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe" -ErrorAction Stop }
-          catch { Write-Host "::warning::Broker installer download nahi hua ($url) — generic MetaQuotes installer"; Invoke-WebRequest -Uri $generic -OutFile "$env:RUNNER_TEMP\mt5setup.exe" }
+          function Get-Installer([string]$srv, [string]$given, [string]$out) {
+            $generic = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
+            foreach ($u in (Get-BrokerInstaller $srv $given)) {
+              try { Invoke-WebRequest -Uri $u -OutFile $out -ErrorAction Stop; if ((Get-Item $out).Length -gt 500000) { Write-Host "Installer: $u"; return } }
+              catch { Write-Host "Installer nahi mila: $u" }
+            }
+            Write-Host "::warning::Broker installer nahi mila — generic MetaQuotes installer"
+            Invoke-WebRequest -Uri $generic -OutFile $out
+          }
+          Get-Installer $env:IW_SERVER $env:IW_INSTALLER "$env:RUNNER_TEMP\mt5setup.exe"
           Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
           $term = $null
           for ($i = 0; $i -lt 60 -and -not $term; $i++) {

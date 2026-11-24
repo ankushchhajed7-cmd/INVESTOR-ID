@@ -65,16 +65,40 @@ jobs:
         env:
           IW_INSTALLER: ${{ inputs.installer }}
           IW_PLATFORM: ${{ inputs.platform }}
+          IW_SERVER: ${{ inputs.server }}
         run: |
           $url = $env:IW_INSTALLER
           $mt4 = ($env:IW_PLATFORM -eq 'MT4')
           $exe = if ($mt4) { 'terminal.exe' } else { 'terminal64.exe' }
-          if (-not $url) {
-            if ($mt4) { Write-Host '::error::MT4 ke liye broker ka MT4 installer link zaroori hai'; exit 1 }
-            $url = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
+          if ($mt4) {
+            if (-not $url) { Write-Host '::error::MT4 ke liye broker ka MT4 installer link zaroori hai'; exit 1 }
+            Write-Host "Installer: $url"
+            Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
+          } else {
+          function Get-BrokerInstaller([string]$srv, [string]$given) {
+            # v1.14.1: broker ka apna MT5 installer (generic MetaQuotes wala broker server nahi jaanta -> IPC timeout)
+            if ($given) { return @($given) }
+            $s = $srv.ToLower()
+            if ($s -match 'exness')  { return @('https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe') }
+            if ($s -match 'capital') { return @('https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe') }
+            if ($s -match 'vantage') { return @(
+                'https://download.mql5.com/cdn/web/vantage.international.group.limited/mt5/vantageinternational5setup.exe',
+                'https://download.mql5.com/cdn/web/vantage.international.group/mt5/vantageinternational5setup.exe',
+                'https://download.mql5.com/cdn/web/vantage.global.limited/mt5/vantageinternational5setup.exe',
+                'https://download.mql5.com/cdn/web/vantage.markets/mt5/vantagemarkets5setup.exe') }
+            return @()
           }
-          Write-Host "Installer: $url"
-          Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\mt5setup.exe"
+          function Get-Installer([string]$srv, [string]$given, [string]$out) {
+            $generic = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
+            foreach ($u in (Get-BrokerInstaller $srv $given)) {
+              try { Invoke-WebRequest -Uri $u -OutFile $out -ErrorAction Stop; if ((Get-Item $out).Length -gt 500000) { Write-Host "Installer: $u"; return } }
+              catch { Write-Host "Installer nahi mila: $u" }
+            }
+            Write-Host "::warning::Broker installer nahi mila — generic MetaQuotes installer"
+            Invoke-WebRequest -Uri $generic -OutFile $out
+          }
+            Get-Installer $env:IW_SERVER $url "$env:RUNNER_TEMP\mt5setup.exe"
+          }
           Start-Process "$env:RUNNER_TEMP\mt5setup.exe" -ArgumentList '/auto'
           $term = $null
           for ($i = 0; $i -lt 60 -and -not $term; $i++) {
