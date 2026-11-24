@@ -27,6 +27,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.14.8 (2026-11-25) — v1.14.7 me install poora (256 MB) phir bhi bina-login initialize IPC timeout. Shak: pehli launch par LiveUpdate naya build laata hai aur terminal restart hota hai. Ab install ke baad terminal 3 min khud chalta hai (warm-up), build version log me, phir Python.
 - v1.14.7 (2026-11-25) — Vantage scan: terminal bina login bhi IPC timeout → shak: installer adhoora (terminal64.exe milte hi 25 s baad installer band kar dete the). Ab installer process khatam + folder size ruke tab tak wait (max 10 min), log me MB.
 - v1.14.6 (2026-11-25) — Vantage installer (v1.14.5) se terminal install hua, phir bhi `initialize(login…)` IPC timeout. Ab: 2 try login ke saath, phir terminal **bina login** kholo aur `mt5.login()` — saaf error milta hai; VantageMarkets server ke saath VantageInternational naam bhi try.
 - v1.14.5 (2026-11-25) — v1.14.4 wala metatrader.com link 404 tha. Asli file: `https://www.vantage-mkts.com/files/download-20180830/MT5_Windows/` (4.5 MB installer, probe se). Vantage par pehle yahi. Installer download me browser UA + error message log me.
