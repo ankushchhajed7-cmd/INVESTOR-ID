@@ -13,13 +13,63 @@
       "stale": false
     },
     "2026-11-19": {
-      "maxDD": 376.19,
-      "pct": 3.54,
-      "eqLow": 10180.75,
-      "closedPL": 172.45,
-      "baskets": 5,
+      "maxDD": 1201.87,
+      "pct": 11.16,
+      "eqLow": 9571.32,
+      "closedPL": 345.71,
+      "baskets": 10,
       "manualCloses": 0,
-      "dataTillIST": "21:39",
+      "dataTillIST": "23:56",
+      "stale": false
+    },
+    "2026-11-20": {
+      "maxDD": 1462.48,
+      "pct": 13.38,
+      "eqLow": 9471.64,
+      "closedPL": 606.92,
+      "baskets": 16,
+      "manualCloses": 11,
+      "dataTillIST": "23:55",
+      "stale": false
+    },
+    "2026-11-21": {
+      "maxDD": 296.74,
+      "pct": 2.57,
+      "eqLow": 11236.35,
+      "closedPL": 235.17,
+      "baskets": 22,
+      "manualCloses": 0,
+      "dataTillIST": "23:48",
+      "stale": false
+    },
+    "2026-11-22": {
+      "maxDD": 0.0,
+      "pct": 0.0,
+      "eqLow": 11683.2,
+      "closedPL": 0.0,
+      "baskets": 0,
+      "manualCloses": 0,
+      "dataTillIST": "23:51",
+      "stale": false
+    },
+    "2026-11-23": {
+      "maxDD": 233.75,
+      "pct": 1.98,
+      "eqLow": 11576.59,
+      "closedPL": 159.76,
+      "baskets": 10,
+      "manualCloses": 2,
+      "dataTillIST": "23:48",
+      "stale": false
+    },
+    "2026-11-24": {
+      "maxDD": 70.04,
+      "pct": 0.59,
+      "eqLow": 11806.42,
+      "closedPL": 196.27,
+      "baskets": 6,
+      "manualCloses": 7,
+      "dataTillIST": "23:34",
       "stale": false
     }
   },
