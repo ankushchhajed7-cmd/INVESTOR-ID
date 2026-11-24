@@ -81,7 +81,7 @@ jobs:
             $s = $srv.ToLower()
             if ($s -match 'exness')  { return @('https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe') }
             if ($s -match 'capital') { return @('https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe') }
-            if ($s -match 'vantage') { return @(@('https://download.metatrader.com/cdn/web/14111/mt5/vantageinternational5setup.exe') + (Find-SiteInstaller @(
+            if ($s -match 'vantage') { return @(@('https://www.vantage-mkts.com/files/download-20180830/MT5_Windows/', 'https://www.vantagemarkets.co.id/files/download-20180830/MT5_Windows/') + (Find-SiteInstaller @(
                 'https://www.vantage-mkts.com/ru/trading-platform/metatrader-5/',
                 'https://www.vantagemarkets.co.id/en/trading-platform/metatrader-5/',
                 'https://www.vantagemarkets.com/trading-platform/metatrader-5/',
@@ -96,8 +96,8 @@ jobs:
           function Get-Installer([string]$srv, [string]$given, [string]$out) {
             $generic = 'https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe'
             foreach ($u in (Get-BrokerInstaller $srv $given)) {
-              try { Invoke-WebRequest -Uri $u -OutFile $out -ErrorAction Stop; if ((Get-Item $out).Length -gt 500000) { Write-Host "Installer: $u"; return } }
-              catch { Write-Host "Installer nahi mila: $u" }
+              try { Invoke-WebRequest -Uri $u -OutFile $out -UserAgent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36' -UseBasicParsing -ErrorAction Stop; if ((Get-Item $out).Length -gt 500000) { Write-Host "Installer: $u"; return } }
+              catch { Write-Host "Installer nahi mila: $u ($($_.Exception.Message))" }
             }
             Write-Host "::warning::Broker installer nahi mila — generic MetaQuotes installer"
             Invoke-WebRequest -Uri $generic -OutFile $out
