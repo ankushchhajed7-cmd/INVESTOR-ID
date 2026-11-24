@@ -27,6 +27,7 @@ Reader EA (VPS, investor login) → GitHub contents API (fine-grained PAT) → r
 GitHubOwner, GitHubRepo, GitHubBranch(main), GitHubToken(PAT), LiveSeconds(20), HistoryDays(60), HistoryRefreshMin(30), MaxDeals(1500).
 
 ## Version history
+- v1.14.4 (2026-11-25) — **Vantage MT5 installer mila** (probe se, vantage-mkts.com / vantagemarkets.co.id page): `https://download.metatrader.com/cdn/web/14111/mt5/vantageinternational5setup.exe`. Scan + M1 me Vantage server par pehle yahi; phir site-scrape, phir generic. (vantagemarkets.com runner ko 403 deta hai.)
 - v1.14.3 (2026-11-25) — `probe-url.yml` (workflow_dispatch, sirf log): broker / help-center pages se installer `.exe` link dhoondne ke liye. Wajah: vantagemarkets.com runner ko 403 deta hai, Vantage MT5 installer link chahiye.
 - v1.14.2 (2026-11-25) — Vantage: 4 andaaze wale mql5 link nahi mile (25 Nov scan 26209579 VantageMarkets-Demo → generic installer → IPC timeout ×4). Ab runner Vantage ki website (vantagemarkets.com MT5 page) se `.exe` installer link khud dhoondta hai, phir purane link, phir generic. Log me "Site se mila: …".
 - v1.14.1 (2026-11-24) — **Vantage account:** Strategy Scan + M1 Data dono me broker ka MT5 installer server naam se apne aap (Exness / Capital Nine / **Vantage** — Vantage ke 4 sambhavit link baari-baari, na mile to generic). Pehle Scan me sirf generic installer tha. App: Scan / M1 button 2 baar dabne par 2 run nahi (double dispatch fix). SW iw-shell-v16.

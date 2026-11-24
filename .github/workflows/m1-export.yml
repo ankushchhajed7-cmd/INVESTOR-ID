@@ -81,7 +81,9 @@ jobs:
             $s = $srv.ToLower()
             if ($s -match 'exness')  { return @('https://download.mql5.com/cdn/web/exness.technologies.ltd/mt5/exness5setup.exe') }
             if ($s -match 'capital') { return @('https://download.mql5.com/cdn/web/capital.nine.global/mt5/capitalnineglobal5setup.exe') }
-            if ($s -match 'vantage') { return @((Find-SiteInstaller @(
+            if ($s -match 'vantage') { return @(@('https://download.metatrader.com/cdn/web/14111/mt5/vantageinternational5setup.exe') + (Find-SiteInstaller @(
+                'https://www.vantage-mkts.com/ru/trading-platform/metatrader-5/',
+                'https://www.vantagemarkets.co.id/en/trading-platform/metatrader-5/',
                 'https://www.vantagemarkets.com/trading-platform/metatrader-5/',
                 'https://www.vantagemarkets.com/en/trading-platform/metatrader-5/',
                 'https://www.vantagemarkets.com/trading-platforms/metatrader-5/',
