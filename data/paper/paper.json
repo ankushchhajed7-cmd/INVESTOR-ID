@@ -8582,7 +8582,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 19,
@@ -8676,7 +8676,7 @@
    "state": "TP1",
    "usd": 0.44
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 26.9,
@@ -9026,7 +9026,7 @@
    "state": "SL",
    "usd": -0.75
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 19.8,
@@ -9104,7 +9104,7 @@
    "state": "SL",
    "usd": -5.51
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 23.9,
@@ -9198,7 +9198,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 23.8,
@@ -9276,7 +9276,7 @@
    "state": "SL",
    "usd": -0.89
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 19.3,
@@ -9642,7 +9642,7 @@
    "state": "TP1",
    "usd": 0.6
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 26.7,
@@ -9727,7 +9727,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 27.5,
@@ -9879,7 +9879,7 @@
    "state": "TP1",
    "usd": 0.39
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 17.6,
@@ -9957,7 +9957,7 @@
    "state": "SL",
    "usd": -0.59
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 29,
@@ -10051,7 +10051,7 @@
    "state": "LOCK",
    "usd": 0.45
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 29.7,
@@ -10129,7 +10129,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 28.1,
@@ -10207,7 +10207,7 @@
    "state": "SL",
    "usd": -1.13
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 15.3,
@@ -10285,7 +10285,7 @@
    "state": "SL",
    "usd": -0.48
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 15,
@@ -10363,7 +10363,7 @@
    "state": "SL",
    "usd": -0.48
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 22.6,
@@ -10441,7 +10441,7 @@
    "state": "SL",
    "usd": -0.72
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 26.2,
@@ -10535,7 +10535,7 @@
    "state": "LOCK",
    "usd": 0.35
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 21.4,
@@ -10613,7 +10613,7 @@
    "state": "LOCK",
    "usd": 0.45
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 27.6,
@@ -10691,7 +10691,7 @@
    "state": "LOCK",
    "usd": 0.25
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 31,
@@ -10769,7 +10769,7 @@
    "state": "SL",
    "usd": -1.11
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 29.3,
@@ -10788,8 +10788,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "pips": 11.4,
+    "state": "TP1",
+    "usd": 1.14
    },
    "sl": 1.09601,
    "tp": 1.09374
@@ -10812,28 +10814,40 @@
    "entry": 1.09392,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -7,
+    "state": "SL",
+    "usd": -0.7
    },
    "sl": 1.09462,
    "tp": 1.09322
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "dd": 0.12,
+   "done": true,
+   "filledAt": 1795602300000,
+   "mins": 10,
+   "state": "TP",
+   "usd": 0.25
   },
   "regime": "Trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "exitAt": 1795604100000,
+   "filledAt": 1795602300000,
+   "lot": 0.01,
+   "pips": 11.4,
+   "state": "TP1",
+   "usd": 1.14
   },
   "sl": 1.09601,
   "smart": {
    "entry": 1.09488,
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "TP1",
+    "usd": 1.14
    },
    "sl": 1.09601,
    "tp": 1.09374,
@@ -10844,10 +10858,12 @@
   "sym": "EUR/USD",
   "tp": 1.09374,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "pips": 2.5,
+   "state": "LOCK",
+   "usd": 0.25
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 12.5,
@@ -10867,7 +10883,7 @@
    "order": "LIMIT",
    "res": {
     "done": false,
-    "state": "PENDING"
+    "state": "OPEN"
    },
    "sl": 159.162,
    "tp": 159.428
@@ -10890,28 +10906,35 @@
    "entry": 159.427,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -15.2,
+    "state": "SL",
+    "usd": -0.97
    },
    "sl": 159.275,
    "tp": 159.579
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "dd": 0.39,
+   "done": true,
+   "filledAt": 1795602480000,
+   "mins": 31,
+   "state": "TP",
+   "usd": 0.25
   },
   "regime": "Range",
   "res": {
    "done": false,
-   "state": "PENDING"
+   "filledAt": 1795602480000,
+   "state": "OPEN"
   },
   "sl": 159.162,
   "smart": {
    "entry": 159.295,
    "res": {
     "done": false,
-    "state": "PENDING"
+    "state": "OPEN"
    },
    "sl": 159.162,
    "tp": 159.428,
@@ -10922,10 +10945,12 @@
   "sym": "USD/JPY",
   "tp": 159.428,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "pips": 5.5,
+   "state": "LOCK",
+   "usd": 0.35
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 40.7,
@@ -10944,8 +10969,8 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "EXPIRED"
    },
    "sl": 1.98491,
    "tp": 1.98895
@@ -10968,28 +10993,30 @@
    "entry": 1.98816,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": 10.6,
+    "state": "TP1",
+    "usd": 0.74
    },
    "sl": 1.9871,
    "tp": 1.98922
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "regime": "Trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 1.98491,
   "smart": {
    "entry": 1.98693,
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "EXPIRED"
    },
    "sl": 1.98491,
    "tp": 1.98895,
@@ -11000,10 +11027,10 @@
   "sym": "GBP/AUD",
   "tp": 1.98895,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 38.9,
@@ -11023,7 +11050,7 @@
    "order": "LIMIT",
    "res": {
     "done": false,
-    "state": "PENDING"
+    "state": "OPEN"
    },
    "sl": 105.039,
    "tp": 104.523
@@ -11046,28 +11073,35 @@
    "entry": 104.67,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -13.5,
+    "state": "SL",
+    "usd": -0.86
    },
    "sl": 104.805,
    "tp": 104.535
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "dd": 0.18,
+   "done": true,
+   "filledAt": 1795605300000,
+   "mins": 5,
+   "state": "TP",
+   "usd": 0.25
   },
   "regime": "Trend",
   "res": {
    "done": false,
-   "state": "PENDING"
+   "filledAt": 1795605300000,
+   "state": "OPEN"
   },
   "sl": 105.039,
   "smart": {
    "entry": 104.781,
    "res": {
     "done": false,
-    "state": "PENDING"
+    "state": "OPEN"
    },
    "sl": 105.039,
    "tp": 104.523,
@@ -11078,10 +11112,12 @@
   "sym": "AUD/JPY",
   "tp": 104.523,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "pips": 3.9,
+   "state": "LOCK",
+   "usd": 0.25
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 26.8,
@@ -11100,8 +11136,8 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "PENDING"
+    "done": true,
+    "state": "EXPIRED"
    },
    "sl": 0.54745,
    "tp": 0.5452
@@ -11124,34 +11160,37 @@
    "entry": 0.54563,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -4.1,
+    "state": "SL",
+    "usd": -0.41
    },
    "sl": 0.54604,
    "tp": 0.54522
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "regime": "Trend",
   "res": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
   "sl": 0.54745,
   "smart": {
    "entry": 0.54563,
    "pfx": {
-    "dd": 0,
+    "dd": 0.89,
     "done": false,
     "state": "OPEN",
-    "usd": 0
+    "usd": -0.32
    },
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "state": "SL",
+    "usd": -0.58
    },
    "sl": 0.54621,
    "tp": 0.54505,
@@ -11162,10 +11201,10 @@
   "sym": "NZD/USD",
   "tp": 0.54568,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "state": "EXPIRED"
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  },
  {
   "adx": 19.5,
@@ -11183,6 +11222,10 @@
    "entry": 87.023,
    "fixed": false,
    "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
    "sl": 87.197,
    "tp": 86.85
   },
@@ -11204,28 +11247,35 @@
    "entry": 86.93,
    "ok": false,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -10.4,
+    "state": "SL",
+    "usd": -0.66
    },
    "sl": 87.034,
    "tp": 86.826
   },
   "mt5": true,
   "pfx": {
-   "done": false,
-   "state": "PENDING"
+   "dd": 0.16,
+   "done": true,
+   "filledAt": 1795604700000,
+   "mins": 8,
+   "state": "TP",
+   "usd": 0.25
   },
   "regime": "Range",
   "res": {
    "done": false,
-   "state": "PENDING"
+   "filledAt": 1795604700000,
+   "state": "OPEN"
   },
   "sl": 87.197,
   "smart": {
    "entry": 87.023,
    "res": {
     "done": false,
-    "state": "PENDING"
+    "state": "OPEN"
    },
    "sl": 87.197,
    "tp": 86.85,
@@ -11236,9 +11286,11 @@
   "sym": "NZD/JPY",
   "tp": 86.85,
   "trail": {
-   "done": false,
-   "state": "PENDING"
+   "done": true,
+   "pips": 5.5,
+   "state": "LOCK",
+   "usd": 0.35
   },
-  "v": "1.36.0"
+  "v": "1.37.0"
  }
 ]
