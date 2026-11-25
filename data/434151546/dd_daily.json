@@ -71,6 +71,16 @@
       "manualCloses": 7,
       "dataTillIST": "23:34",
       "stale": false
+    },
+    "2026-11-25": {
+      "maxDD": 204.12,
+      "pct": 1.7,
+      "eqLow": 11835.11,
+      "closedPL": 184.9,
+      "baskets": 6,
+      "manualCloses": 0,
+      "dataTillIST": "21:33",
+      "stale": false
     }
   },
   "total": {
