@@ -38,7 +38,7 @@ jobs:
           E="?orderBy=%22%24key%22&limitToLast=500"; if [ -n "$FB_AUTH" ]; then E="$E&auth=$FB_AUTH"; fi
           curl -sS --max-time 30 "$B/candle/ea/trades.json$E" -o cetr.json || true
           curl -sS --max-time 30 "$B/personalfx/accounts.json$A" -o pfxacc.json || true
-          P="?orderBy=%22%24key%22&limitToLast=15"; if [ -n "$FB_AUTH" ]; then P="$P&auth=$FB_AUTH"; fi
+          P="?orderBy=%22%24key%22&startAt=%22-SG%22&endAt=%22-SH%22&limitToLast=15"; if [ -n "$FB_AUTH" ]; then P="$P&auth=$FB_AUTH"; fi
           curl -sS --max-time 30 "$B/personalfx/orders.json$P" -o pfxord.json || true
           python3 - <<'PY'
           import json, time, re
@@ -197,7 +197,7 @@ jobs:
                       print('   LAST', ist((x.get('at') or 0) / 1000), x.get('sym'), x.get('dir'), x.get('res'), 'pl', x.get('pl'), 'n', x.get('n'), 'mae', round(x['mae'], 2) if num(x.get('mae')) else None, 'tp', x.get('tp'), 'wx', (x.get('wx') or {}).get('c') if isinstance(x.get('wx'), dict) else None)
           else:
               print('CANDLE_PAPER:', json.dumps(cp)[:200])
-          # --- PERSONAL FX app bridge (25 Nov): EA heartbeat + aakhri app orders. Login / balance / server / naam NAHI chhaapte ---
+          # --- PERSONAL FX app bridge (25 Nov): EA heartbeat + SAMUSIGNAL AI app ke aakhri orders (key -SG...). Login / balance / server / naam NAHI chhaapte ---
           import datetime as _dt
           def _ist(t):
               try: return _dt.datetime.utcfromtimestamp(float(t) / (1000 if float(t) > 1e11 else 1) + 19800).strftime('%d %b %H:%M:%S')
