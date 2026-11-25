@@ -37,6 +37,9 @@ jobs:
           curl -sS --max-time 30 "$B/candle/ea/state.json$A" -o ceast.json || true
           E="?orderBy=%22%24key%22&limitToLast=500"; if [ -n "$FB_AUTH" ]; then E="$E&auth=$FB_AUTH"; fi
           curl -sS --max-time 30 "$B/candle/ea/trades.json$E" -o cetr.json || true
+          curl -sS --max-time 30 "$B/personalfx/accounts.json$A" -o pfxacc.json || true
+          P="?orderBy=%22%24key%22&limitToLast=15"; if [ -n "$FB_AUTH" ]; then P="$P&auth=$FB_AUTH"; fi
+          curl -sS --max-time 30 "$B/personalfx/orders.json$P" -o pfxord.json || true
           python3 - <<'PY'
           import json, time, re
           def load(p):
@@ -194,4 +197,26 @@ jobs:
                       print('   LAST', ist((x.get('at') or 0) / 1000), x.get('sym'), x.get('dir'), x.get('res'), 'pl', x.get('pl'), 'n', x.get('n'), 'mae', round(x['mae'], 2) if num(x.get('mae')) else None, 'tp', x.get('tp'), 'wx', (x.get('wx') or {}).get('c') if isinstance(x.get('wx'), dict) else None)
           else:
               print('CANDLE_PAPER:', json.dumps(cp)[:200])
+          # --- PERSONAL FX app bridge (25 Nov): EA heartbeat + aakhri app orders. Login / balance / server / naam NAHI chhaapte ---
+          import datetime as _dt
+          def _ist(t):
+              try: return _dt.datetime.utcfromtimestamp(float(t) / (1000 if float(t) > 1e11 else 1) + 19800).strftime('%d %b %H:%M:%S')
+              except Exception: return '?'
+          pa = load('pfxacc.json'); po = load('pfxord.json')
+          amap = {}
+          if isinstance(pa, dict) and '_err' not in pa:
+              for i, (k, v) in enumerate(sorted(pa.items(), key=lambda kv: -float((kv[1] or {}).get('at') or 0))):
+                  v = v or {}; amap[str(k)] = 'A' + str(i + 1)
+                  at = float(v.get('at') or 0); at = at / 1000 if at > 1e11 else at
+                  print('PFX_ACCT:', 'A' + str(i + 1), '| real', v.get('real'), '| age_sec', int(now - at) if at else None, '| online', bool(at and now - at < 300), '| ver', v.get('ver') or v.get('v'), '| lot', v.get('lot'))
+          else:
+              print('PFX_ACCT:', json.dumps(pa)[:200])
+          if isinstance(po, dict) and '_err' not in po:
+              for k, v in sorted(po.items(), key=lambda kv: kv[0])[-15:]:
+                  v = v or {}
+                  ac = v.get('acct'); acs = ('-' if ac in (None, '') else amap.get(str(ac), 'ANJAAN'))
+                  extra = {kk: vv for kk, vv in v.items() if kk not in ('acct', 'login', 'bal', 'server', 'name', 'id', 'at', 'pair', 'type', 'status', 'entry', 'live', 'src', 'batch', 'leg', 'legs', 'exp')}
+                  print('PFX_ORDER:', _ist(v.get('at') or 0), '|', v.get('pair'), v.get('type'), '| status', v.get('status'), '| src', v.get('src'), '| acct', acs, '| age_min', int((now - float(v.get('at') or 0) / 1000) / 60) if v.get('at') else None, '|', json.dumps(extra)[:160])
+          else:
+              print('PFX_ORDER:', json.dumps(po)[:200])
           PY
