@@ -10770,5 +10770,475 @@
    "usd": -1.11
   },
   "v": "1.36.0"
+ },
+ {
+  "adx": 29.3,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795599982850,
+  "auto": "",
+  "buyPct": 7,
+  "council": {
+   "bots": "T:S M:W L:S M:S R:S D:W",
+   "conf": 85,
+   "dir": "SELL",
+   "entry": 1.09488,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.09601,
+   "tp": 1.09374
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 1.09488,
+  "expiresAt": 1795603582850,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwvxut0c",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 1.09392,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.09462,
+   "tp": 1.09322
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.09601,
+  "smart": {
+   "entry": 1.09488,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.09601,
+   "tp": 1.09374,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "EUR/USD",
+  "tp": 1.09374,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.36.0"
+ },
+ {
+  "adx": 12.5,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795600910140,
+  "auto": "",
+  "buyPct": 90,
+  "council": {
+   "bots": "T:B M:B L:B M:B R:B D:W",
+   "conf": 85,
+   "dir": "BUY",
+   "entry": 159.295,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 159.162,
+   "tp": 159.428
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 159.295,
+  "expiresAt": 1795604510140,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwvyefy7",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 159.427,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 159.275,
+   "tp": 159.579
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 159.162,
+  "smart": {
+   "entry": 159.295,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 159.162,
+   "tp": 159.428,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "USD/JPY",
+  "tp": 159.428,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.36.0"
+ },
+ {
+  "adx": 40.7,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795602213023,
+  "auto": "",
+  "buyPct": 87,
+  "council": {
+   "bots": "T:B M:B L:B M:B R:B D:W",
+   "conf": 85,
+   "dir": "BUY",
+   "entry": 1.98693,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.98491,
+   "tp": 1.98895
+  },
+  "danger": "calm",
+  "dir": "BUY",
+  "entry": 1.98693,
+  "expiresAt": 1795605813023,
+  "fibX": 0.618,
+  "grade": "A",
+  "id": "rmwvz6hkj",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 1.98816,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 1.9871,
+   "tp": 1.98922
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 1.98491,
+  "smart": {
+   "entry": 1.98693,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 1.98491,
+   "tp": 1.98895,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "GBP/AUD",
+  "tp": 1.98895,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.36.0"
+ },
+ {
+  "adx": 38.9,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795602238635,
+  "auto": "",
+  "buyPct": 7,
+  "council": {
+   "bots": "T:S M:S L:S M:S R:S D:W",
+   "conf": 88,
+   "dir": "SELL",
+   "entry": 104.781,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 105.039,
+   "tp": 104.523
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 104.781,
+  "expiresAt": 1795605838635,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwvz7e1t",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": false,
+    "sentiment": true,
+    "trend": true
+   },
+   "entry": 104.67,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 104.805,
+   "tp": 104.535
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 105.039,
+  "smart": {
+   "entry": 104.781,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 105.039,
+   "tp": 104.523,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "AUD/JPY",
+  "tp": 104.523,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.36.0"
+ },
+ {
+  "adx": 26.8,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795602264941,
+  "auto": "",
+  "buyPct": 7,
+  "council": {
+   "bots": "T:S M:S L:S M:S R:S D:W",
+   "conf": 88,
+   "dir": "SELL",
+   "entry": 0.54656,
+   "fixed": false,
+   "order": "LIMIT",
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 0.54745,
+   "tp": 0.5452
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 0.54656,
+  "expiresAt": 1795605864941,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwvz7v4z",
+  "mkt": {
+   "checks": {
+    "limitFar": true,
+    "notStretched": true,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 0.54563,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.54604,
+   "tp": 0.54522
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Trend",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 0.54745,
+  "smart": {
+   "entry": 0.54563,
+   "pfx": {
+    "dd": 0,
+    "done": false,
+    "state": "OPEN",
+    "usd": 0
+   },
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 0.54621,
+   "tp": 0.54505,
+   "type": "MARKET",
+   "why": "tez trend (ADX 27); LIMIT 2.2 ATR door; bhaav zyada nahi bhaaga; candle trend ki disha"
+  },
+  "src": "mt5",
+  "sym": "NZD/USD",
+  "tp": 0.54568,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.36.0"
+ },
+ {
+  "adx": 19.5,
+  "ai": {
+   "agree": true,
+   "conf": 85
+  },
+  "at": 1795602289261,
+  "auto": "",
+  "buyPct": 7,
+  "council": {
+   "bots": "T:S M:S L:S M:W R:S D:W",
+   "conf": 80,
+   "dir": "SELL",
+   "entry": 87.023,
+   "fixed": false,
+   "order": "LIMIT",
+   "sl": 87.197,
+   "tp": 86.85
+  },
+  "danger": "calm",
+  "dir": "SELL",
+  "entry": 87.023,
+  "expiresAt": 1795605889261,
+  "fibX": 0.5,
+  "grade": "A",
+  "id": "rmwvz8i1a",
+  "mkt": {
+   "checks": {
+    "limitFar": false,
+    "notStretched": true,
+    "pullback": true,
+    "sentiment": true,
+    "trend": false
+   },
+   "entry": 86.93,
+   "ok": false,
+   "res": {
+    "done": false,
+    "state": "OPEN"
+   },
+   "sl": 87.034,
+   "tp": 86.826
+  },
+  "mt5": true,
+  "pfx": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "regime": "Range",
+  "res": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "sl": 87.197,
+  "smart": {
+   "entry": 87.023,
+   "res": {
+    "done": false,
+    "state": "PENDING"
+   },
+   "sl": 87.197,
+   "tp": 86.85,
+   "type": "LIMIT",
+   "why": "pullback ka intezaar"
+  },
+  "src": "mt5",
+  "sym": "NZD/JPY",
+  "tp": 86.85,
+  "trail": {
+   "done": false,
+   "state": "PENDING"
+  },
+  "v": "1.36.0"
  }
 ]
