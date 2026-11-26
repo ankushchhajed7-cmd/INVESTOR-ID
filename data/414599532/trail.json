@@ -1,1 +1,1 @@
-{"updatedAt":"2026.11.26 17:23:26","open":[],"events":[],"closes":[],"shadow":[]}
+{"updatedAt":"2026.11.26 17:27:47","open":[{"ticket":5511281663,"sym":"XAUUSDm","side":"SELL","open":3568.955,"sl":0.000,"peak":-0.199,"peakProfit":-0.40,"trails":0}],"events":[{"t":"2026.11.26 17:27:47","ticket":5511281663,"sym":"XAUUSDm","side":"SELL","vol":0.02,"open":3568.955,"price":3569.154,"oldSL":0.000,"sl":0.000,"tp":3565.955,"step":null,"lock":null,"gap":null,"move":-0.199,"peak":-0.199,"profit":-0.40,"n":0,"kind":"TP","pre":false}],"closes":[],"shadow":[]}
