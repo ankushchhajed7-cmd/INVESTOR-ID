@@ -11352,24 +11352,30 @@
   },
   "mt5": true,
   "pfx": {
-   "dd": 0.94,
-   "done": false,
+   "dd": 1.5,
+   "done": true,
    "filledAt": 1795626360000,
-   "state": "OPEN",
-   "usd": -0.29
+   "mins": 49,
+   "state": "SL",
+   "usd": -1.5
   },
   "regime": "Trend",
   "res": {
-   "done": false,
+   "done": true,
+   "exitAt": 1795631100000,
    "filledAt": 1795626360000,
-   "state": "OPEN"
+   "lot": 0.01,
+   "pips": -19.6,
+   "state": "SL",
+   "usd": -2.4
   },
   "sl": 0.54996,
   "smart": {
    "entry": 0.548,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "state": "SL",
+    "usd": -2.4
    },
    "sl": 0.54996,
    "tp": 0.54604,
@@ -11380,8 +11386,10 @@
   "sym": "AUD/CHF",
   "tp": 0.54604,
   "trail": {
-   "done": false,
-   "state": "OPEN"
+   "done": true,
+   "pips": -19.6,
+   "state": "SL",
+   "usd": -2.4
   },
   "v": "1.38.0"
  },
@@ -11402,8 +11410,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -19.8,
+    "state": "SL",
+    "usd": -2.42
    },
    "sl": 0.54998,
    "tp": 0.54602
@@ -11436,24 +11446,30 @@
   },
   "mt5": true,
   "pfx": {
-   "dd": 0.94,
-   "done": false,
+   "dd": 1.5,
+   "done": true,
    "filledAt": 1795626360000,
-   "state": "OPEN",
-   "usd": -0.29
+   "mins": 49,
+   "state": "SL",
+   "usd": -1.5
   },
   "regime": "Trend",
   "res": {
-   "done": false,
+   "done": true,
+   "exitAt": 1795631100000,
    "filledAt": 1795626360000,
-   "state": "OPEN"
+   "lot": 0.01,
+   "pips": -19.8,
+   "state": "SL",
+   "usd": -2.42
   },
   "sl": 0.54998,
   "smart": {
    "entry": 0.548,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "state": "SL",
+    "usd": -2.42
    },
    "sl": 0.54998,
    "tp": 0.54602,
@@ -11464,8 +11480,10 @@
   "sym": "AUD/CHF",
   "tp": 0.54602,
   "trail": {
-   "done": false,
-   "state": "OPEN"
+   "done": true,
+   "pips": -19.8,
+   "state": "SL",
+   "usd": -2.42
   },
   "v": "1.38.0"
  },
@@ -11521,10 +11539,11 @@
   "mt5": true,
   "pfx": {
    "dd": 0.29,
-   "done": false,
+   "done": true,
    "filledAt": 1795626360000,
-   "state": "OPEN",
-   "usd": 0.1
+   "mins": 9,
+   "state": "TP",
+   "usd": 0.25
   },
   "regime": "Trend",
   "res": {
@@ -11548,8 +11567,10 @@
   "sym": "EUR/CHF",
   "tp": 0.90926,
   "trail": {
-   "done": false,
-   "state": "OPEN"
+   "done": true,
+   "pips": 2.9,
+   "state": "LOCK",
+   "usd": 0.35
   },
   "v": "1.38.0"
  },
@@ -11579,14 +11600,32 @@
    },
    "entry": 1.08767,
    "ok": false,
+   "res": {
+    "done": true,
+    "pips": -7.7,
+    "state": "SL",
+    "usd": -0.94
+   },
    "sl": 1.08844,
    "tp": 1.0869
   },
   "mt5": true,
+  "pfx": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "regime": "Trend",
+  "res": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "sl": 1.09117,
   "smart": {
    "entry": 1.0886,
+   "res": {
+    "done": true,
+    "state": "EXPIRED"
+   },
    "sl": 1.09117,
    "tp": 1.08603,
    "type": "LIMIT",
@@ -11595,6 +11634,10 @@
   "src": "mt5",
   "sym": "GBP/CHF",
   "tp": 1.08603,
+  "trail": {
+   "done": true,
+   "state": "EXPIRED"
+  },
   "v": "1.38.0"
  }
 ]
