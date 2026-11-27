@@ -45,6 +45,7 @@ jobs:
           curl -sS --max-time 30 "$B/personalfx/s6live/s6/live.json$A" -o s6live.json || true
           curl -sS --max-time 30 "$B/personalfx/s6live/s6/events.json$S" -o s6ev.json || true
           curl -sS --max-time 30 "$B/personalfx/s6live/s6/cycles.json$S" -o s6cy.json || true
+          curl -sS --max-time 30 "$B/personalfx/s6live/s6/notes.json$A" -o s6notes.json || true
           python3 - <<'PY'
           import json, time, re
           def load(p):
@@ -229,6 +230,12 @@ jobs:
           if isinstance(sh, dict) and '_err' not in sh and sh:
               at = float(sh.get('at') or 0) / 1000
               print('S6_HB: age_sec', int(now - at) if at else None, '| v', sh.get('v'), '| demo', sh.get('demo'), '| cfg', json.dumps(sh.get('cfg'))[:200])
+              # v9.0 CHECK data - margin / free margin NAHI (account size)
+              print('S6_DIAG: strat', sh.get('strat'), '| algo', sh.get('ta'), 'ea', sh.get('ea'), '| conn', sh.get('conn'), 'ping', sh.get('ping'), '| liveOn', sh.get('liveOn'), 'push', sh.get('push'), 'manual', sh.get('manual'))
+              for e in (sh.get('errs') or [])[:20]:
+                  e = e or {}; print('S6_ERR:', _ist(e.get('t') or 0), '|', str(e.get('m'))[:170])
+              for x in (sh.get('haal') or [])[:6]:
+                  x = x or {}; print('S6_HAAL:', _ist(x.get('t') or 0), '|', x.get('s'), '| khule', x.get('o'), 'pakka', x.get('b'), 'net', x.get('n'), '| hedge', x.get('h'))
           else:
               print('S6_HB:', json.dumps(sh)[:200])
           if isinstance(sl, dict) and '_err' not in sl:
@@ -255,4 +262,11 @@ jobs:
                   print('S6_CY:', _ist(v.get('start') or 0), '->', _ist(v.get('end') or 0), '|', v.get('sym'), v.get('dir'), v.get('lot'), '@', v.get('open'), '|', v.get('res'), '| pl', v.get('pl'), 'main', v.get('mpl'), 'hedge', v.get('hpl'), '| dd', v.get('dd'), '| hedges', v.get('hedges'))
           else:
               print('S6_CY:', json.dumps(sc)[:200])
+          # S6 LIVE app v2.2.0: sudhar soochi (gadbad / mismatch / sudhar) - agle version ke liye
+          sn = load('s6notes.json')
+          if isinstance(sn, dict) and '_err' not in sn:
+              for k, v in sorted((sn or {}).items(), key=lambda kv: (kv[1] or {}).get('t') or 0):
+                  v = v or {}; print('S6_NOTE:', _ist(v.get('t') or 0), '|', v.get('k'), '|', v.get('st'), (v.get('ver') or ''), '|', str(v.get('m'))[:300])
+          else:
+              print('S6_NOTE:', json.dumps(sn)[:200])
           PY
