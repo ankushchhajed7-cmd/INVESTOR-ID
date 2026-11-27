@@ -40,6 +40,11 @@ jobs:
           curl -sS --max-time 30 "$B/personalfx/accounts.json$A" -o pfxacc.json || true
           P="?orderBy=%22%24key%22&startAt=%22-SG%22&endAt=%22-SH%22&limitToLast=15"; if [ -n "$FB_AUTH" ]; then P="$P&auth=$FB_AUTH"; fi
           curl -sS --max-time 30 "$B/personalfx/orders.json$P" -o pfxord.json || true
+          S="?orderBy=%22%24key%22&limitToLast=25"; if [ -n "$FB_AUTH" ]; then S="$S&auth=$FB_AUTH"; fi
+          curl -sS --max-time 30 "$B/personalfx/s6live/s6/hb.json$A" -o s6hb.json || true
+          curl -sS --max-time 30 "$B/personalfx/s6live/s6/live.json$A" -o s6live.json || true
+          curl -sS --max-time 30 "$B/personalfx/s6live/s6/events.json$S" -o s6ev.json || true
+          curl -sS --max-time 30 "$B/personalfx/s6live/s6/cycles.json$S" -o s6cy.json || true
           python3 - <<'PY'
           import json, time, re
           def load(p):
@@ -219,4 +224,35 @@ jobs:
                   print('PFX_ORDER:', _ist(v.get('at') or 0), '|', v.get('pair'), v.get('type'), '| status', v.get('status'), '| src', v.get('src'), '| acct', acs, '| age_min', int((now - float(v.get('at') or 0) / 1000) / 60) if v.get('at') else None, '|', json.dumps(extra)[:160])
           else:
               print('PFX_ORDER:', json.dumps(po)[:200])
+          # --- S6 LIVE (27 Nov): PERSONAL FX v8.7+ Strategy 6 app data. Balance / equity / account NAHI chhaapte ---
+          sh = load('s6hb.json'); sl = load('s6live.json'); se = load('s6ev.json'); sc = load('s6cy.json')
+          if isinstance(sh, dict) and '_err' not in sh and sh:
+              at = float(sh.get('at') or 0) / 1000
+              print('S6_HB: age_sec', int(now - at) if at else None, '| v', sh.get('v'), '| demo', sh.get('demo'), '| cfg', json.dumps(sh.get('cfg'))[:200])
+          else:
+              print('S6_HB:', json.dumps(sh)[:200])
+          if isinstance(sl, dict) and '_err' not in sl:
+              for k, v in (sl or {}).items():
+                  v = v or {}
+                  if v.get('state') == 'RUN':
+                      print('S6_LIVE:', k, '| RUN', v.get('dir'), v.get('lot'), '@', v.get('open'), '| bid', v.get('bid'), '| age_sec', int(now - float(v.get('at') or 0) / 1000), '| nh', v.get('nh'), 'used', v.get('used'),
+                            '| mpl', v.get('mpl'), 'hpl', v.get('hpl'), 'tot', v.get('tot'), 'banked', v.get('banked'), 'net', v.get('net'), 'dd', v.get('dd'))
+                      print('S6_HEDGES:', k, json.dumps(v.get('hedges'))[:600])
+                      print('S6_PEND:', k, json.dumps(v.get('pend'))[:300])
+                  else:
+                      la = v.get('last') or {}
+                      print('S6_LIVE:', k, '|', v.get('state'), '| last', la.get('res'), la.get('pl'), 'dd', la.get('dd'), 'hedges', la.get('hedges'))
+          else:
+              print('S6_LIVE:', json.dumps(sl)[:200])
+          if isinstance(se, dict) and '_err' not in se:
+              for k, v in sorted((se or {}).items())[-25:]:
+                  v = v or {}; print('S6_EV:', _ist(v.get('t') or 0), '|', str(v.get('m'))[:170])
+          else:
+              print('S6_EV:', json.dumps(se)[:200])
+          if isinstance(sc, dict) and '_err' not in sc:
+              for k, v in sorted((sc or {}).items())[-25:]:
+                  v = v or {}
+                  print('S6_CY:', _ist(v.get('start') or 0), '->', _ist(v.get('end') or 0), '|', v.get('sym'), v.get('dir'), v.get('lot'), '@', v.get('open'), '|', v.get('res'), '| pl', v.get('pl'), 'main', v.get('mpl'), 'hedge', v.get('hpl'), '| dd', v.get('dd'), '| hedges', v.get('hedges'))
+          else:
+              print('S6_CY:', json.dumps(sc)[:200])
           PY
