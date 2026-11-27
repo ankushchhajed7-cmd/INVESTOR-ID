@@ -11504,8 +11504,10 @@
    "fixed": false,
    "order": "LIMIT",
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "pips": -20,
+    "state": "SL",
+    "usd": -2.45
    },
    "sl": 0.91325,
    "tp": 0.90926
@@ -11547,16 +11549,21 @@
   },
   "regime": "Trend",
   "res": {
-   "done": false,
+   "done": true,
+   "exitAt": 1795678800000,
    "filledAt": 1795626360000,
-   "state": "OPEN"
+   "lot": 0.01,
+   "pips": -20,
+   "state": "SL",
+   "usd": -2.45
   },
   "sl": 0.91325,
   "smart": {
    "entry": 0.91125,
    "res": {
-    "done": false,
-    "state": "OPEN"
+    "done": true,
+    "state": "SL",
+    "usd": -2.45
    },
    "sl": 0.91325,
    "tp": 0.90926,
